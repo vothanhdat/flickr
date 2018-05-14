@@ -1,0 +1,48 @@
+{
+  "name": "minimal-react-webpack-babel-setup",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "run-scripts",
+    "devie": "run-scripts devie",
+    "build": "run-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "custom-react-script": "^1.0.26",
+    "webpack-hot-middleware": "^2.22.2",
+    "withsass.macro": "0.0.3"
+  },
+  "dependencies": {
+    "history": "^4.7.2",
+    "hls.js": "^0.9.1",
+    "ical-expander": "^1.1.2",
+    "lodash": "^4.17.5",
+    "lodash-decorators": "^4.5.0",
+    "material-ui": "^1.0.0-beta.39",
+    "prop-types": "^15.6.1",
+    "protobufjs": "^5.0.2",
+    "react": "^16.3.1",
+    "react-calendar": "^2.14.0",
+    "react-collections": "0.0.8",
+    "react-dom": "^16.3.1",
+    "react-is": "^16.3.1",
+    "react-list": "^0.8.8",
+    "react-markdown": "^3.3.0",
+    "react-medium-image-zoom": "^3.0.10",
+    "react-plx": "^1.1.2",
+    "react-recaptcha": "^2.3.7",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "react-spring": "^4.1.2",
+    "react-text-mask": "^5.3.0",
+    "react-virtualized": "^9.18.5",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-saga": "^0.16.0",
+    "reselect": "^3.0.1"
+  }
+}

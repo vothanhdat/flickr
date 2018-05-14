@@ -1,0 +1,1824 @@
+syntax = "proto3";
+
+message ActiveBannerInfo{
+    int64 activeId = 1;
+    string activeTitle = 2;
+    repeated BannerInfo activeTypeBanners = 3;
+    string activeCategory = 4;
+}
+message Activity{
+  message LaxinAmount{
+    message Request{
+        int64 zuid = 1;
+    }
+    message Response{
+        int64 amount = 1;
+    }
+  }
+  message LaxinDiamond{
+    message Request{
+        int64 zuid = 1;
+    }
+    message Response{
+        int64 diamond = 1;
+    }
+  }
+  message LaxinUserinfo{
+    message Request{
+        int64 zuid = 1;
+    }
+    message Response{
+        repeated ActivityUserInfo UserInfo = 1;
+    }
+    message ActivityUserInfo{
+        int64 uid = 1;
+        string avatar = 2;
+    }
+  }
+  message ShareDiamond{
+    message Request{
+        int64 zuid = 1;
+    }
+    message Response{
+        int64 diamond = 1;
+    }
+  }
+}
+message AdminQualityAuth{
+  message Add{
+    message Request{
+        int64 uid = 1;
+        int32 qualityAuth = 2;
+    }
+  }
+}
+message Admin{
+  message RemoveHotList{
+    message Request{
+        int64 rid = 1;
+    }
+  }
+}
+message App{
+  message Log{
+    message Request{
+        string content = 1;
+    }
+  }
+  message Manage{
+    message Request{
+    }
+    message Response{
+        string versionCode = 1;
+        string versionName = 2;
+        string url = 3;
+        int32 forceUpdate = 4;
+        int32 forceUpdateAnyway = 5;
+        string versionId = 6;
+        string versionTitle = 7;
+        string versionDescription = 8;
+        string description = 9;
+        string descriptionUrl = 10;
+    }
+  }
+}
+message BannerInfo{
+    string images = 1;
+    int32 rank = 2;
+    int32 endTime = 3;
+    string jump = 4;
+    int32 type = 5;
+    int32 activeBeginTime = 6;
+    int32 activeEndTime = 7;
+    string activeLabel = 8;
+}
+message BaseUserInfo{
+    int64 uid = 1;
+    string username = 2;
+    string upliveCode = 3;
+    string avatar = 4;
+    int32 gender = 5;
+    string signature = 6;
+    int32 grade = 7;
+    int32 officialAuth = 8;
+    string officialAuthContent = 9;
+    int32 qualityAuth = 10;
+}
+message Bind{
+  message Mobilephone{
+    message Request{
+        string mobilephone = 1;
+        string smsCode = 2;
+    }
+  }
+}
+message ChatRoomProfile{
+  message Get{
+    message Request{
+        int64 vuid = 1;
+        int64 roomId = 2;
+    }
+    message Response{
+        ChatRoomProfileInfo chatRoomProfileInfo = 1;
+        repeated LabelInfo userLabels = 2;
+        repeated PermissionInfo canPermissions = 3;
+        repeated PermissionInfo disablePermissions = 4;
+    }
+  }
+}
+message ChatRoomProfileInfo{
+    int64 uid = 1;
+    string avatar = 2;
+    string username = 3;
+    int32 gender = 4;
+    int32 grade = 5;
+    string location = 6;
+    string upliveCode = 7;
+    string signature = 8;
+    int32 fanTotal = 9;
+    int32 followTotal = 10;
+    int32 followType = 11;
+    UserBalanceInfo balance = 12;
+    int32 officialAuth = 13;
+    string officialAuthContent = 14;
+    int32 qualityAuth = 15;
+    string rankAvatar = 16;
+    int64 rankUid = 17;
+    string rankUserName = 18;
+    string countryCode = 19;
+}
+message Configinfo{
+  message Get{
+    message Request{
+        int64 lastTime = 1;
+        string countryCode = 2;
+        int64 zuid = 3;
+        int64 roomId = 4;
+    }
+    message Response{
+        int64 lastTime = 1;
+        repeated SystemAnnouncement systemAnnouncements = 2;
+        repeated HighLevelText highLevelTexts = 3;
+        repeated LowLevelLimit lowLevelLimit = 4;
+        FightInfo fightInfo = 5;
+        CountryPhoneAuth countryPhoneAuth = 6;
+        RedPacket redPackey = 7;
+        repeated LabelDetailInfo labels = 8;
+        repeated PermissionDetailInfo permissions = 9;
+        repeated LabelInfo userLabels = 10;
+        int32 minSpeakGrade = 11;
+    }
+    message RedPacket{
+        string redPacketMessage = 1;
+        string redPacketContent = 2;
+        string redPacketBestLucky = 3;
+    }
+    message SystemAnnouncement{
+        string content = 1;
+        string url = 2;
+    }
+    message HighLevelText{
+        string prekey = 1;
+        string value = 2;
+        string extend = 3;
+    }
+    message LowLevelLimit{
+        string prekey = 1;
+        string value = 2;
+        string extend = 3;
+    }
+    message FightInfo{
+        int64 sid = 1;
+        int64 rid = 2;
+        int32 roomId = 3;
+        int32 targetGiftId = 4;
+        string targetTransactionId = 5;
+        int32 energy = 6;
+        int32 startTime = 7;
+        int32 deadlineTime = 8;
+        int32 finishTime = 9;
+        int32 action = 10;
+        int32 status = 11;
+        int32 createTime = 12;
+        int32 updateTime = 13;
+        int32 timeLeft = 14;
+        FightUserInfo fightUserInfo = 15;
+    }
+    message FightUserInfo{
+        int64 uid = 1;
+        string userName = 2;
+        string userIcon = 3;
+        int32 userGrade = 4;
+        int32 userSex = 5;
+        int32 officialAuth = 6;
+        int32 qualityAuth = 7;
+    }
+    message CountryPhoneAuth{
+        string country = 1;
+        int32 phoneAuth = 2;
+    }
+  }
+}
+message Country{
+  message LiveList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        string country = 3;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 1;
+        repeated BannerInfo banners = 2;
+    }
+  }
+}
+message Email{
+  message RegisterVerify{
+    message Request{
+        string verifyCode = 1;
+    }
+  }
+  message RegisterVerifyCheck{
+    message Request{
+        string emailCheckCode = 1;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+    }
+  }
+}
+message Request{
+}
+message Feed{
+  message ActivityBannerList{
+    message Request{
+        string countryCode = 1;
+    }
+    message Response{
+        repeated ActiveBannerInfo bannerInfos = 1;
+    }
+  }
+  message FollowList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 2;
+        repeated BannerInfo banners = 3;
+    }
+  }
+  message HotList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        string countryCode = 3;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 2;
+        repeated BannerInfo banners = 3;
+    }
+  }
+  message LableList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        string lable = 3;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 1;
+        repeated FollowInfo recommends = 2;
+    }
+  }
+  message LatestList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        string countryCode = 3;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 1;
+        repeated CountryLanguage languages = 3;
+        repeated BannerInfo banners = 4;
+    }
+    message CountryLanguage{
+        string languageKey = 1;
+        string languageValue = 2;
+        repeated LiveDetailInfo languageUserInfos = 3;
+    }
+  }
+}
+message Follow{
+  message FansList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        int64 vuid = 3;
+    }
+    message Response{
+        int32 total = 1;
+        repeated FollowInfo infos = 2;
+    }
+  }
+  message UserAdd{
+    message Request{
+        int64 fuid = 1;
+    }
+  }
+  message UserList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+        int64 vuid = 3;
+    }
+    message Response{
+        int32 total = 1;
+        repeated FollowInfo infos = 2;
+    }
+  }
+  message UserMultiAdd{
+    message Request{
+        repeated int64 fuids = 1;
+    }
+  }
+  message UserUnfollow{
+    message Request{
+        int64 fuid = 1;
+    }
+  }
+}
+message FollowInfo{
+    int64 uid = 1;
+    string username = 2;
+    string avatar = 3;
+    int32 gender = 4;
+    string signature = 5;
+    int32 grade = 6;
+    string location = 7;
+    int32 followType = 8;
+    string upliveCode = 9;
+    int32 officialAuth = 10;
+    string officialAuthContent = 11;
+    int32 qualityAuth = 12;
+}
+message GameEntry{
+  message List{
+    message Request{
+        string countryCode = 1;
+    }
+    message Response{
+        repeated EntryGameInfo GameInfo = 1;
+    }
+    message EntryGameInfo{
+        int64 gameId = 1;
+        string gameName = 2;
+        string bigPicUrl = 3;
+        string smallPicUrl = 4;
+        string redirectUrl = 5;
+    }
+  }
+}
+message LabelDetailInfo{
+    string label = 1;
+    string name = 2;
+    string icon = 3;
+    string iconSize = 4;
+}
+message LabelInfo{
+    string label = 1;
+}
+message LbsGeo{
+  message Location{
+    message Request{
+        double lat = 1;
+        double lng = 2;
+    }
+    message Response{
+        string country = 1;
+        string province = 2;
+        string city = 3;
+    }
+  }
+}
+message LiningTest{
+    int32 uid = 1;
+    string name = 2;
+    int32 age = 3;
+}
+message LiveDetailInfo{
+    int64 uid = 1;
+    string username = 2;
+    string avatar = 3;
+    int32 gender = 4;
+    string signature = 5;
+    int32 grade = 6;
+    string location = 7;
+    int64 roomId = 8;
+    int32 onlineTotal = 9;
+    string roomTitle = 10;
+    string liveMsg = 11;
+    int32 officialAuth = 12;
+    string officialAuthContent = 13;
+    int32 qualityAuth = 14;
+    string upliveCode = 15;
+    string countryCode = 16;
+}
+message Live{
+  message Share{
+    message Request{
+        int64 roomId = 1;
+        int64 zuid = 2;
+        int32 liveEnd = 3;
+        bool needShortUrl = 4;
+    }
+    message Response{
+        string title = 1;
+        string desc = 2;
+        string content = 3;
+        string url = 4;
+        string facebookUrl = 5;
+        int32 ifOpenShareTask = 6;
+        string channles = 7;
+        string shortUrl = 8;
+    }
+  }
+}
+message Local{
+  message HotList{
+    message Request{
+        int32 page = 1;
+        int32 pageSize = 2;
+    }
+    message Response{
+        repeated LiveDetailInfo infos = 2;
+        repeated BannerInfo banners = 3;
+    }
+  }
+}
+message Mall{
+  message BalanceInfo{
+    message Request{
+        int64 uid = 1;
+    }
+    message Response{
+        int64 bill = 1;
+        int64 diamond = 2;
+    }
+  }
+  message BillExchangeDiamondAccounts{
+    message Request{
+        int64 uid = 1;
+    }
+    message Response{
+        repeated BindUserInfo bindUserInfoList = 1;
+    }
+    message BindUserInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int64 bill = 5;
+        int64 diamond = 6;
+    }
+  }
+  message BillExchangeDiamondConfig{
+    message Response{
+        repeated BillExchangeDiamondConfig exchangeConfigs = 1;
+    }
+    message BillExchangeDiamondConfig{
+        int32 configId = 1;
+        string description = 2;
+        int32 bill = 3;
+        int32 diamond = 4;
+        string icon = 5;
+    }
+  }
+  message BillExchangeDiamondExchange{
+    message Request{
+        int32 configId = 1;
+        string transactionId = 2;
+        int64 uid = 3;
+    }
+    message Response{
+        int64 bill = 1;
+        int64 diamond = 2;
+    }
+  }
+  message BillExchangeDiamondResult{
+    message Request{
+        string transactionId = 1;
+    }
+    message Response{
+        int64 bill = 1;
+        int64 diamond = 2;
+    }
+  }
+  message ContributionRank{
+    message Request{
+        int64 uid = 1;
+        int32 pageNo = 2;
+    }
+    message Response{
+        repeated UserBillContribution contributions = 1;
+    }
+    message UserBillContribution{
+        int64 contribution = 1;
+        BaseUserInfo userInfo = 2;
+        repeated string userLabels = 3;
+    }
+  }
+  message GiftAll{
+    message Response{
+        repeated Mall.GiftList.GiftInfo gifts = 1;
+    }
+  }
+  message GiftGuard{
+    message Request{
+        int64 uid = 1;
+    }
+    message Response{
+        int64 diamond = 1;
+        int32 stepLength = 2;
+        GuardUserInfo guardUserInfo = 3;
+    }
+    message GuardUserInfo{
+        int64 uid = 1;
+        string upliveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 grade = 5;
+        int32 timeLeft = 6;
+        int32 gender = 7;
+    }
+  }
+  message GiftList{
+    message Response{
+        repeated GiftInfo gifts = 1;
+        repeated AmountConfig amountConfigs = 2;
+    }
+    message GiftInfo{
+        int32 giftId = 1;
+        string name = 2;
+        string intro = 3;
+        int32 type = 4;
+        string url = 5;
+        int32 price = 6;
+        int32 experience = 7;
+        bool canCombo = 8;
+        int32 version = 9;
+        bool onLined = 10;
+        string countryCode = 11;
+        string language = 12;
+        bool needLoad = 13;
+        int32 showType = 14;
+        repeated GiftResourceInfo resources = 15;
+        int32 vipGrade = 16;
+        int32 playTimes = 17;
+    }
+    message GiftResourceInfo{
+        int32 type = 1;
+        string url = 2;
+    }
+    message AmountConfig{
+        int32 amount = 1;
+        string description = 2;
+    }
+  }
+  message GiftSend{
+    message Request{
+        int64 rid = 1;
+        int32 giftId = 2;
+        int32 roomId = 3;
+        int32 comboTimes = 4;
+        string transactionId = 5;
+        int32 diamond = 6;
+        int32 amount = 7;
+        string content = 8;
+        string clientType = 9;
+    }
+    message Response{
+        int64 diamond = 1;
+        int32 receiveGiftId = 2;
+        repeated ReceiveGift receiveGifts = 3;
+        BaseUserInfo sendUserInfo = 4;
+        int32 comboTimes = 5;
+        repeated RedPacketInfo batchedRedPacketInfos = 6;
+    }
+  }
+  message GiftSendResult{
+    message Request{
+        string transactionId = 1;
+    }
+    message Response{
+        int64 diamond = 1;
+        int32 receiveGiftId = 2;
+        repeated ReceiveGift receiveGifts = 3;
+        BaseUserInfo sendUserInfo = 4;
+        int32 comboTimes = 5;
+        repeated RedPacketInfo batchedRedPacketInfos = 6;
+    }
+  }
+  message PayH5Url{
+    message Response{
+        string url = 1;
+    }
+  }
+  message PayOrder{
+    message Request{
+        int32 purpose = 1;
+        int32 productId = 2;
+        string channel = 3;
+        string tradeType = 4;
+        int64 tuid = 5;
+        string returnUrl = 6;
+        string clientType = 7;
+    }
+    message Response{
+        OrderInfo orderInfo = 1;
+        string wxpay = 2;
+        string iap = 3;
+        string alipay = 4;
+        string iab = 5;
+        string h5 = 6;
+    }
+    message OrderInfo{
+        string orderId = 1;
+    }
+  }
+  message PayValidate{
+    message Request{
+        string orderId = 1;
+        string receipt = 2;
+    }
+    message Response{
+        int64 diamond = 1;
+    }
+  }
+  message RechargeConfig{
+    message Request{
+        int64 uid = 1;
+        string channel = 2;
+    }
+    message Response{
+        repeated RechargeConfig rechargeConfigs = 1;
+        repeated string channels = 2;
+        repeated RechargeConfig wxpay = 3;
+        repeated RechargeConfig alipay = 4;
+        repeated RechargeConfig IAP = 5;
+        repeated RechargeConfig IAB = 6;
+        repeated RechargeConfig others = 7;
+        repeated ChannelGroup groups = 8;
+    }
+    message RechargeConfig{
+        int32 configId = 1;
+        string description = 2;
+        int32 amount = 3;
+        string icon = 4;
+        int32 money = 5;
+        int32 type = 6;
+        string currency = 7;
+        string currencySymbol = 8;
+    }
+    message RechargeConfigList{
+        repeated RechargeConfig rechargeConfigList = 1;
+    }
+    message ChannelGroup{
+        string groupCode = 1;
+        repeated string channels = 2;
+        map<string,RechargeConfigList> channelRechargeConfigMap = 3;
+        string groupName = 4;
+        map<string,string> channelNameMap = 5;
+    }
+  }
+  message TranslateAction{
+    message Request{
+        int64 rid = 1;
+        int32 roomId = 2;
+        int32 opType = 3;
+    }
+    message Response{
+        int64 diamond = 1;
+        BaseUserInfo sendUserInfo = 2;
+    }
+  }
+  message VoiceTranslate{
+    message Request{
+        int64 rid = 1;
+        int32 roomId = 2;
+        string transactionId = 3;
+        int32 functionType = 4;
+    }
+    message Response{
+        int64 diamond = 1;
+    }
+  }
+  message WithdrawAccount{
+    message Response{
+        repeated WithdrawAccount users = 1;
+    }
+    message WithdrawAccount{
+        int64 uid = 1;
+        string username = 2;
+        string upliveCode = 3;
+        string avatar = 4;
+        WithdrawStatus status = 5;
+    }
+  }
+  message WithdrawBind{
+    message Request{
+        string openid = 1;
+        int32 type = 2;
+        string unionId = 3;
+    }
+  }
+  message WithdrawExecute{
+    message Request{
+        int32 bill = 1;
+        string transactionId = 2;
+        string verifyCode = 3;
+    }
+    message Response{
+        WithdrawStatus status = 1;
+    }
+  }
+  message WithdrawList{
+    message Request{
+        int32 pageNo = 1;
+    }
+    message Response{
+        repeated WithdrawRecord records = 1;
+        int64 totalMoney = 2;
+    }
+    message WithdrawRecord{
+        int32 bill = 1;
+        int32 money = 2;
+        int32 createTime = 3;
+        int32 tradeStatus = 4;
+    }
+  }
+  message WithdrawMax{
+    message Request{
+        string transactionId = 1;
+        int64 uid = 2;
+    }
+    message Response{
+        int32 money = 1;
+        WithdrawStatus status = 2;
+    }
+  }
+  message WithdrawResult{
+    message Request{
+        string transactionId = 1;
+    }
+    message Response{
+        WithdrawStatus status = 1;
+    }
+  }
+  message WithdrawStatus{
+    message Response{
+        WithdrawStatus status = 1;
+    }
+  }
+  message WithdrawStatusNew{
+    message Response{
+        WithdrawStatus status = 1;
+    }
+  }
+  message WithdrawSummary{
+    message Request{
+        int32 pageNo = 1;
+    }
+    message Response{
+        repeated WithdrawRecord records = 1;
+        repeated WithdrawSummary summary = 2;
+    }
+    message WithdrawRecord{
+        int32 bill = 1;
+        int32 money = 2;
+        string currency = 3;
+        int32 createTime = 4;
+        int32 tradeStatus = 5;
+        string currencySymbol = 6;
+    }
+    message WithdrawSummary{
+        string currency = 1;
+        int32 totalMoney = 2;
+        string currencySymbol = 3;
+    }
+  }
+}
+message MallVerifyCode{
+  message Response{
+      string verifyCode = 1;
+  }
+}
+message Message{
+  message Translate{
+    message Request{
+        string message = 1;
+        string language = 2;
+        int32 giftId = 3;
+        int64 rid = 4;
+        int32 roomId = 5;
+    }
+    message Response{
+        string messageTranslation = 1;
+        int64 diamond = 2;
+    }
+  }
+}
+message PackGiftResult{
+    int32 sendAmount = 1;
+    int32 leftAmount = 2;
+    repeated ReceiveGift chestGifts = 3;
+    BaseUserInfo sendUserInfo = 4;
+    int32 comboTimes = 5;
+    repeated RedPacketInfo batchedRedPacketInfos = 6;
+}
+message Pack{
+  message GiftSend{
+    message Request{
+        int64 rid = 1;
+        string gridId = 2;
+        int32 giftId = 3;
+        int32 roomId = 4;
+        string transactionId = 5;
+        int32 amount = 7;
+        string clientType = 9;
+    }
+    message Response{
+        PackGiftResult result = 1;
+    }
+  }
+  message GiftSendResult{
+    message Request{
+        string transactionId = 1;
+    }
+    message Response{
+        PackGiftResult result = 1;
+    }
+  }
+  message InfoExpire{
+    message Request{
+        int32 pageNo = 1;
+    }
+    message Response{
+        int32 currentTime = 1;
+        repeated PackGrid grids = 2;
+        repeated Mall.GiftList.GiftInfo giftInfos = 3;
+    }
+  }
+  message InfoValid{
+    message Response{
+        int32 currentTime = 1;
+        repeated PackGrid grids = 2;
+        repeated Mall.GiftList.GiftInfo giftInfos = 3;
+    }
+  }
+}
+message PackGrid{
+    string gridId = 1;
+    int32 giftId = 2;
+    int32 valuable = 3;
+    int32 lastIncreaseTime = 4;
+    int32 expireTime = 5;
+    int32 amount = 6;
+}
+message PermissionDetailInfo{
+    string permission = 1;
+    string name = 2;
+    string icon = 3;
+    string disableIcon = 4;
+    string iconSize = 5;
+}
+message PermissionInfo{
+    string permission = 1;
+    int32 leftover = 2;
+    int64 recoveryTime = 3;
+    int64 keepTime = 4;
+}
+message PointExchangeConfig{
+    int32 configId = 1;
+    int32 type = 2;
+    int32 amount = 3;
+    int32 point = 4;
+    int32 sortNo = 5;
+    bool canReward = 6;
+}
+message Point{
+  message ExchangeConfigGet{
+    message Request{
+    }
+    message Response{
+        repeated PointExchangeConfig exchangeConfigs = 1;
+        int32 point = 2;
+    }
+  }
+  message ExchangeReward{
+    message Request{
+        int32 configId = 1;
+    }
+    message Response{
+        repeated PointExchangeConfig exchangeConfigs = 1;
+        int32 point = 2;
+    }
+  }
+}
+message PopUp{
+  message Get{
+    message Request{
+        string country = 1;
+    }
+    message PopUp{
+        string title = 1;
+        string content = 2;
+        string images = 3;
+        string jumpUrl = 4;
+        int32 rank = 5;
+        int32 showTime = 6;
+        int32 showLocation = 7;
+        int32 type = 8;
+        int32 version = 9;
+        string country = 10;
+    }
+    message Response{
+        repeated PopUp popups = 1;
+    }
+  }
+}
+message Profile{
+  message Get{
+    message Request{
+        int64 vuid = 1;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+        repeated LabelInfo userLabels = 2;
+        repeated PermissionInfo canPermissions = 3;
+    }
+  }
+  message Set{
+    message Request{
+        string username = 1;
+        string setting = 2;
+        string upliveCode = 3;
+        string signature = 4;
+        PushType pushType = 5;
+        string pushToken = 6;
+        string location = 7;
+        int32 gender = 8;
+        string language = 9;
+        string countryCode = 11;
+        string userRealNameAuthInfo = 12;
+        string acceptAgreement = 13;
+        string timeZone = 14;
+    }
+  }
+}
+message ProfileInfo{
+    int64 uid = 1;
+    string username = 2;
+    string upliveCode = 3;
+    string avatar = 4;
+    int32 gender = 5;
+    string setting = 6;
+    string password = 7;
+    string userToken = 8;
+    string signature = 9;
+    int32 grade = 10;
+    string location = 11;
+    string mobilePhone = 12;
+    int32 fanTotal = 13;
+    int32 followTotal = 14;
+    UserBalanceInfo balance = 15;
+    int64 chatroomid = 16;
+    int32 followType = 17;
+    int64 exp = 18;
+    int64 currentExp = 19;
+    int64 nextExp = 20;
+    int32 officialAuth = 21;
+    string officialAuthContent = 22;
+    int32 qualityAuth = 23;
+    string countryCode = 25;
+    int32 admin = 26;
+    int32 userRealNameAuth = 27;
+    string acceptAgreement = 28;
+    int32 upliveCodeStatus = 29;
+}
+message Ranking{
+  message HostGiftstar{
+    message Request{
+        int32 type = 1;
+    }
+    message Response{
+        repeated GiftRankingInfo GiftsList = 1;
+    }
+    message GiftRankingInfo{
+        int32 giftId = 1;
+        int32 giftVersion = 2;
+        repeated TopHostInfo GiftRankingList = 3;
+        string countryCode = 4;
+        string giftLargePicURL = 5;
+        string giftSmallPicURL = 6;
+    }
+    message TopHostInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 gender = 5;
+        int32 grade = 6;
+        int64 moneyAmount = 7;
+        int32 officialAuth = 8;
+    }
+  }
+  message HostGiftstarList{
+    message Request{
+        int32 type = 1;
+        int32 giftId = 2;
+    }
+    message Response{
+        repeated TopHostInfo GiftRankingList = 1;
+    }
+    message TopHostInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 gender = 5;
+        int32 grade = 6;
+        int64 moneyAmount = 7;
+        int32 officialAuth = 8;
+    }
+  }
+  message HostReceive{
+    message Request{
+        int32 type = 1;
+        int32 pageNo = 2;
+        int32 pageSize = 3;
+        int32 period = 4;
+    }
+    message Response{
+        int64 secondsLeft = 1;
+        repeated TopHostInfo topHostInfoList = 2;
+    }
+    message TopHostInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 gender = 5;
+        int32 grade = 6;
+        int64 moneyAmount = 7;
+        int32 officialAuth = 8;
+    }
+  }
+  message HostSuggest{
+    message Request{
+        int32 type = 1;
+    }
+    message Response{
+        repeated TopHostInfo topHostInfoList = 1;
+    }
+    message TopHostInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 gender = 5;
+        int32 grade = 6;
+        string signature = 7;
+        int32 officialAuth = 8;
+    }
+  }
+  message UserSend{
+    message Request{
+        int32 type = 1;
+        int32 pageNo = 2;
+        int32 pageSize = 3;
+        int32 period = 4;
+    }
+    message Response{
+        int64 secondsLeft = 1;
+        repeated TopUserInfo topUserInfoList = 2;
+    }
+    message TopUserInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string username = 3;
+        string avatar = 4;
+        int32 gender = 5;
+        int32 grade = 6;
+        int64 moneyAmount = 7;
+        int32 officialAuth = 8;
+    }
+  }
+}
+message ReceiveGift{
+    int32 giftId = 1;
+    int32 amount = 2;
+}
+message RedPacketInfo{
+    string redpacketTransaction = 1;
+    int64 beginTime = 2;
+    int64 effectiveTime = 3;
+}
+message Redpacket{
+  message NormalTake{
+    message Request{
+        string redpacketTransaction = 1;
+        int64 uid = 2;
+        int64 giftId = 3;
+        int64 roomId = 4;
+    }
+    message Response{
+        int64 userAccount = 1;
+        int64 redpacketAmount = 2;
+    }
+  }
+}
+message Report{
+  message Add{
+    message Request{
+        int64 accusedId = 1;
+        string reason = 2;
+    }
+  }
+}
+message Room{
+  message AdminDisabledAnchor{
+    message Request{
+        int64 uid = 1;
+        string disabledDesc = 2;
+    }
+    message Response{
+    }
+  }
+  message AdminShutup{
+    message Request{
+        int64 roomId = 1;
+        repeated int64 uids = 2;
+    }
+    message Response{
+    }
+  }
+  message AnchorCreate{
+    message Request{
+        int32 liveType = 1;
+    }
+    message Response{
+        int64 roomId = 1;
+        string ip = 2;
+        int32 port = 3;
+        bytes m1 = 4;
+        string liveMsg = 5;
+        int64 moneyTotal = 6;
+        int64 peoples = 7;
+    }
+    message GradeNotEnoughResponse{
+        int32 canLiveGrade = 1;
+    }
+  }
+  message AnchorDisabledGet{
+    message Request{
+        int64 roomId = 1;
+    }
+    message Response{
+        Status status = 1;
+        string disabledDesc = 2;
+        int64 liveTimes = 3;
+        int64 moneyTotal = 4;
+        int64 peoples = 5;
+        int64 likeNum = 6;
+    }
+    enum Status{
+        OPEN = 0;
+        DISABLED = 1;
+        FORCE_DISABLED = 2;
+    }
+  }
+  message AnchorPurlGet{
+    message Request{
+        int64 roomId = 1;
+    }
+    message Response{
+        bytes purl = 1;
+    }
+  }
+  message AnchorQuit{
+    message Request{
+        int64 roomId = 1;
+    }
+    message Response{
+        int64 liveTimes = 1;
+        int64 moneyTotal = 2;
+        int64 peoples = 3;
+        int64 likeNum = 4;
+    }
+  }
+  message AnchorStart{
+    message Request{
+        int64 roomId = 1;
+        string title = 2;
+        bool noShowLocal = 3;
+    }
+  }
+  message CommonAddrlist{
+    message Request{
+        AddrType addrType = 1;
+    }
+    message Response{
+        repeated bytes addrs = 1;
+    }
+    enum AddrType{
+        TCP = 0;
+        WEPSOCKET = 1;
+    }
+  }
+  message CommonUserlist{
+    message Request{
+        int64 roomId = 1;
+        int32 page = 2;
+        int32 pageSize = 3;
+    }
+    message Response{
+        int64 peoples = 1;
+        repeated ChatroomUserInfo chatroomUserInfos = 2;
+    }
+    message ChatroomUserInfo{
+        int64 uId = 1;
+        string userName = 2;
+        string userIcon = 3;
+        int32 userGrade = 4;
+        int32 userSex = 5;
+        int32 vip = 6;
+        int32 uType = 7;
+        int32 officialAuth = 8;
+        int32 qualityAuth = 9;
+        string acceptLanguage = 10;
+        repeated string userLabels = 11;
+        int32 labelHighest = 12;
+    }
+  }
+  message LiveStatusGet{
+    message Request{
+        int32 liveType = 1;
+        string liveId = 2;
+    }
+    message Response{
+        Status status = 1;
+    }
+    enum Status{
+        PRESERVE_STATUS = 0;
+        OPEN = 1;
+        DISABLED = 2;
+    }
+  }
+  message NormalInto{
+    message Request{
+        int64 roomId = 1;
+        bool checkLifted = 2;
+    }
+    message Response{
+        string ip = 1;
+        int32 port = 2;
+        bytes m1 = 3;
+        string liveMsg = 4;
+        int64 uid = 5;
+        int64 liveTimes = 6;
+        int64 moneyTotal = 7;
+        int64 peoples = 8;
+        string acceptLanguage = 9;
+        bool checkLiftedR = 10;
+        repeated string userLabels = 11;
+        int32 labelHighest = 12;
+        string policyMsg = 13;
+    }
+  }
+  message NormalMGet{
+    message Request{
+        int64 roomId = 1;
+    }
+    message Response{
+        bytes m1 = 1;
+    }
+  }
+  message WebNormalInto{
+    message Request{
+        int64 roomId = 1;
+        WebType wType = 2;
+        bool checkLifted = 3;
+    }
+    message Response{
+        string liveMsg = 1;
+        int64 uid = 2;
+        int64 liveTimes = 3;
+        int64 peoples = 4;
+        string acceptLanguage = 5;
+        string wsIp = 6;
+        int32 wsPort = 7;
+        string wsPath = 8;
+        int64 time = 9;
+        string nonce = 10;
+        string sec = 11;
+        string userInfo = 12;
+        int32 termType = 13;
+        int64 sid = 14;
+        bool checkLiftedR = 15;
+        repeated string userLabels = 16;
+        int32 labelHighest = 17;
+        string policyMsg = 18;
+    }
+    enum WebType{
+        WEB = 0;
+        WAP = 1;
+    }
+  }
+}
+message Search{
+  message User{
+    message Request{
+        string content = 1;
+        int32 page = 2;
+        int32 pageSize = 3;
+    }
+    message Response{
+        repeated FollowInfo infos = 1;
+    }
+  }
+  message UserCode{
+    message Request{
+        string upliveCode = 1;
+    }
+    message Response{
+        BaseUserInfo userInfo = 1;
+    }
+  }
+}
+message SensitiveWords{
+  message Get{
+    message Request{
+        int64 lastTime = 1;
+        int64 extLastTime = 2;
+    }
+    message Response{
+        repeated SensitiveWords words = 1;
+        bool hasNext = 2;
+        int64 updateTime = 3;
+        int64 extUpdateTime = 4;
+    }
+    message SensitiveWords{
+        int32 type = 1;
+        string content = 2;
+        int32 status = 3;
+        string lang = 4;
+        int32 iden = 5;
+    }
+    enum SensitiveType{
+        DEFAULT = 0;
+        USERNAME = 1;
+        SIGNATURE = 2;
+        CHAT = 4;
+        LIVENAME = 8;
+        LETTER = 16;
+        AUTH = 32;
+    }
+  }
+  message List{
+    message Request{
+        int64 lastTime = 1;
+        int64 extLastTime = 2;
+    }
+    message Response{
+        repeated SensitiveWords words = 1;
+        bool hasNext = 2;
+        int64 updateTime = 3;
+        int64 extUpdateTime = 4;
+    }
+    message SensitiveWords{
+        int32 type = 1;
+        string content = 2;
+        int32 status = 3;
+        string lang = 4;
+        int32 iden = 5;
+    }
+    enum SensitiveType{
+        DEFAULT = 0;
+        USERNAME = 1;
+        SIGNATURE = 2;
+        CHAT = 4;
+        LIVENAME = 8;
+        LETTER = 16;
+        AUTH = 32;
+    }
+  }
+}
+message Sms{
+  message SendCode{
+    message Request{
+        string mobilePhone = 1;
+        string deviceId = 2;
+        string signature = 3;
+        string module = 4;
+    }
+  }
+}
+message SystemConfig{
+  message Get{
+    message Request{
+        int32 os = 1;
+        string osVersion = 2;
+        string pushSDK = 3;
+        string pushSDKVersion = 4;
+        string brand = 5;
+        string model = 6;
+        string androidCPUABI = 7;
+        int64 androidRAM = 8;
+    }
+    message Response{
+        int32 videoFPS = 1;
+        string videoBitRate = 2;
+        int32 audioFPS = 3;
+        int32 audioBitRate = 4;
+        int32 keyFrameInterval = 5;
+        int32 reconnectionInterval = 6;
+        bool hardCode = 7;
+        int32 resolution = 8;
+        bool openBeautity = 9;
+    }
+  }
+}
+message System{
+  message Preload{
+    message Request{
+        int64 lastTime = 1;
+    }
+    message Response{
+        repeated Ip ips = 1;
+        int64 lastTime = 2;
+        repeated SystemAnnouncement systemAnnouncements = 3;
+        repeated TargetLanguage targetLanguages = 4;
+        repeated HighLevelText highLevelTexts = 6;
+        repeated AcceptAgreement acceptAgreement = 7;
+        repeated LabelDetailInfo labels = 8;
+        repeated PermissionDetailInfo permissions = 9;
+    }
+    message AcceptAgreement{
+        string country = 1;
+        string value = 2;
+    }
+    message SystemAnnouncement{
+        string language = 1;
+        string countryCode = 2;
+        string content = 3;
+        string url = 4;
+    }
+    message TargetLanguage{
+        string language = 1;
+        string content = 2;
+        string description = 3;
+    }
+    message HighLevelText{
+        string country = 1;
+        string language = 2;
+        string prekey = 3;
+        string value = 4;
+        string extend = 5;
+    }
+    message Ip{
+        string domain = 1;
+        repeated string ipAddress = 2;
+    }
+  }
+}
+message ThirdCheck{
+  message Register{
+    message Request{
+        BindType bindType = 1;
+        string thirdId = 2;
+        string thirdToken = 3;
+        string extension = 4;
+        int32 gender = 5;
+        string mobilePhone = 6;
+        string username = 7;
+        string signature = 8;
+        string avatar = 9;
+        string location = 10;
+        PushType pushType = 11;
+        string pushToken = 12;
+        string deviceId = 13;
+        string smsCode = 14;
+        string countryCode = 16;
+        string password = 17;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+        string exmailCheckCode = 2;
+    }
+  }
+}
+message ThirdGame{
+  message WhiteList{
+    message Request{
+        int32 timestamp = 1;
+    }
+    message Response{
+        int32 incremental = 1;
+        repeated ThirdGameInfo thirdGameInfos = 2;
+        int32 timestamp = 3;
+    }
+    message ThirdGameInfo{
+        string hostName = 1;
+        int32 status = 2;
+    }
+  }
+}
+message ThirdParty{
+  message Check{
+    message Request{
+        BindType bindType = 1;
+        string thirdId = 2;
+        string thirdToken = 3;
+        string extension = 4;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+    }
+  }
+}
+message TwoDimensionalCode{
+  message Create{
+    message Response{
+        string randomCode = 1;
+    }
+  }
+  message Query{
+    message Request{
+        string randomCode = 1;
+        string deviceId = 2;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+    }
+  }
+  message Scan{
+    message Request{
+        string randomCode = 1;
+    }
+  }
+}
+enum BindType{
+    DEFAULT_TYPE = 0;
+    MOBILE_PHONE = 1;
+    QQ = 2;
+    WEIXIN = 3;
+    FACEBOOK = 4;
+    SINA_WEIBO = 5;
+    GOOGLE = 15;
+    TWITTER = 16;
+    EMAIL = 17;
+}
+enum PushType{
+    DEFAULT_PUSHTYPE = 0;
+    IOS = 2;
+    JPUSH = 3;
+    XIAOMI = 4;
+    GETUI = 5;
+    GOOGLE_PUSH = 6;
+    GOOGLE_FCM = 10;
+}
+message Common{
+  message Domain{
+    message Request{
+        int64 uid = 1;
+    }
+  }
+}
+message UserBalanceInfo{
+    int64 inBill = 1;
+    int64 outDiamond = 2;
+    int64 bill = 3;
+    int64 diamond = 4;
+}
+message UserBlock{
+  message Add{
+    message Request{
+        int64 fuid = 1;
+    }
+  }
+  message Delete{
+    message Request{
+        int64 fuid = 1;
+    }
+  }
+  message List{
+    message Request{
+        int32 start = 1;
+        int32 pageSize = 2;
+    }
+    message Response{
+        repeated UserBriefInfo infos = 1;
+    }
+    message UserBriefInfo{
+        int64 uid = 1;
+        string username = 2;
+        string avatar = 3;
+        int32 gender = 4;
+        string signature = 5;
+        int32 grade = 6;
+        int32 officialAuth = 7;
+        string officialAuthContent = 8;
+        int32 qualityAuth = 9;
+        string upliveCode = 10;
+    }
+  }
+}
+message User{
+  message FindPassword{
+    message Request{
+        BindType bindType = 1;
+        string thirdId = 2;
+    }
+  }
+  message Login{
+    message Request{
+        int32 loginType = 1;
+        BindType bindType = 2;
+        string thirdId = 3;
+        int64 uid = 4;
+        string password = 5;
+        string location = 6;
+        PushType pushType = 7;
+        string pushToken = 8;
+        string deviceId = 9;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+    }
+  }
+  message Register{
+    message Request{
+        BindType bindType = 1;
+        string thirdId = 2;
+        string thirdToken = 3;
+        string extension = 4;
+        int32 gender = 5;
+        string mobilePhone = 6;
+        string username = 7;
+        string signature = 8;
+        string avatar = 9;
+        string location = 10;
+        PushType pushType = 11;
+        string pushToken = 12;
+        string countryCode = 14;
+        string password = 15;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+    }
+  }
+  message SetPassword{
+    message Request{
+        BindType bindType = 1;
+        string thirdId = 2;
+        string verifyCode = 3;
+        string password = 4;
+    }
+  }
+}
+message UserLabel{
+  message List{
+    message Request{
+        repeated string labels = 1;
+        int64 ruid = 2;
+        int64 roomId = 3;
+    }
+    message Response{
+        repeated UserInfo users = 1;
+    }
+    message UserInfo{
+        int64 uid = 1;
+        string username = 2;
+        string avatar = 3;
+        int32 gender = 4;
+        int32 grade = 5;
+        repeated LabelInfo labels = 6;
+        repeated PermissionInfo permissions = 7;
+    }
+  }
+  message PermissionUse{
+    message Request{
+        int64 puid = 1;
+        int64 ruid = 2;
+        int64 roomId = 3;
+        string permission = 4;
+        string ext = 5;
+    }
+    message Response{
+        int64 nextUseTime = 1;
+    }
+  }
+}
+message UserLogout{
+  message Request{
+  }
+}
+message UserVip{
+  message Info{
+    message Request{
+    }
+    message Response{
+        int32 vipGrade = 1;
+        int64 rechargeCount = 2;
+        int32 gradeStatus = 3;
+        int64 nextGradeCount = 4;
+        int64 keepGradeCount = 5;
+        int32 expireTime = 6;
+        int32 maxVipGrade = 7;
+    }
+  }
+}
+message Visitor{
+  message Register{
+    message Request{
+        string location = 1;
+        string countryCode = 2;
+        string selectLanguage = 3;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+        int64 watchTime = 2;
+    }
+  }
+  message RegisterH5{
+    message Request{
+        string location = 1;
+        string countryCode = 2;
+        string selectLanguage = 3;
+        BindType source = 4;
+    }
+    message Response{
+        ProfileInfo profile = 1;
+        int64 watchTime = 2;
+    }
+  }
+  message Update{
+    message Request{
+        PushType pushType = 1;
+        string pushToken = 2;
+        string language = 3;
+    }
+  }
+}
+message WithdrawStatus{
+    int64 bill = 1;
+    int64 diamond = 2;
+    int32 todayAlreadyCount = 3;
+    int32 todayAlreadyMoney = 4;
+    int64 totalLeftMoney = 5;
+    int32 todayLeftMoney = 6;
+    int32 timesPerDay = 7;
+    int32 quotaPerDay = 8;
+    int32 ratio = 9;
+    bool hasBindWechat = 10;
+    string currency = 11;
+    float rate = 12;
+    bool hasBindPayPal = 13;
+    string bindOpenid = 14;
+    int32 withdrawType = 15;
+    string currencySymbol = 16;
+    WithdrawRule withdrawRule = 17;
+    string h5WithdrawUrl = 18;
+}
+message WithdrawRule{
+    int32 maxValue = 1;
+    int32 minValue = 2;
+}
+message Wx{
+  message BindUser{
+    message UpLiveCode{
+        string upLiveCode = 1;
+    }
+    message UserId{
+        int64 unbindUserId = 1;
+    }
+    message Response{
+        repeated BindUserInfo bindUserInfoList = 1;
+    }
+    message BindUserInfo{
+        int64 uid = 1;
+        string upLiveCode = 2;
+        string userName = 3;
+        string avatar = 4;
+    }
+  }
+}
+message Zmxy{
+  message Get{
+    message Request{
+        string name = 1;
+        string certNo = 2;
+        string mobileNo = 3;
+    }
+  }
+}

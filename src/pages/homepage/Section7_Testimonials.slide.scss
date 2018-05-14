@@ -1,0 +1,29 @@
+
+
+.banner .choose {
+  position: relative;
+  text-align: center;
+  margin: 1em;
+  display: block;
+  font-size: inherit;
+  right: auto;
+  bottom: auto;
+  div {
+    float: none;
+    display: inline-block;
+    box-shadow: 0 0 5px #7f27ff;
+    background-color: #b889ff;
+  }
+  :global(.active) {
+    background-color: #7f27ff;
+  }
+}
+.navButton {
+  display: none;
+  &:global(.navButton) span {
+  }
+  &:global(.navButton.left) {
+  }
+  &:global(.navButton.right) {
+  }
+}

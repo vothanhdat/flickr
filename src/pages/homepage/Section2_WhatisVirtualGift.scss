@@ -1,0 +1,28 @@
+.root{
+
+}
+
+.container{
+
+}
+
+.videocontainer{
+  composes: videocontainer from '../common.scss';
+  max-height: 800px * 0.5625;
+  @media (min-width : 930px){
+    width: 900px;
+    padding-top: 900px * 0.5625;
+  }
+}
+
+.video{
+  composes: absolute from '../common.scss';
+}
+
+.gifts{
+  text-align: center;
+  composes: space-top space-bottom from '../common.scss';
+  img{
+    max-width: 120px;
+  }
+}

@@ -1,0 +1,32 @@
+
+.imageprotocol{
+  position: relative;
+  max-width: 100%;
+  img {
+    max-width: 100%;
+    width: 100%;
+  }
+  svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: none;
+    &[data-desktop]{
+      @media (min-width : 900px) {
+        display: inherit;
+      }
+    }
+    &[data-mobile]{
+      @media (max-width : 899.9px) {
+        display: inherit;
+      }
+    }
+  }
+
+};
+
+.svgtitle{
+  text-anchor: middle;
+  font-weight: 600;
+}

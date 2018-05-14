@@ -1,0 +1,129 @@
+.canlendarcontainer{
+  padding: 3em;
+  margin: 3em auto;
+  max-width: 900px;
+  @media (max-width: 930px) {
+    padding: 5.16vw;
+    margin: 5.16vw auto;
+  }
+}
+.head{
+
+  span{
+    font-size: 2.5em;
+    font-weight: 700;
+    @media (max-width: 930px) {
+      font-size: 4.3vw;
+    }
+  }
+  img{
+    float: right;
+    max-height: 8vw;
+  }
+}
+.canroot{
+  width : 100%;
+  border: none;
+  font-size: 1.3em;
+  display: flex;
+  flex-direction: column-reverse;
+  :global{
+    .test{};
+    .react-calendar__month-view__weekdays__weekday{
+      font-size: 0.85em;
+      background-color: #eee;
+      border : 1px solid #fff !important;
+      padding: 0.1em;
+      color: #888;
+    };
+
+    .react-calendar__month-view__days__day--weekend{
+      color: red;
+    };
+    .react-calendar__tile--active{
+      color: #fff;
+      background-color: #006edc;
+    };
+    .react-calendar__month-view__days__day--neighboringMonth{
+      color: #aaa;
+      background-color: #ddd;
+    }
+  }
+}
+
+.cantile{
+  padding: 0.3em;
+  padding-bottom: 2.0em;
+  font-size:1em;
+  background-color: #f8f9f9;
+  border : 1px solid #fff !important;
+  text-align: left;
+  vertical-align: top;
+  color : #888;
+  @media (max-width : 600px){
+    padding-bottom: 5.33vw;
+  }
+}
+.hasevent{
+  color: #fff;
+  // should composes in js when lazy loading this module
+  // composes : beforebg from '../common.scss';
+  &:before{
+    width: 1.75em;
+    height: 1.75em;
+    background-color: #7921fa;
+    border-radius: 50%;
+  }
+}
+.eventcontainer{
+  display: flex;
+  overflow: hidden;
+  align-items: flex-start;
+  align-content: center;
+  button{
+    flex : 0.1;
+    margin : 2.5em 0;
+    white-space: nowrap;
+  }
+  @media (max-width : 800px){
+    flex-wrap: wrap;   
+    justify-content: space-between;
+    button{
+      flex: auto;
+      max-width: 9em;
+      margin : 1em 0 0;
+    } 
+    .eventlist{
+      flex: auto;
+      order: 2;
+      width: 100%;
+    }
+  }
+}
+.eventlist{
+  flex: 1;
+  padding: 1em;
+  line-height: 1.8em;
+  >*{
+    display: flex;
+  }
+  .dategr{
+    width: 35%;
+  }
+  .eventgr{
+    width: 65%;
+  }
+
+}
+
+.root{
+  composes: supperbg from '../common.scss';
+  margin-top: 11vw !important;
+  color: #000;
+  &:before{
+    top:17vw;
+    height: calc(100% - 17vw);
+    background: #8120d3;
+    transform: skewY(-22.38deg);
+  }
+}

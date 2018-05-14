@@ -1,0 +1,9 @@
+
+
+.diagram{
+  max-width: 1054px;
+  margin : 0 auto;
+  @media #{get('res.sm_down')}{
+    max-width: 400px;
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "target": "es2017",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "experimentalDecorators" :true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/components/*": ["src/components/*"],
+            "@/utils/*": ["src/utils/*"],
+            "@/store/*": ["src/store/*"],
+          }
+    },
+    "exclude": [
+        "node_modules",
+        "build"
+    ]
+}

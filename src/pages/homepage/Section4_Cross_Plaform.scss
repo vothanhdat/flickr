@@ -1,0 +1,23 @@
+.big{
+  font-size : 4em;
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+.small{
+  font-size : 1.2em;
+  font-weight: 300;
+}
+@media (max-width : 950px) {
+  .big{
+    font-size: 6.7vw;
+  }
+
+}
+
+@media (max-width : 600px) {
+ 
+  .small,.big{
+    text-align: center;
+  }
+}

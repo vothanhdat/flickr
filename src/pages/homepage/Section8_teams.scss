@@ -1,0 +1,121 @@
+.root{
+  composes: fullwidth from '../common.scss';
+}
+.container{
+  max-width: 1350px;
+}
+
+$spacing : 1em;
+$spacing_960 : 1.666vw;
+
+.teamgrid{
+  font-size: 0.9em;
+  h2{
+    margin-left: $spacing * 0.4;
+    margin-right: $spacing * 0.4;
+  }
+  @media (max-width:960px) {
+    margin-left: $spacing_960 * 0.4;
+    margin-right: $spacing_960 * 0.4;
+  }
+}
+
+.teamcontainer{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+
+}
+
+.member{
+  pointer-events: none;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 25px rgba(0,0,0,0.15);
+  padding: 2em 0 0em;
+  position: relative;
+  text-align: center;
+
+  width: calc(#{100% / 3} - #{$spacing*2});
+  margin : $spacing;
+  // @media (max-width:1000px) {
+  //   width: (100% /  - 2% * 2);
+  //   margin : 1em 2%;
+  // }
+  // @media (max-width:800px) {
+  //   width: (100% / 3 - 2% * 2);
+  //   margin : 1em 2%;
+  // }
+  @media (max-width:960px) {
+    width: calc(#{100% / 3} - #{$spacing_960*2});
+    margin : $spacing_960;
+  }
+  @media (max-width:550px) {
+    width: calc(#{100% / 2} - #{$spacing_960*2});
+  }
+  @media (max-width:360px) {
+    width: calc(#{100% / 1} - #{$spacing_960*2});
+  }
+}
+
+
+.avatar{
+  width: 100%;
+  height: auto;
+  position: relative;
+  transition: none;
+  padding-bottom: 1em;
+  > img{
+    width : 70%;
+    border-radius: 50%; 
+    pointer-events: all;
+  }
+}
+
+.name {
+  font-weight: bold;
+  padding: 0 1em;
+}
+.position {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.name, .position{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.content{
+  transform: scale(0.7) translate(-50%,-50%);
+  transform-origin: 0% 0%;
+  opacity: 0;
+  transition: opacity 0.25s,transform 0.25s;
+  position: absolute;
+  border-radius: 7px;
+  left: 50%;
+  top: 50%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 230px;
+  background: rgba(150, 70, 203, 0.77);
+  color: #fff;
+  text-align: center;
+  padding: 1em;
+  font-size: 0.9em;
+  z-index: 1;
+
+  @media (max-width:960px) {
+    min-width: 100%;
+  }
+}
+
+.member:hover .content{
+  transform: scale(1) translate(-50% , -50%);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.member:hover .avatar{
+  filter: blur(4px);
+}

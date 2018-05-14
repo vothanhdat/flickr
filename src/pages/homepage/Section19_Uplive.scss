@@ -1,0 +1,25 @@
+.root{
+  composes: fullwidth from '../common.scss';
+  background-image: url('/images/liveitupbg.jpg'), linear-gradient( 135deg, #6f00c2 0%,#851be3 22%,#851be3 35%, #5800bc 70%,#5500b5 100%);
+  background-size: cover;
+}
+.container{
+  text-align: center;
+  padding-top : 2em;
+  padding-bottom : 2em;
+}
+
+.storelink img {
+  border-radius: 10px;
+  max-width: 250px;
+  @media (max-width : 600px){
+    width: 33%;
+    border-radius: 2vw;
+  }
+}
+.storelink a {
+  margin: 1em 2em;
+  @media (max-width : 600px){
+    margin: 2% 5%;
+  }
+}
