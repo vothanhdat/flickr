@@ -3,8 +3,8 @@ import React from 'react';
 import { withTranslate } from '../components/Language'
 import blogStateConnect, * as BlogSelector from '../store/connects/blog'
 import withSCSS from 'withsass.macro';
-import CircularProgress from 'material-ui/Progress/CircularProgress'
-import ButtonBase from 'material-ui/ButtonBase'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import ButtonBase from '@material-ui/core/ButtonBase'
 import withInviewPort from 'react-collections/withInviewPort';
 import Link from '../components/Link';
 import ImageZoom from 'react-medium-image-zoom'

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import StreamList from './StreamList'
-import { Paper, Typography } from 'material-ui';
+import { Paper, Typography } from '@material-ui/core';
 
 
 class StreamListPaper extends React.Component {

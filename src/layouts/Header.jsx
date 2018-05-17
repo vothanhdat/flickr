@@ -3,7 +3,7 @@ import withSCSS from 'withsass.macro'
 import { withTranslate, T } from '../components/Language'
 import Link from '../components/Link'
 import className from 'classnames'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import withScroll from 'react-collections/withScroll';
 import { connect } from 'react-redux'
 import { CHANGE_LANGUAGE } from '../store/actions'

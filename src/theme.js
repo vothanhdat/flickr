@@ -1,5 +1,5 @@
-import createMuiTheme, { ThemeOptions } from 'material-ui/styles/createMuiTheme';
-import * as Colors from 'material-ui/colors'
+import createMuiTheme, { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
+import * as Colors from '@material-ui/core/colors'
 
 /**@type {ThemeOptions} */
 const common = {

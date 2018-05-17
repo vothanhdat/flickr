@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
-import Button from 'material-ui/Button';
-import { withStyles } from 'material-ui/styles';
+import { FormLabel, FormControl, FormControlLabel, FormHelperText } from '@material-ui/core/Form';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import Recaptcha from 'react-recaptcha';
 import withDelay from '../components/withDelay'
 

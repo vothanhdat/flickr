@@ -8,7 +8,7 @@ import ImagePreview from 'react-collections/ImagePreview';
 import FileField from 'react-collections/FileField'
 import withSuperForm from 'react-collections/withSuperForm'
 import SelectField from 'react-collections/SelectField'
-import { Grid, Button, Tooltip, IconButton, TextField } from 'material-ui'
+import { Grid, Button, Tooltip, IconButton, TextField } from '@material-ui/core'
 import device from '../utils/device'
 import ValidateFunction from '../utils/validate.new'
 import { mapValues, omit, fromPairs, isEqual } from 'lodash'

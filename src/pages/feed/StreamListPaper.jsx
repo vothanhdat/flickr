@@ -1,6 +1,6 @@
 import React from 'react'
 import StreamList from './StreamList'
-import { Paper, Typography } from 'material-ui';
+import { Paper, Typography } from '@material-ui/core';
 import withSCSS from "withsass.macro";
 
 

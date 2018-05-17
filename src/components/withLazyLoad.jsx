@@ -1,7 +1,7 @@
 import React from 'react'
 import mapValues from 'lodash/mapValues'
 import isEqual from 'lodash/isEqual'
-import CircularProgress from 'material-ui/Progress/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 

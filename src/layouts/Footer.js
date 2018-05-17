@@ -1,6 +1,6 @@
 import React from 'react'
-import Grid from 'material-ui/Grid'
-import withStyles from 'material-ui/styles/withStyles'
+import Grid from '@material-ui/core/Grid'
+import withStyles from '@material-ui/core/styles/withStyles'
 import withSCSS from 'withsass.macro'
 import { withTranslate, T } from '../components/Language'
 // import { Link } from 'react-router-dom'

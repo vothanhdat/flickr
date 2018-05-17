@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
-import CircularProgress from 'material-ui/Progress/CircularProgress'
-import purple from 'material-ui/colors/purple';
+} from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress'
+import purple from '@material-ui/core/colors/purple';
 import HiddenLayout from '../layouts/HiddenLayout'
-import Snackbar from 'material-ui/Snackbar';
-import SnackbarContent from 'material-ui/Snackbar/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 
 import { withTranslate, RegisterLanguage, T } from './Language'

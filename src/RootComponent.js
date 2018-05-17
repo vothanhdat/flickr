@@ -4,15 +4,11 @@ import { Provider as StateProvider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { get as getpath, isEqual } from 'lodash'
 import { connect } from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import Themes from './theme'
-
 import JssProvider from 'react-jss/lib/JssProvider';
 import { create } from 'jss';
-import { createGenerateClassName, jssPreset } from 'material-ui/styles';
-
-
-
+import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 import { store, history } from './store'
 import { LanguageProvider, withTranslate } from './components/Language'
 import { EventProvider } from 'react-collections/EventHOC'
@@ -21,7 +17,7 @@ import Header from './layouts/Header'
 import Footer from './layouts/Footer'
 import withSimpleConnect from 'react-collections/withSimpleConnect';
 import LanguageEditRoot from './pages/testlang';
-
+import '@/layouts/global.scss'
 const generateClassName = createGenerateClassName();
 const jss = create(jssPreset());
 jss.options.insertionPoint = document.getElementById('jss-insertion-point');
