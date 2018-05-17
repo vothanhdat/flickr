@@ -1,6 +1,7 @@
 import React from 'react'
 import withSCSS from 'withsass.macro';
 import HLSPLayer from './HLSPLayer'
+import FlvPLayer from './FlvPLayer'
 import ProfileConnect from '../store/connects/profile'
 import { connect } from 'react-redux'
 import utils from '../utils/utils'
@@ -19,6 +20,6 @@ export default class extends React.Component {
   }
   render() {
     const { profile } = this.props
-    return <HLSPLayer src={profile.m3u8 || ''} poster={utils.getImageURL(profile.avatar,'300')}/>
+    return <FlvPLayer src={profile.flv || ''} poster={utils.getImageURL(profile.avatar,'300')}/>
   }
 }
