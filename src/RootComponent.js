@@ -62,9 +62,9 @@ function RootComponent(props) {
     <StateProvider store={store}>
       <AppContainer store={store}>
         <React.Fragment>
-          <Header />
+          {/* <Header /> */}
           {props.children}
-          <Footer />
+          {/* <Footer /> */}
           <HiddenLayoutWithLanguage />
           <LanguageEditRoot/>
         </React.Fragment>

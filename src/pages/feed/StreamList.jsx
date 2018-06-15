@@ -14,7 +14,7 @@ class StreamList extends React.Component {
 
 
     componentDidMount() {
-        const { data, state, fetch, fetchappend } = this.props
+        const { fetch } = this.props
         fetch(this.props)
     }
 
@@ -29,7 +29,7 @@ class StreamList extends React.Component {
     }
 
     render() {
-        const { _, language, datas, limitrow, classes } = this.props
+        const { datas, limitrow, classes } = this.props
         const Component = limitrow ? ReactListLimitRow : ReactList;
 
         return <div className={classes.list}>

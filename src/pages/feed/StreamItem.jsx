@@ -6,22 +6,28 @@ import { Link } from 'react-router-dom'
 
 class ImageLazyLoad extends React.Component {
 
-    state = { islazy: true, src: this.props.small }
+    state = { 
+        islazy: true, 
+        small: this.props.small, 
+        large: this.props.large 
+    }
+
+    _timeout = 0
 
     static getDerivedStateFromProps(props, state) {
         return {
-            islazy: true,
-            src: props.small
+            islazy: props.small != state.small || props.large != state.large,
+            small: props.small,
+            large: props.large,
         }
     }
 
-    componentWillMount() {
+    componentDidMount(){
         this.lazyUpdate();
     }
 
-    componentDidUpdate(newProps, newState) {
-        if (newProps.src != this.state.src)
-            this.lazyUpdate();
+    componentDidUpdate(newProps,newState) {
+        newState.islazy && this.lazyUpdate();
     }
 
     componentWillUnmount() {
@@ -29,7 +35,8 @@ class ImageLazyLoad extends React.Component {
     }
 
     lazyUpdate() {
-        this._timeout = setTimeout(() => this.setState({ islazy: false }), 300)
+        clearTimeout(this._timeout);
+        this._timeout = setTimeout(() => this.setState({ islazy: false }), 50)
     }
 
     render() {

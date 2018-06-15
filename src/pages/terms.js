@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withTranslate, T } from '../components/Language'
 import withSCSS from 'withsass.macro';
-import withLazyLoad from '../components/withLazyLoad';
+import withLazyLoad from 'react-collections/withLazyLoad';
 
 
 

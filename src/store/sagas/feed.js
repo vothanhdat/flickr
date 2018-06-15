@@ -12,7 +12,7 @@ const fetchList = function* (params) {
   console.log({ ...params })
   const { append, tagname } = params.data
 
-  const { datas, banners, end, loading } = yield select(state => state.feed[tagname] || state.feed.default)
+  const { datas, loading } = yield select(state => state.feed[tagname] || state.feed.default)
   const feeddata = yield select(state => state.feeddata || {})
 
   if (loading)
