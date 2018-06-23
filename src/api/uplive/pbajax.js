@@ -1,8 +1,8 @@
 import PublicPB from './protos/PublicPB'
 import PB from './protos'
 
-import { wrapPromise } from '../utils/Decorator'
-import LocalStorage, { mapLocalStorageDecorator } from '../utils/LocalStorage'
+import { wrapPromise } from '../../utils/Decorator'
+import LocalStorage, { mapLocalStorageDecorator } from '../../utils/LocalStorage'
 
 
 function param(ob, prefix = '') {

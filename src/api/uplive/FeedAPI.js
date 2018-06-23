@@ -1,5 +1,5 @@
-import PB from '../protos'
-import pbajax from '../pbajax'
+import PB from './protos'
+import pbajax from './pbajax'
 // import Login from '../Login'
 
 

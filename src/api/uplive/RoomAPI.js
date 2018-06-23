@@ -1,5 +1,5 @@
-import PB from '../protos'
-import pbajax, { Code as ErrorCode } from '../pbajax'
+import PB from './protos'
+import pbajax, { Code as ErrorCode } from './pbajax'
 
 
 

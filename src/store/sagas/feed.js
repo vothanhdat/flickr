@@ -3,7 +3,7 @@ import { select, takeEvery, take, put, } from 'redux-saga/effects'
 import { updateStateAction, emptyState } from '../../utils/reducerutils'
 import { get as getpath } from 'lodash'
 import Device from '../../utils/device'
-import FeedAPIs from '../../api/requests/FeedAPI'
+import FeedAPIs from '../../api/uplive/FeedAPI'
 import fromPairs from 'lodash/fromPairs'
 const fetchNumber = 10
 

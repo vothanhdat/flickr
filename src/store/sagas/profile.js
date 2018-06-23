@@ -3,8 +3,7 @@ import { select, takeEvery, take, put, } from 'redux-saga/effects'
 import { updateStateAction, emptyState } from '../../utils/reducerutils'
 import { get as getpath } from 'lodash'
 import Device from '../../utils/device'
-import ProfileAPI from '../../api/requests/ProfileAPI'
-import fromPairs from 'lodash/fromPairs'
+import ProfileAPI from '../../api/uplive/ProfileAPI'
 
 
 const fetchprofile = function* (params) {
