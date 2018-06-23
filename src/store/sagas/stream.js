@@ -1,6 +1,6 @@
 //@ts-check
-import { select, takeEvery, take, put, } from 'redux-saga/effects'
-import { updateStateAction, emptyState } from '../../utils/reducerutils'
+import { select, takeEvery, put, } from 'redux-saga/effects'
+import { updateStateAction } from '../../utils/reducerutils'
 import { get as getpath } from 'lodash'
 import Device from '../../utils/device'
 import RoomAPI from '../../api/uplive/RoomAPI'
