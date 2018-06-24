@@ -31,3 +31,7 @@ export default function * state(){
     yield takeEvery("CHANGE_THEME",changeTheme)
 }
 
+
+import {requestToken} from '../../api/flickr/index'
+
+requestToken().then(e => console.log(e))
