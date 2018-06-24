@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { withTranslate, T } from '../components/Language'
+import { withTranslate, T } from '@/components/Language'
 import withSCSS from 'withsass.macro';
 import withForm from 'react-collections/withForm';
 import ImagePreview from 'react-collections/ImagePreview';
@@ -9,8 +9,8 @@ import FileField from 'react-collections/FileField'
 import withSuperForm from 'react-collections/withSuperForm'
 import SelectField from 'react-collections/SelectField'
 import { Grid, Button, Tooltip, IconButton, TextField } from '@material-ui/core'
-import device from '../utils/device'
-import ValidateFunction from '../utils/validate.new'
+import device from '@/utils/device'
+import ValidateFunction from '@/utils/validate.new'
 import { mapValues, omit, fromPairs, isEqual } from 'lodash'
 import { memoize, bind } from 'lodash-decorators';
 
@@ -279,7 +279,7 @@ class TestForm extends React.PureComponent {
 }
 
 @withTranslate
-@withSCSS('./common.scss', './form.scss')
+@withSCSS('../common.scss', './form.scss')
 class TestFormComponent extends React.Component {
   render() {
     const { classes } = this.props

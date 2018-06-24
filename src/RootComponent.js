@@ -16,7 +16,7 @@ import HiddenLayout from './layouts/HiddenLayout'
 import Header from './layouts/Header'
 import Footer from './layouts/Footer'
 import withSimpleConnect from 'react-collections/withSimpleConnect';
-import LanguageEditRoot from './pages/testlang';
+import LanguageEditRoot from './pages/test/testlang';
 import '@/layouts/global.scss'
 const generateClassName = createGenerateClassName();
 const jss = create(jssPreset());
