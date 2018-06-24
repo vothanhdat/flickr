@@ -69,7 +69,7 @@ const login = function* () {
 }
 
 
-const getNewFeedPhotos = function* ({ append }) {
+const getNewFeedPhotos = function* () {
   const paths = "flickr.sets.newfeed"
   const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => state.flickr.sets.newfeed || {})
 
@@ -98,6 +98,14 @@ const getNewFeedPhotos = function* ({ append }) {
   } catch (error) {
     console.error(error)
   }
+}
+
+const downloadFetch = function* () {
+  yield getNewFeedPhotos()
+  yield getNewFeedPhotos()
+  yield getNewFeedPhotos()
+  yield getNewFeedPhotos()
+  yield getNewFeedPhotos()
 }
 
 const testLogin = function* () {
@@ -135,6 +143,6 @@ export default function* state() {
   yield takeEvery("@@SAGA", initialState)
   yield takeEvery("@@SAGA", testLogin)
   yield takeEvery("FLICKR_LOGIN", login)
-  yield takeEvery("FLICKR_NEWFEED", getNewFeedPhotos)
+  yield takeEvery("FLICKR_NEWFEED", downloadFetch)
 }
 

@@ -13,6 +13,47 @@ import LazyImage from '@/components/LazyImage'
 
 
 
+class FlickPhotoPreload {
+
+  static preloadImageCache = {}
+  static preloadImageStack = []
+  static preloadImageRunning = []
+  
+  static preloadImage(src) {
+    if(this.preloadImageCache[src])
+      return;
+
+    this.preloadImageStack.push(src);
+
+    if (this.waitForNewTask)
+      this.preloadTask();
+  }
+  static waitForNewTask = true;
+  static async preloadTask() {
+
+    this.waitForNewTask = false;
+    while (this.preloadImageStack.length
+      && this.preloadImageRunning.length < 3) {
+      let url = this.preloadImageStack.pop();
+      console.log('LOAD URL: ', url)
+      let img = new Image
+      img.src = url;
+      this.preloadImageCache[url] = img;
+      let task = new Promise((resolve, reject) => {
+        img.onload = resolve
+        img.onerror = reject
+      }).finally(() => {
+        this.preloadImageRunning = this.preloadImageRunning.filter(e => e != task)
+      })
+      this.preloadImageRunning.push(task);
+
+      if (this.preloadImageRunning.length >= 3)
+        await Promise.race(this.preloadImageRunning);
+    }
+    this.waitForNewTask = true;
+  }
+}
+
 class FlickPhotoUtil {
 
   @memoize()
@@ -30,6 +71,8 @@ class FlickPhotoUtil {
 
       lastRow.push(e);
 
+      FlickPhotoPreload.preloadImage(e.url_t);
+
       if (ratio >= max_ratio) {
         lastRow.ratio = ratio;
         lastRow = [];
@@ -40,6 +83,8 @@ class FlickPhotoUtil {
 
     return currentRow
   }
+
+
 };
 
 
@@ -48,7 +93,7 @@ class FlickPhotoUtil {
  * @extends React.Component<{feeds:{photo:FlickrPhotoObj[]}},{rows:FlickrPhotoObj[][]}>
  */
 @withTranslate
-@withSCSS('../common.scss','./feeds.scss')
+@withSCSS('../common.scss', './feeds.scss')
 @flickrConnect()
 export default class PhotoFeeds extends React.Component {
 
@@ -85,12 +130,13 @@ export default class PhotoFeeds extends React.Component {
     const ratio = currentRow.ratio;
     const height = 100 / ratio;
 
-    return <div key={key} style={{fontSize: 0,whiteSpace: "nowrap"}}>
+    return <div key={key} style={{ fontSize: 0, whiteSpace: "nowrap" }}>
       {
         currentRow.map((e) => <LazyImage
           small={e.url_t}
           large={e.url_c}
           className={classes.imageitem}
+          delay={100}
           style={{
             height: `${height}vw`,
             width: `${(e.width_c / e.height_c) / ratio * 100}vw`,
@@ -111,7 +157,7 @@ export default class PhotoFeeds extends React.Component {
         length={rows.length}
         itemRenderer={this.renderRows}
         type='variable'
-        threshold={500}
+        threshold={100}
         useTranslate3d
       />
     </div>

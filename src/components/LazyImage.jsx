@@ -3,6 +3,10 @@ import React from 'react'
 
 export default class ImageLazyLoad extends React.Component {
 
+  static defaultProps = {
+    delay : 100,
+  }
+
   _timeout = 0
 
   state = {
@@ -34,7 +38,7 @@ export default class ImageLazyLoad extends React.Component {
 
   lazyUpdate() {
     clearTimeout(this._timeout);
-    this._timeout = setTimeout(() => this.setState({ islazy: false }), 50)
+    this._timeout = setTimeout(() => this.setState({ islazy: false }), this.props.delay)
   }
 
   render() {
