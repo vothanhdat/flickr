@@ -3,8 +3,11 @@ import withSCSS from 'withsass.macro';
 
 
 
-@withSCSS('./HLSPLayer.scss')
 export default class HLSPLayer extends React.Component {
+  static defaultProps = {
+    classes: {}
+  }
+  
   Hls = null;
   hls = null;
   async componentDidMount() {

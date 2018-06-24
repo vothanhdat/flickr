@@ -10,16 +10,18 @@ import utils from '@/utils/utils'
 
 
 
+
 @connect(
   (state, { match: { params: { uid, roomid } } }) => ({ uid, ...roomid ? { roomid } : {} })
 )
 @ProfileConnect()
+@withSCSS('./live.scss')
 export default class extends React.Component {
   componentDidMount() {
     this.props.fetchstream()
   }
   render() {
     const { profile } = this.props
-    return <FlvPLayer src={profile.flv || ''} poster={utils.getImageURL(profile.avatar,'300')}/>
+    return <FlvPLayer src={profile.flv || ''} poster={utils.getImageURL(profile.avatar,'300')} classes={this.props.classes}/>
   }
 }

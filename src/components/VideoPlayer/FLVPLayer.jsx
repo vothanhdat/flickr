@@ -3,8 +3,12 @@ import withSCSS from 'withsass.macro';
 
 
 
-@withSCSS('./HLSPLayer.scss')
 export default class FLVPLayer extends React.Component {
+  
+  static defaultProps = {
+    classes: {}
+  }
+
   Flv = null;
   flv = null;
   async componentDidMount() {
