@@ -7,7 +7,7 @@ export default ({ } = {}) => connect(
     return ({
       oauth,
       user,
-      isLoged : user && !user.id,
+      isLoged: user && !user.id,
       feeds: sets && sets.newfeed,
     })
   },

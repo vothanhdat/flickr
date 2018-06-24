@@ -69,12 +69,31 @@ const login = function* () {
 }
 
 
-const getNewFeedPhotos = function* () {
+const getNewFeedPhotos = function* ({ append }) {
+  const paths = "flickr.sets.newfeed"
+  const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => state.flickr.sets.newfeed || {})
+
+  if (loading || end)
+    return;
+
   try {
-    const photoDatas = yield flickrAPIs.getContactsPhotos({});
     yield put(updateStateAction({
-      data: photoDatas,
-      paths: "flickr.sets.newfeed",
+      data: { loading: true },
+      paths: paths,
+    }))
+
+    const photoDatas = yield flickrAPIs.getContactsPhotos({
+      page: page + 1,
+      per_page
+    });
+    yield put(updateStateAction({
+      data: {
+        ...photoDatas,
+        photo: [...photo, ...photoDatas.photo],
+        end: page >= pages,
+        loading: false,
+      },
+      paths: paths,
     }));
   } catch (error) {
     console.error(error)

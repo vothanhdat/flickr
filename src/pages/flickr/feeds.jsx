@@ -107,9 +107,11 @@ export default class PhotoFeeds extends React.Component {
     const { rows } = this.state;
     return <div className={classes.list}>
       <ReactList
+        onScrollEnd={this.props.getNewFeed}
         length={rows.length}
         itemRenderer={this.renderRows}
         type='variable'
+        threshold={500}
         useTranslate3d
       />
     </div>
