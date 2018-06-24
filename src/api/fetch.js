@@ -64,14 +64,14 @@ export default function CallAPI(
     ...options,
   }).then(response => {
     var contentType = response.headers.get("content-type");
-    if(response.ok){
-      if(contentType && contentType.includes("application/json"))
+    if (response.ok) {
+      if (contentType && contentType.includes("application/json"))
         return response.json();
       return response.text();
-    }else{
-      if(contentType && contentType.includes("application/json"))
-        return Promise.reject(response.json())
-      return Promise.reject(response.text)
+    } else {
+      if (contentType && contentType.includes("application/json"))
+        return response.json().then(e => Promise.reject(e))
+      return response.text().then(e => Promise.reject(e))
     }
   })
 

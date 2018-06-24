@@ -4,6 +4,7 @@ import flickrConnect from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
 import ReactJson from 'react-json-view'
 import { withTranslate } from '@/components/Language'
+import NewFeeds from './feeds';
 
 
 
@@ -14,11 +15,12 @@ import { withTranslate } from '@/components/Language'
 @flickrConnect()
 export default class extends React.Component {
 
-  render(){
-
+  render() {
     return <div>
-      <button onClick={this.props.login}>Login</button>
-       <ReactJson src={this.props.oauth}/>
+      {/* <button onClick={this.props.login}>Login</button>
+      <ReactJson src={this.props.oauth} />
+      <ReactJson src={this.props.user} /> */}
+      <NewFeeds/>
     </div>
   }
 }

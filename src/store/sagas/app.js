@@ -33,5 +33,3 @@ export default function * state(){
 
 
 import {requestToken} from '../../api/flickr/index'
-
-requestToken().then(e => console.log(e))

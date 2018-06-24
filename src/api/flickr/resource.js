@@ -6,4 +6,5 @@ export default {
   request_token: { URL: `oauth/request_token` },
   authorize: { URL: `oauth/authorize` },
   access_token: { URL: `oauth/access_token` },
+  call_method: { URL: `rest` },
 }
