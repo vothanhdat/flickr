@@ -1,12 +1,12 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 import React from 'react';
-import { withTranslate } from '../components/Language'
-import blogStateConnect, * as BlogSelector from '../store/connects/blog'
+import { withTranslate } from '@/components/Language'
+import blogStateConnect, * as BlogSelector from '@/store/connects/blog'
 import withSCSS from 'withsass.macro';
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import withInviewPort from 'react-collections/withInviewPort';
-import Link from '../components/Link';
+import Link from '@/components/Link';
 
 const BlocItems = ({ title, image, des, link, uniqueSlug, classes, langname }) => <div 
   className={classes.article}>
@@ -26,7 +26,7 @@ const BlocItems = ({ title, image, des, link, uniqueSlug, classes, langname }) =
 
 @withTranslate
 @blogStateConnect({ max: Infinity, selectFunction: BlogSelector.getPostByLanguage })
-@withSCSS('./common.scss', './blog.scss')
+@withSCSS('../common.scss', './blog.scss')
 @withInviewPort()
 class BlogPage extends React.PureComponent {
 

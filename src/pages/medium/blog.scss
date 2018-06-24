@@ -1,5 +1,5 @@
 .root{
-  composes : fullwidth from './common.scss';
+  composes : fullwidth from '../common.scss';
   background-color: #f8f8f8;
   margin-top : 0;
   margin-bottom : 0;
@@ -186,7 +186,7 @@
   position: relative;
 }
 .iframe{
-  composes : absolute from '../pages/common.scss';
+  composes : absolute from '../common.scss';
   border: none;
   overflow: hidden;
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import withSCSS from 'withsass.macro';
-import HLSPLayer from './HLSPLayer'
-import FlvPLayer from './FlvPLayer'
-import ProfileConnect from '../store/connects/profile'
+import HLSPLayer from '@/components/VideoPlayer/HLSPLayer'
+import FlvPLayer from '@/components/VideoPlayer/FlvPLayer'
+import ProfileConnect from '@/store/connects/profile'
 import { connect } from 'react-redux'
-import utils from '../utils/utils'
+import utils from '@/utils/utils'
 
 
 

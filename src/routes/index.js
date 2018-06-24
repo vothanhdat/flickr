@@ -3,13 +3,13 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 import TermsPage from '../pages/terms'
 import PrivacyPage from '../pages/privacy'
-import BlogPage from '../pages/blog'
-import BlogPost from '../pages/post'
+import BlogPage from '../pages/medium/blog'
+import BlogPost from '../pages/medium/post'
 import TestForm from '../pages/testform'
-import TestStreams from '../pages/hot'
-import TestStreamsTags from '../pages/hotTags'
+import TestStreams from '../pages/uplive/hot'
+import TestStreamsTags from '../pages/uplive/hotTags'
 import Paralax from '../pages/paralax/doc'
-import Live from '../pages/live'
+import Live from '../pages/uplive/live'
 import { withTranslate } from '../components/Language';
 
 

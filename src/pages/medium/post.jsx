@@ -1,12 +1,12 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 import React from 'react';
-import { withTranslate } from '../components/Language'
-import blogStateConnect, * as BlogSelector from '../store/connects/blog'
+import { withTranslate } from '@/components/Language'
+import blogStateConnect, * as BlogSelector from '@/store/connects/blog'
 import withSCSS from 'withsass.macro';
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import withInviewPort from 'react-collections/withInviewPort';
-import Link from '../components/Link';
+import Link from '@/components/Link';
 import ImageZoom from 'react-medium-image-zoom'
 
 const BlogItems = ({ title, image, des, link, uniqueSlug, classes, langname }) => <div
@@ -114,7 +114,7 @@ class ImageResource extends React.Component {
 @BlogSelector.blogPostConnect({
   getPostID: ({ match: { params: { postid } } }) => postid
 })
-@withSCSS('./common.scss', './blog.scss')
+@withSCSS('../common.scss', './blog.scss')
 @withInviewPort({ thredsort: 10 })
 class BlogPage extends React.PureComponent {
 

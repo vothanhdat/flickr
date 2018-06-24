@@ -1,13 +1,13 @@
 import React from 'react';
-import { withTranslate, T } from '../components/Language'
+import { withTranslate, T } from '@/components/Language'
 import PropTypes from 'prop-types';
 import withSCSS from 'withsass.macro';
 import StreamListPaper from './feed/StreamListPaper'
-import FeedConnect from '../store/connects/feed'
+import FeedConnect from '@/store/connects/feed'
 import {Link} from 'react-router-dom'
 
 @FeedConnect()
-@withSCSS('./common.scss')
+@withSCSS('../common.scss')
 class StreamHomePage extends React.Component {
 
   render() {

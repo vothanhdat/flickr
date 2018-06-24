@@ -1,10 +1,10 @@
 //@ts-check
 import React from 'react'
-import { ReactListLimitRow, ReactList } from '../../components/ReactList'
+import { ReactListLimitRow, ReactList } from '@/components/ReactList'
 import { bind } from 'lodash-decorators';
 import withSCSS from "withsass.macro";
 import StreamItem from './StreamItem'
-import FeedConnect from '../../store/connects/feed'
+import FeedConnect from '@/store/connects/feed'
 
 
 @FeedConnect()
