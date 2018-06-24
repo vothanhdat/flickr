@@ -38,6 +38,12 @@ sagaMiddleWare.registerNewSaga(feedStream)
     .hot(cb => module.hot.accept('./stream', cb(() => feedStream)))
 
 
+import flickrState from './flickr'
+
+sagaMiddleWare.registerNewSaga(flickrState)
+    .hot(cb => module.hot.accept('./flickr', cb(() => flickrState)))
+
+
 
 
 store.dispatch({ type: "@@SAGA" })

@@ -133,8 +133,6 @@ const CreateWaitSingleTonInitTask = (function (initFunction) {
 
 const PrepareAsyncWindowOpen = (function () {
 
-  const loaderImage = require('static/images/loader.svg')
-
   const replaceMessage = Math.random() + '';
 
   const WatingContent = `
@@ -176,7 +174,7 @@ const PrepareAsyncWindowOpen = (function () {
         </style>
         <div class='root'>
           <div>
-            <img src='${loaderImage}' style='width:35px;height:35px;'/>
+            <img src='/static/images/loader.svg' style='width:35px;height:35px;'/>
           </div>
           <div>
             <h3 style={{ padding: '25px' }}> ${replaceMessage}</h3>

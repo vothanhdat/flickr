@@ -9,6 +9,7 @@ import TestForm from '../pages/test/testform'
 import TestStreams from '../pages/uplive/hot'
 import TestStreamsTags from '../pages/uplive/hotTags'
 import Paralax from '../pages/paralax/doc'
+import Flickr from '../pages/flickr'
 import Live from '../pages/uplive/live'
 import { withTranslate } from '../components/Language';
 
@@ -33,6 +34,7 @@ const RouteIndex = withTranslate(
             <Route exact path={prefix + "blog/:postid/"} component={BlogPost} />
             <Route exact path={prefix + 'testform'} component={TestForm} />
             <Route exact path={prefix + 'paralax'} component={Paralax} />
+            <Route exact path={prefix + 'flickr'} component={Flickr} />
         </React.Fragment>
     }
 )
