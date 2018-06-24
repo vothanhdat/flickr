@@ -11,7 +11,10 @@ export default ({ max = 3, selectFunction = blogSelector.getNewsByLanguage } = {
   (dispatch, props) => ({
     fetchNewPost: FETCH_MEDIUM_POSTS(dispatch, props),
     autoFetchMore: (oldProps, newProps) => {
-      if ((newProps.posts.length > oldProps.posts.length || oldProps.language.name != newProps.language.name) && newProps.posts.length < max)
+      if (
+        (newProps.posts.length > oldProps.posts.length || oldProps.language.name != newProps.language.name) 
+        && newProps.posts.length < max
+      )
         FETCH_MEDIUM_POSTS(dispatch, props)();
     },
   }),
