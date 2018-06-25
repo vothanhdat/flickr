@@ -1,0 +1,55 @@
+
+
+
+.root{
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.photoitem{
+  background-size: cover;
+  background-repeat: no-repeat;
+  composes: absolute from '../common.scss';
+}
+
+.info{
+  composes: absolute from '../common.scss';
+  background: linear-gradient(to top,#0009,#0003,#0000);
+  display: flex;
+  color : #fff;
+  font-size: 0.9rem;
+  bottom : 0;
+  height: fit-content;
+  top :auto;
+  padding: 3.5em 0.7em 0.7em;
+  align-items: flex-end;
+}
+
+.info{
+  opacity: 0;
+  // transform: translate(0,100%);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.root:hover .info{
+  opacity: 1;
+  // transform: translate(0,0);
+}
+
+.infoleft{
+  flex :1;
+  overflow: hidden;
+  .photoname{
+
+  }
+  .infoauthor{
+    font-size: 0.9em;
+    opacity : 0.8;
+  }
+}
+
+.inforight{
+  vertical-align: middle;
+}

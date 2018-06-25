@@ -2,7 +2,6 @@
 import React from 'react'
 import flickrConnect from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
-import ReactJson from 'react-json-view'
 import { withTranslate } from '@/components/Language'
 import NewFeeds from './feeds';
 

@@ -8,6 +8,7 @@ import { ReactList } from '@/components/ReactList'
 import { bind, memoize } from 'lodash-decorators';
 import { get as getpath } from 'lodash'
 import LazyImage from '@/components/LazyImage'
+import { PhotoItem } from './PhotoItem';
 
 
 
@@ -99,7 +100,7 @@ class FlickPhotoUtil {
 
 /**
  * @class
- * @extends React.Component<{feeds:{photo:FlickrPhotoObj[]}},{rows:FlickrPhotoObj[][]}>
+ * @extends React.Component<{feeds:{photo:FlickrPhotoObj[]}} & ClassesProps,{rows:FlickrPhotoObj[][]}>
  */
 @withTranslate
 @withSCSS('../common.scss', './feeds.scss')
@@ -120,15 +121,15 @@ export default class PhotoFeeds extends React.Component {
   }
 
 
-  @bind()
-  itemRender(index, key) {
-    const datas = this.datas
-    const { _, classes } = this.props
-    const item = datas[index]
-    return <div className={classes.itemcontainer} key={key} >
-      <PhotoItem data={item} className={classes.item} />
-    </div>
-  }
+  // @bind()
+  // itemRender(index, key) {
+  //   const datas = this.datas
+  //   const { _, classes } = this.props
+  //   const item = datas[index]
+  //   return <div className={classes.itemcontainer} key={key} >
+  //     <PhotoItem data={item} className={classes.item} />
+  //   </div>
+  // }
 
   @bind()
   renderRows(index, key) {
@@ -141,11 +142,9 @@ export default class PhotoFeeds extends React.Component {
 
     return <div key={key} style={{ fontSize: 0, whiteSpace: "nowrap" }} data-ratio={ratio}>
       {
-        currentRow.map((e) => <LazyImage
-          small={e.url_t || e.url_z || e.url_s}
-          large={e.url_c}
+        currentRow.map((e) => <PhotoItem
+          data={e}
           className={classes.imageitem}
-          delay={100}
           style={{
             height: `${height}vw`,
             width: `${FlickPhotoUtil.getImageRatio(e) / ratio * 100}vw`,
@@ -167,7 +166,7 @@ export default class PhotoFeeds extends React.Component {
         length={rows.length}
         itemRenderer={this.renderRows}
         type='variable'
-        threshold={100}
+        threshold={200}
         useTranslate3d
       />
     </div>
