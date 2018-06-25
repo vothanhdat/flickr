@@ -20,7 +20,7 @@ export class PhotoItem extends React.Component {
         className={classes.photoitem}
         small={data.url_t || data.url_z || data.url_s}
         large={data.url_c}
-        delay={100}
+        delay={16}
       />
       <div className={classes.info}>
         <div className={classes.infoleft}>

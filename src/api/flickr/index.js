@@ -71,13 +71,29 @@ export function testLogin() {
 }
 
 
+const cdnImg = src => `https://images.weserv.nl/?url=${src.replace('https://','')}&il`
+
 export function getContactsPhotos({ per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
   return callMethod({
+    // method: 'flickr.interestingness.getList',
     method: 'flickr.photos.getContactsPhotos',
     per_page,
     page,
     extras,
-  }).then(e => e.photos)
+  }).then(e => {
+    /**@type {FlickrPhotoObj[]} */
+    var photos = e.photos.photo
+    return {
+      ...e.photos,
+      photo : photos.map(e => ({
+        ...e,
+        url_t: cdnImg(e.url_t),
+        url_z: cdnImg(e.url_z),
+        url_s: cdnImg(e.url_s),
+        url_c: cdnImg(e.url_c),
+      }))
+    }
+  })
 }
 
 

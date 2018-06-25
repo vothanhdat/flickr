@@ -7,11 +7,53 @@ import { withTranslate } from '@/components/Language'
 import { ReactList } from '@/components/ReactList'
 import { bind, memoize } from 'lodash-decorators';
 import { get as getpath } from 'lodash'
-import LazyImage from '@/components/LazyImage'
 import { PhotoItem } from './PhotoItem';
 
 
+class ImageColor {
 
+  @memoize()
+  static canvas() {
+    console.log("RUN CANVAS")
+    var canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    return canvas
+  }
+
+  @memoize()
+  static context() {
+    console.log("RUN CONTEXT")
+    return this.canvas().getContext('2d');
+  }
+
+
+  /**
+   * @param {HTMLImageElement} img 
+   */
+  static getColor(img) {
+    if (img._color)
+      return img._color;
+
+    var context = this.context()
+    if (!context)
+      return;
+
+    context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+    var [r, g, b, a] = context.getImageData(0, 0, 1, 1).data;
+    return "#" + ((r << 16) | (g << 8) | (b << 0)).toString(16)
+  }
+
+  static preloadBase64 = {}
+  
+  static getBase64(src){
+    return fetch(`https://images.weserv.nl/?url=${src.replace('https://','')}&w=32&encoding=base64`)
+      .then(e => e.text())
+  }
+
+
+
+}
 
 
 class FlickPhotoPreload {
@@ -71,7 +113,7 @@ class FlickPhotoUtil {
   static getRows(datas, currentRow = []) {
     let lastRow = []
     let ratio = 0
-    const max_ratio = 5;
+    const max_ratio = 4;
 
     currentRow.push(lastRow);
 

@@ -12,6 +12,12 @@
   background-size: cover;
   background-repeat: no-repeat;
   composes: absolute from '../common.scss';
+  left: 0.2vw;
+  right: 0.2vw;
+  top: 0.2vw;
+  bottom: 0.2vw;
+  width: auto;
+  height: auto;
 }
 
 .info{
