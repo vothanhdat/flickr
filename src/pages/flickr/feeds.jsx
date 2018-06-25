@@ -1,9 +1,8 @@
 //@ts-check
 ///
 import React from 'react'
-import { FlickCollection, FlickOauth } from '@/store/connects/flickr'
+import { FlickCollection } from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
-import { withTranslate } from '@/components/Language'
 import { ReactList } from '@/components/ReactList'
 import { bind, memoize } from 'lodash-decorators';
 import { get as getpath } from 'lodash'
@@ -76,7 +75,7 @@ class FlickPhotoUtil {
 
       lastRow.push(e);
 
-      FlickPhotoPreload.preloadImage(e.url_t);
+      // FlickPhotoPreload.preloadImage(e.url_t);
 
       if (ratio >= max_ratio) {
         lastRow.ratio = ratio;

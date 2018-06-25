@@ -71,11 +71,10 @@ export function testLogin() {
 }
 
 
-const cdnImg = src => `https://images.weserv.nl/?url=${src.replace('https://', '')}&il`
+const cdnImg = src => src ? `https://images.weserv.nl/?url=${(src + '').replace('https://', '')}&il` : ''
 
-export function getCollection({ collectionName = 'flickr.photos.getContactsPhotos', per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
+export function getCollection({ collectionName, per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
   return callMethod({
-    // method: 'flickr.interestingness.getList',
     method: collectionName,
     per_page,
     page,
@@ -91,10 +90,20 @@ export function getCollection({ collectionName = 'flickr.photos.getContactsPhoto
         url_z: cdnImg(e.url_z),
         url_s: cdnImg(e.url_s),
         url_c: cdnImg(e.url_c),
+        url_h: cdnImg(e.url_h),
+        url_k: cdnImg(e.url_k),
+        url_l: cdnImg(e.url_l),
+        url_m: cdnImg(e.url_m),
+        url_n: cdnImg(e.url_n),
+        url_o: cdnImg(e.url_o),
+        url_q: cdnImg(e.url_q),
+        url_sq: cdnImg(e.url_sq),
       }))
     }
   })
 }
+
+
 
 
 

@@ -1,77 +1,35 @@
 //@ts-check
-///
 import React from 'react'
-import flickrConnect from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
-import { withTranslate } from '@/components/Language'
-import { ReactList } from '@/components/ReactList'
-import { bind, memoize } from 'lodash-decorators';
-import { get as getpath } from 'lodash'
-import { PhotoItem } from './PhotoItem';
+import { FlickPhoto } from '@/store/connects/flickr'
 
 /**
  * @class
- * @extends React.Component<{photo:FlickrPhotoObj, photo_id: string}>
+ * @extends React.Component<{photo:FlickrPhotoObj, photoid: string} & ClassesProps>
  */
-@withTranslate
 @withSCSS('../common.scss', './photo.scss')
-@flickrConnect()
-export default class PhotoFeeds extends React.Component {
-
-
-  componentDidMount() {
-    this.props.getNewFeed();
-  }
-
-
-  // @bind()
-  // itemRender(index, key) {
-  //   const datas = this.datas
-  //   const { _, classes } = this.props
-  //   const item = datas[index]
-  //   return <div className={classes.itemcontainer} key={key} >
-  //     <PhotoItem data={item} className={classes.item} />
-  //   </div>
-  // }
-
-  @bind()
-  renderRows(index, key) {
-
-    const { _, classes } = this.props
-    const { rows } = this.state;
-    const currentRow = rows[index];
-    const ratio = currentRow.ratio;
-    const height = 100 / ratio;
-
-    return <div key={key} style={{ fontSize: 0, whiteSpace: "nowrap" }} data-ratio={ratio}>
-      {
-        currentRow.map((e) => <PhotoItem
-          data={e}
-          className={classes.imageitem}
-          style={{
-            height: `${height}vw`,
-            width: `${FlickPhotoUtil.getImageRatio(e) / ratio * 100}vw`,
-          }}
-        />)
-      }
-    </div>
-  }
-
+@FlickPhoto()
+class PhotoView extends React.Component {
 
 
   render() {
     const { classes } = this.props
-    const { rows } = this.state;
-
-    return <div className={classes.list}>
-      <ReactList
-        onScrollEnd={this.props.getNewFeed}
-        length={rows.length}
-        itemRenderer={this.renderRows}
-        type='variable'
-        threshold={200}
-        useTranslate3d
-      />
+    const { url_h, url_c, } = this.props.photo
+    const bgs = [url_h, url_c]
+      .filter(e => e)
+      .map(e => e && `url(${e})`)
+      .join(',')
+    return <div className={classes.photoroot}>
+      <div className={classes.mainimg} style={{
+        backgroundImage: bgs
+      }} />
     </div>
+  }
+}
+
+export default class PhotoContainer extends React.Component {
+  render() {
+    const { match: { params: { photoid } } } = this.props
+    return <PhotoView photoid={photoid} />
   }
 }

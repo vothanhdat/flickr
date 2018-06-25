@@ -1,0 +1,10 @@
+.photoroot{
+
+}
+
+.mainimg{
+  composes: absolute from '../common.scss';
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

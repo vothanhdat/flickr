@@ -3,7 +3,7 @@ import { select, takeEvery, take, put, } from 'redux-saga/effects'
 import { updateStateAction, emptyState } from '@/utils/reducerutils'
 import RunUtilities from '@/utils/RunUtilities'
 import * as flickrAPIs from "@/api/flickr"
-
+import { get as lodashget } from 'lodash'
 
 
 const requestToken = function* () {
@@ -86,7 +86,7 @@ const getPhotoCollection = function* (params) {
 
   const paths = "flickr.sets." + collectionName.replace(/\./g, '_')
 
-  const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => state.flickr.sets.newfeed || {})
+  const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
 
   if (loading || end)
     return;
@@ -114,11 +114,12 @@ const getPhotoCollection = function* (params) {
       },
       paths: paths,
     }));
-    
+
   } catch (error) {
     console.error(error)
   }
 }
+
 
 const downloadFetch = function* (params) {
   yield getPhotoCollection(params)
@@ -127,6 +128,30 @@ const downloadFetch = function* (params) {
   yield getPhotoCollection(params)
   yield getPhotoCollection(params)
 }
+
+const getPhotoInfo = function* (params) {
+  const { photoid = '' } = { ...params.props || {}, ...params.data || {} }
+  const paths = "flickr.photos." + photoid
+
+  /**
+   * @type {FlickrPhotoObj}
+   */
+  const photoData = yield select(state => lodashget(state, paths, {}))
+
+  if (photoData.loading)
+    return;
+
+  try {
+    yield put(updateStateAction({
+      data: { loading: true },
+      paths: paths,
+    }))
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 
 const testLogin = function* () {
   try {
@@ -163,6 +188,7 @@ export default function* state() {
   yield takeEvery("@@SAGA", initialState)
   yield takeEvery("@@SAGA", testLogin)
   yield takeEvery("FLICKR_LOGIN", login)
-  yield takeEvery("FLICKR_NEWFEED", downloadFetch)
+  yield takeEvery("FLICKT_COLLECTION", downloadFetch)
+  yield takeEvery("FLICKT_PHOTO", getPhotoInfo)
 }
 

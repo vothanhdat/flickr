@@ -1,6 +1,7 @@
 import React from 'react'
 import withSCSS from 'withsass.macro'
 import ImageLazyLoad from '@/components/LazyImage';
+import Link from '@/components/Link';
 
 
 
@@ -14,7 +15,7 @@ import ImageLazyLoad from '@/components/LazyImage';
 export class PhotoItem extends React.Component {
   render() {
     const { data, classes, style = {} } = this.props
-    return <div style={style} className={classes.root}>
+    return <Link style={style} className={classes.root} to={`/flickr/p/` + data.id}>
       <ImageLazyLoad
         data={data}
         className={classes.photoitem}
@@ -37,6 +38,6 @@ export class PhotoItem extends React.Component {
           <i className="material-icons">chat_bubble_outline</i>
         </div>
       </div>
-    </div >
+    </Link >
   }
 }
