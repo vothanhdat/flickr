@@ -71,12 +71,12 @@ export function testLogin() {
 }
 
 
-const cdnImg = src => `https://images.weserv.nl/?url=${src.replace('https://','')}&il`
+const cdnImg = src => `https://images.weserv.nl/?url=${src.replace('https://', '')}&il`
 
-export function getContactsPhotos({ per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
+export function getCollection({ collectionName = 'flickr.photos.getContactsPhotos', per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
   return callMethod({
     // method: 'flickr.interestingness.getList',
-    method: 'flickr.photos.getContactsPhotos',
+    method: collectionName,
     per_page,
     page,
     extras,
@@ -85,7 +85,7 @@ export function getContactsPhotos({ per_page = 100, page = 1, extras = EXTRASTRI
     var photos = e.photos.photo
     return {
       ...e.photos,
-      photo : photos.map(e => ({
+      photo: photos.map(e => ({
         ...e,
         url_t: cdnImg(e.url_t),
         url_z: cdnImg(e.url_z),

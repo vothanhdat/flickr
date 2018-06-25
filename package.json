@@ -43,6 +43,7 @@
     "react-recaptcha": "^2.3.7",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-router-page-transition": "^3.1.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-spring": "^4.1.2",
     "react-text-mask": "^5.4.2",

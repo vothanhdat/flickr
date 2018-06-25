@@ -81,8 +81,11 @@ const putPhotoDic = function* (photos) {
 }
 
 
-const getNewFeedPhotos = function* () {
-  const paths = "flickr.sets.newfeed"
+const getPhotoCollection = function* (params) {
+  let { collectionName = '' } = { ...params.props || {}, ...params.data || {} }
+
+  const paths = "flickr.sets." + collectionName.replace(/\./g, '_')
+
   const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => state.flickr.sets.newfeed || {})
 
   if (loading || end)
@@ -94,10 +97,12 @@ const getNewFeedPhotos = function* () {
       paths: paths,
     }))
 
-    const photoDatas = yield flickrAPIs.getContactsPhotos({
+    const photoDatas = yield flickrAPIs.getCollection({
+      collectionName: collectionName,
       page: page + 1,
       per_page
     });
+
     yield putPhotoDic(photoDatas.photo);
 
     yield put(updateStateAction({
@@ -109,17 +114,18 @@ const getNewFeedPhotos = function* () {
       },
       paths: paths,
     }));
+    
   } catch (error) {
     console.error(error)
   }
 }
 
-const downloadFetch = function* () {
-  yield getNewFeedPhotos()
-  yield getNewFeedPhotos()
-  yield getNewFeedPhotos()
-  yield getNewFeedPhotos()
-  yield getNewFeedPhotos()
+const downloadFetch = function* (params) {
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
 }
 
 const testLogin = function* () {

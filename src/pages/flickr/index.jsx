@@ -1,6 +1,6 @@
 //@ts-check
 import React from 'react'
-import flickrConnect from '@/store/connects/flickr'
+import { FlickOauth } from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
 import { withTranslate } from '@/components/Language'
 import NewFeeds from './feeds';
@@ -11,7 +11,7 @@ import NewFeeds from './feeds';
 
 @withTranslate
 @withSCSS('../common.scss')
-@flickrConnect()
+@FlickOauth()
 export default class extends React.Component {
 
   render() {
@@ -19,7 +19,7 @@ export default class extends React.Component {
       {/* <button onClick={this.props.login}>Login</button>
       <ReactJson src={this.props.oauth} />
       <ReactJson src={this.props.user} /> */}
-      <NewFeeds/>
+      <NewFeeds collectionName="flickr.photos.getContactsPhotos"/>
     </div>
   }
 }

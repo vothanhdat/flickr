@@ -1,60 +1,13 @@
 //@ts-check
 ///
 import React from 'react'
-import flickrConnect from '@/store/connects/flickr'
+import { FlickCollection, FlickOauth } from '@/store/connects/flickr'
 import withSCSS from 'withsass.macro'
 import { withTranslate } from '@/components/Language'
 import { ReactList } from '@/components/ReactList'
 import { bind, memoize } from 'lodash-decorators';
 import { get as getpath } from 'lodash'
 import { PhotoItem } from './PhotoItem';
-
-
-class ImageColor {
-
-  @memoize()
-  static canvas() {
-    console.log("RUN CANVAS")
-    var canvas = document.createElement("canvas");
-    canvas.width = 1;
-    canvas.height = 1;
-    return canvas
-  }
-
-  @memoize()
-  static context() {
-    console.log("RUN CONTEXT")
-    return this.canvas().getContext('2d');
-  }
-
-
-  /**
-   * @param {HTMLImageElement} img 
-   */
-  static getColor(img) {
-    if (img._color)
-      return img._color;
-
-    var context = this.context()
-    if (!context)
-      return;
-
-    context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-    var [r, g, b, a] = context.getImageData(0, 0, 1, 1).data;
-    return "#" + ((r << 16) | (g << 8) | (b << 0)).toString(16)
-  }
-
-  static preloadBase64 = {}
-  
-  static getBase64(src){
-    return fetch(`https://images.weserv.nl/?url=${src.replace('https://','')}&w=32&encoding=base64`)
-      .then(e => e.text())
-  }
-
-
-
-}
-
 
 class FlickPhotoPreload {
 
@@ -142,41 +95,29 @@ class FlickPhotoUtil {
 
 /**
  * @class
- * @extends React.Component<{feeds:{photo:FlickrPhotoObj[]}} & ClassesProps,{rows:FlickrPhotoObj[][]}>
+ * @extends React.Component<{photos:{photo:FlickrPhotoObj[]}} & ClassesProps,{rows:FlickrPhotoObj[][]}>
  */
-@withTranslate
 @withSCSS('../common.scss', './feeds.scss')
-@flickrConnect()
+@FlickCollection()
 export default class PhotoFeeds extends React.Component {
-
 
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
-      rows: FlickPhotoUtil.getRows(getpath(nextProps, 'feeds.photo', [])),
+      rows: FlickPhotoUtil.getRows(getpath(nextProps, 'photos.photo', [])),
     }
   }
 
 
 
   componentDidMount() {
-    this.props.getNewFeed();
+    this.props.getCollection();
   }
 
-
-  // @bind()
-  // itemRender(index, key) {
-  //   const datas = this.datas
-  //   const { _, classes } = this.props
-  //   const item = datas[index]
-  //   return <div className={classes.itemcontainer} key={key} >
-  //     <PhotoItem data={item} className={classes.item} />
-  //   </div>
-  // }
 
   @bind()
   renderRows(index, key) {
 
-    const { _, classes } = this.props
+    const { classes } = this.props
     const { rows } = this.state;
     const currentRow = rows[index];
     const ratio = currentRow.ratio;
@@ -204,7 +145,7 @@ export default class PhotoFeeds extends React.Component {
 
     return <div className={classes.list}>
       <ReactList
-        onScrollEnd={this.props.getNewFeed}
+        onScrollEnd={this.props.getCollection}
         length={rows.length}
         itemRenderer={this.renderRows}
         type='variable'
