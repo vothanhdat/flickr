@@ -95,7 +95,7 @@ class FlickPhotoUtil {
 
 /**
  * @class
- * @extends React.Component<{photos:{photo:FlickrPhotoObj[]}} & ClassesProps,{rows:FlickrPhotoObj[][]}>
+ * @extends React.Component<{photos:{photo:FlickrPhotoObj[]},collectionName:string} & ClassesProps,{rows:FlickrPhotoObj[][]}>
  */
 @withSCSS('../common.scss', './feeds.scss')
 @FlickCollection()

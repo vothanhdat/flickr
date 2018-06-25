@@ -16,7 +16,7 @@ export const FlickOauth = ({ } = {}) => connect(
   }),
 )
 
-export const FlickCollection = ({ } = {}) => connect(
+export const FlickCollection = ({} = {}) => connect(
   ({ flickr: {
     sets = {},
     photos = {}
