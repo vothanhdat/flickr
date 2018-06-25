@@ -68,6 +68,18 @@ const login = function* () {
   }
 }
 
+/**
+ * 
+ * @param {FlickrPhotoObj[]} photos 
+ */
+const putPhotoDic = function* (photos) {
+  const paths = "flickr.photos"
+  yield put(updateStateAction(...photos.map(e => ({
+    data: e,
+    paths: paths + '.' + e.id,
+  }))))
+}
+
 
 const getNewFeedPhotos = function* () {
   const paths = "flickr.sets.newfeed"
@@ -86,10 +98,12 @@ const getNewFeedPhotos = function* () {
       page: page + 1,
       per_page
     });
+    yield putPhotoDic(photoDatas.photo);
+
     yield put(updateStateAction({
       data: {
         ...photoDatas,
-        photo: [...photo, ...photoDatas.photo],
+        photo: [...photo, ...photoDatas.photo.map(e => e.id)],
         end: page >= pages,
         loading: false,
       },
