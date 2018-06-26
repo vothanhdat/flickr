@@ -1,0 +1,25 @@
+:global{
+
+  .fade-enter {
+    opacity: 0.01;
+    backdrop-filter: blur(0px);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    backdrop-filter: blur(20px);
+    transition: all 300ms ease-out;
+  }
+  .fade-enter-done{
+    backdrop-filter: blur(20px);
+  }
+  .fade-exit {
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0.01;
+    transition: all 300ms ease-out;
+  }
+  .fade-exit-done {
+
+  }
+}

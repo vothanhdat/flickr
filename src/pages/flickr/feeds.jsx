@@ -75,7 +75,7 @@ class FlickPhotoUtil {
 
       lastRow.push(e);
 
-      // FlickPhotoPreload.preloadImage(e.url_t);
+      FlickPhotoPreload.preloadImage(e.url_t);
 
       if (ratio >= max_ratio) {
         lastRow.ratio = ratio;

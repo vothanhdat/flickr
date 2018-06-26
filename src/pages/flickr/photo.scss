@@ -1,3 +1,8 @@
+.root{
+  composes: absolute from '../common.scss';
+  position: fixed;
+  background: #000000aa;
+}
 .photoroot{
 
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import withSCSS from 'withsass.macro'
 import ImageLazyLoad from '@/components/LazyImage';
 import Link from '@/components/Link';
+import { bind } from 'lodash-decorators';
 
 
 
@@ -13,9 +14,30 @@ import Link from '@/components/Link';
  */
 @withSCSS('./PhotoItem.scss')
 export class PhotoItem extends React.Component {
+  state = {
+    transition: false
+  }
+
+  @bind()
+  onClick() {
+    this.setState({ transition: true })
+    this._timeout = setTimeout(() => {
+      this.setState({ transition: false })
+    }, 300)
+  }
+
+  componentWillUnmount() {
+    this._timeout && clearTimeout(this._timeout);
+  }
+
   render() {
     const { data, classes, style = {} } = this.props
-    return <Link style={style} className={classes.root} to={`/flickr/p/` + data.id}>
+    return <Link
+      style={style}
+      className={classes.root}
+      to={`/flickr/p/` + data.id}
+      onClick={this.onClick}
+      {...this.state.transition ? { 'data-transition': "photo" } : {}}>
       <ImageLazyLoad
         data={data}
         className={classes.photoitem}

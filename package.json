@@ -47,6 +47,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-spring": "^4.1.2",
     "react-text-mask": "^5.4.2",
+    "react-transition-group": "^2.3.1",
     "react-virtualized": "^9.19.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",

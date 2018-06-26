@@ -71,7 +71,7 @@ export function testLogin() {
 }
 
 
-const cdnImg = src => src ? `https://images.weserv.nl/?url=${(src + '').replace('https://', '')}&il` : ''
+const cdnImg = (src,{enableIL = true} = {}) => src ? `https://images.weserv.nl/?url=${(src + '').replace('https://', '')}${enableIL ? '&il' : ''}` : ''
 
 export function getCollection({ collectionName, per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
   return callMethod({
@@ -90,7 +90,7 @@ export function getCollection({ collectionName, per_page = 100, page = 1, extras
         url_z: cdnImg(e.url_z),
         url_s: cdnImg(e.url_s),
         url_c: cdnImg(e.url_c),
-        url_h: cdnImg(e.url_h),
+        url_h: cdnImg(e.url_h,{enableIL : false}),
         url_k: cdnImg(e.url_k),
         url_l: cdnImg(e.url_l),
         url_m: cdnImg(e.url_m),
