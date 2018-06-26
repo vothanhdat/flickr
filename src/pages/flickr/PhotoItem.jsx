@@ -14,22 +14,7 @@ import { bind } from 'lodash-decorators';
  */
 @withSCSS('./PhotoItem.scss')
 export class PhotoItem extends React.Component {
-  state = {
-    transition: false
-  }
-
-  @bind()
-  onClick() {
-    this.setState({ transition: true })
-    this._timeout = setTimeout(() => {
-      this.setState({ transition: false })
-    }, 300)
-  }
-
-  componentWillUnmount() {
-    this._timeout && clearTimeout(this._timeout);
-  }
-
+ 
   render() {
     const { data, classes, style = {} } = this.props
     return <Link
@@ -37,7 +22,7 @@ export class PhotoItem extends React.Component {
       className={classes.root}
       to={`/flickr/p/` + data.id}
       onClick={this.onClick}
-      {...this.state.transition ? { 'data-transition': "photo" } : {}}>
+      data-transition={'photoview-' + data.id}>
       <ImageLazyLoad
         data={data}
         className={classes.photoitem}
