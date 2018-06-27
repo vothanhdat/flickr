@@ -1,15 +1,11 @@
 //@ts-check
 import React from 'react'
 import { FlickOauth } from '@/store/connects/flickr'
-import withSCSS from 'withsass.macro'
-import { withTranslate } from '@/components/Language'
 import NewFeeds from './feeds';
 
 
 
 
-// @withSCSS('../common.scss')
-// @withTranslate
 
 @FlickOauth()
 export default class extends React.Component {
