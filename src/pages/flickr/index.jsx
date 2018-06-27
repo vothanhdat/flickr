@@ -8,9 +8,9 @@ import NewFeeds from './feeds';
 
 
 
+// @withSCSS('../common.scss')
+// @withTranslate
 
-@withTranslate
-@withSCSS('../common.scss')
 @FlickOauth()
 export default class extends React.Component {
 

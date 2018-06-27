@@ -43,6 +43,7 @@ const RouteIndex = withTranslate(
           <Switch location={location}>
             <Route exact path={prefix + 'flickr'} component={Flickr} />
             <Route exact path={prefix + 'flickr/p/:photoid'} component={FlickrPhoto} />
+            <Route exact path={prefix + 'flickr/u/:userid'} component={FlickrPhoto} />
           </Switch>
          </CSSTransition>
       </TransitionGroup>

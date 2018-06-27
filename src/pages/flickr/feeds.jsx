@@ -87,29 +87,22 @@ class FlickPhotoUtil {
 
     return currentRow
   }
-
-
 };
 
 
-/**
- * @class
- * @extends React.Component<{photos:{photo:FlickrPhotoObj[]},collectionName:string} & ClassesProps,{rows:FlickrPhotoObj[][]}>
- */
-@withSCSS('../common.scss', './feeds.scss')
-@FlickCollection()
-export default class PhotoFeeds extends React.Component {
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      rows: FlickPhotoUtil.getRows(getpath(nextProps, 'photos.photo', [])),
-    }
+@withSCSS('./feeds.scss')
+class PhotoListView extends React.Component {
+
+  static defaultProps = {
+    classes: {},
+    photos: [],
   }
 
-
-
-  componentDidMount() {
-    this.props.getCollection();
+  static getDerivedStateFromProps({ photos = [] }, prevState) {
+    return {
+      rows: FlickPhotoUtil.getRows(photos),
+    }
   }
 
 
@@ -135,14 +128,11 @@ export default class PhotoFeeds extends React.Component {
       }
     </div>
   }
-  
+
   @bind()
   renderRowSize(index) {
-
     return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
   }
-
-
 
   render() {
     const { classes } = this.props
@@ -159,5 +149,23 @@ export default class PhotoFeeds extends React.Component {
         useTranslate3d
       />
     </div>
+  }
+}
+
+
+/**
+ * @class
+ * @extends React.Component<{photos:{photo:FlickrPhotoObj[]},collectionName:string} & ClassesProps,{rows:FlickrPhotoObj[][]}>
+ */
+@withSCSS('../common.scss', './feeds.scss')
+@FlickCollection()
+export default class PhotoFeeds extends React.Component {
+
+  componentDidMount() {
+    this.props.getCollection();
+  }
+
+  render() {
+    return <PhotoListView photos={getpath(this, "props.photos.photo")} classes={this.props.classes} />
   }
 }
