@@ -135,6 +135,12 @@ export default class PhotoFeeds extends React.Component {
       }
     </div>
   }
+  
+  @bind()
+  renderRowSize(index) {
+
+    return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
+  }
 
 
 
@@ -147,6 +153,7 @@ export default class PhotoFeeds extends React.Component {
         onScrollEnd={this.props.getCollection}
         length={rows.length}
         itemRenderer={this.renderRows}
+        itemSizeGetter={this.renderRowSize}
         type='variable'
         threshold={200}
         useTranslate3d

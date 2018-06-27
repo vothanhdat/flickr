@@ -36,12 +36,12 @@ const RouteIndex = withTranslate(
       <Route exact path={prefix + "blog/:postid/"} component={BlogPost} />
       <Route exact path={prefix + 'testform'} component={TestForm} />
       <Route exact path={prefix + 'paralax'} component={Paralax} />
-      <Switch location={location}>
-        <Route path={prefix + 'flickr'} component={Flickr} />
-      </Switch>
+      {/* <Switch location={location}>
+      </Switch> */}
       <TransitionGroup>
         <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 300, exit: 300 }}>
           <Switch location={location}>
+            <Route exact path={prefix + 'flickr'} component={Flickr} />
             <Route exact path={prefix + 'flickr/p/:photoid'} component={FlickrPhoto} />
           </Switch>
          </CSSTransition>

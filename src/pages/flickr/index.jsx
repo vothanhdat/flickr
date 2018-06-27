@@ -19,7 +19,8 @@ export default class extends React.Component {
       {/* <button onClick={this.props.login}>Login</button>
       <ReactJson src={this.props.oauth} />
       <ReactJson src={this.props.user} /> */}
-      <NewFeeds collectionName="flickr.interestingness.getList"/>
+      {/* <NewFeeds collectionName="flickr.interestingness.getList"/> */}
+      <NewFeeds collectionName="flickr.photos.getContactsPhotos"/>
     </div>
   }
 }

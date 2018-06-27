@@ -8,7 +8,7 @@ import { debounce } from 'lodash-decorators';
 const SIZE_KEYS = { x: 'width', y: 'height' };
 
 /**
- * @extends {React.Component<ReactListProps & { onScrollEnd?: any}> }}
+ * @extends {ReactList}}
  */
 class HighPerfomanceList extends ReactList {
 

@@ -86,7 +86,7 @@ const getPhotoCollection = function* (params) {
 
   const paths = "flickr.sets." + collectionName.replace(/\./g, '_')
 
-  const { page = "0", pages, per_page = "100", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
+  const { page = "0", pages, per_page = "20", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
 
   if (loading || end)
     return;
@@ -122,6 +122,10 @@ const getPhotoCollection = function* (params) {
 
 
 const downloadFetch = function* (params) {
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
+  yield getPhotoCollection(params)
   yield getPhotoCollection(params)
   yield getPhotoCollection(params)
   yield getPhotoCollection(params)
