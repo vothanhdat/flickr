@@ -71,9 +71,9 @@ export function testLogin() {
 }
 
 
-const cdnImg = (src,{enableIL = true} = {}) => src ? `https://images.weserv.nl/?url=${(src + '').replace('https://', '')}${enableIL ? '&il' : ''}` : ''
+const cdnImg = (src, { enableIL = true } = {}) => src ? `https://images.weserv.nl/?url=${(src + '').replace('https://', '')}${enableIL ? '&il' : ''}` : ''
 
-export function getCollection({ collectionName, per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
+export function getCollection({ collectionName = '', per_page = 100, page = 1, extras = EXTRASTRING } = {}) {
   return callMethod({
     method: collectionName,
     per_page,
@@ -102,6 +102,58 @@ export function getCollection({ collectionName, per_page = 100, page = 1, extras
     }
   })
 }
+
+/**
+ * @returns {Promise<FlickrPhotoObj>}
+ */
+export function getPhotoSize(photo_id) {
+  return callMethod({
+    method: 'flickr.photos.getSizes',
+    photo_id,
+  }).then(({ sizes: { size = [] } }) => {
+    return (size || [])
+      .map(({ url, source, height, width }) => {
+        const [, si] = /\/sizes\/(sq|q|t|s|n|m|z|c|l|h|k|o)\/$/.exec(url)
+        return si ? {
+          [`url_${si}`]: source,
+          [`width_${si}`]: width,
+          [`height_${si}`]: height,
+        } : {}
+      })
+      .reduce((e, o) => {
+        Object.assign(e, o);
+        return e;
+      }, { id: photo_id })
+
+  })
+}
+
+
+
+/**
+ * @returns {Promise<FlickrPhotoObj>}
+ */
+export function getPhotoInfo(photo_id) {
+  return callMethod({
+    method: 'flickr.photos.getInfo',
+    photo_id,
+  }).then(({photo}) => {
+    return {
+      title : photo.title._content,
+      username: photo.owner.username,
+      owner: photo.owner.nsid,
+      ownername: photo.owner.realname,
+      count_views: photo.views,
+      count_comments: photo.comments._content,
+      description: photo.description._content,
+      // count_faves: string;
+      // count_notes: string;
+      // pathalias: 
+    }
+  })
+}
+
+
 
 
 

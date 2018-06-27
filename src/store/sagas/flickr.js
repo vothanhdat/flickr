@@ -1,9 +1,10 @@
 //@ts-check
-import { select, takeEvery, take, put, } from 'redux-saga/effects'
+import { select, takeEvery, take, put, call, all } from 'redux-saga/effects'
 import { updateStateAction, emptyState } from '@/utils/reducerutils'
 import RunUtilities from '@/utils/RunUtilities'
 import * as flickrAPIs from "@/api/flickr"
 import { get as lodashget } from 'lodash'
+
 
 
 const requestToken = function* () {
@@ -133,6 +134,8 @@ const downloadFetch = function* (params) {
   yield getPhotoCollection(params)
 }
 
+
+
 const getPhotoInfo = function* (params) {
   const { photoid = '' } = { ...params.props || {}, ...params.data || {} }
   const paths = "flickr.photos." + photoid
@@ -146,13 +149,41 @@ const getPhotoInfo = function* (params) {
     return;
 
   try {
+
     yield put(updateStateAction({
       data: { loading: true },
       paths: paths,
     }))
 
+    yield all([
+      call(function* () {
+        const data = yield flickrAPIs.getPhotoSize(photoid)
+        yield put(updateStateAction({
+          data: data,
+          paths: paths,
+        }));
+      }),
+      call(function* () {
+        const data = yield flickrAPIs.getPhotoInfo(photoid)
+        yield put(updateStateAction({
+          data: data,
+          paths: paths,
+        }));
+      }),
+    ])
+
+
   } catch (error) {
     console.error(error)
+    yield put(updateStateAction({
+      data: { error: error },
+      paths: paths,
+    }))
+  } finally {
+    yield put(updateStateAction({
+      data: { loading: false },
+      paths: paths,
+    }))
   }
 }
 

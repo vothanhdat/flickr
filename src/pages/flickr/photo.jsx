@@ -10,6 +10,9 @@ import { FlickPhoto } from '@/store/connects/flickr'
 @FlickPhoto()
 class PhotoView extends React.Component {
 
+  componentDidMount(){
+    this.props.getPhoto();
+  }
 
   render() {
     const { classes } = this.props
