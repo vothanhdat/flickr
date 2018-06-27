@@ -70,7 +70,7 @@ const middlewares = [
     routerMiddleware(history),
     thunkMiddleware,
     sagaMiddleWare,
-    // routeScrollMiddleware,
+    routeScrollMiddleware,
 ]
 
 

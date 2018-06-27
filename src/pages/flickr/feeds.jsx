@@ -18,6 +18,6 @@ export default class PhotoFeeds extends React.Component {
   }
 
   render() {
-    return <PhotoListView photos={getpath(this, "props.photos.photo")} classes={this.props.classes} />
+    return <PhotoListView photos={getpath(this, "props.photos.photo")} classes={this.props.classes} onScrollEnd={this.props.getCollection}/>
   }
 }

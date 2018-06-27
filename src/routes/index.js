@@ -11,6 +11,7 @@ import TestStreamsTags from '../pages/uplive/hotTags'
 import Paralax from '../pages/paralax/doc'
 import Flickr from '../pages/flickr'
 import FlickrPhoto from '../pages/flickr/photo'
+import FlickrUser from '../pages/flickr/user'
 import Live from '../pages/uplive/live'
 import { withTranslate } from '../components/Language';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -43,7 +44,7 @@ const RouteIndex = withTranslate(
           <Switch location={location}>
             <Route exact path={prefix + 'flickr'} component={Flickr} />
             <Route exact path={prefix + 'flickr/p/:photoid'} component={FlickrPhoto} />
-            <Route exact path={prefix + 'flickr/u/:userid'} component={FlickrPhoto} />
+            <Route exact path={prefix + 'flickr/u/:userid'} component={FlickrUser} />
           </Switch>
          </CSSTransition>
       </TransitionGroup>

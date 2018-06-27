@@ -129,14 +129,14 @@ export const routeScrollMiddleware = store => next => action => {
           if (element) element.scrollIntoView({
             behavior: "instant"
           });
-        }, 16);
+        }, 300);
       }else{
         location1.pathname && setTimeout(() => {
           window.scrollTo({
             top: scrollHistory[location2.key] || 0,
             behavior: "instant"
           })
-        }, 16);
+        }, 300);
       }
     }
     return result;

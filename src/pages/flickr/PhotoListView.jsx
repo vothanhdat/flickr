@@ -128,13 +128,14 @@ class PhotoListView extends React.Component {
     return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
   }
 
+
   render() {
     const { classes } = this.props
     const { rows } = this.state;
 
     return <div className={classes.list}>
       <ReactList
-        onScrollEnd={this.props.getCollection}
+        onScrollEnd={this.props.onScrollEnd}
         length={rows.length}
         itemRenderer={this.renderRows}
         itemSizeGetter={this.renderRowSize}

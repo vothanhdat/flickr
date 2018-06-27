@@ -33,7 +33,7 @@ export class PhotoItem extends React.Component {
       <div className={classes.info}>
         <div className={classes.infoleft}>
           <div className={classes.photoname}>{data.title}</div>
-          <div className={classes.infoauthor}> {data.username}</div>
+          <Link className={classes.infoauthor} to={`/flickr/u/` + data.owner}> {data.username}</Link>
         </div>
 
         <div className={classes.inforight}>

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { FLICKR_LOGIN, FLICKT_COLLECTION, FLICKT_PHOTO } from '../actions'
+import { FLICKR_LOGIN, FLICKT_COLLECTION, FLICKT_PHOTO, FLICKT_USER } from '../actions'
 
 
 
@@ -46,5 +46,22 @@ export const FlickPhoto = ({ } = {}) => connect(
   ,
   (dispatch, props) => ({
     getPhoto: FLICKT_PHOTO(dispatch, props),
+  }),
+)
+
+
+export const FlickUser = ({ } = {}) => connect(
+  (
+    { flickr: { users = {}, photos = {} } = {} },
+    { userid }
+  ) => ({
+    user: {
+      ...users[userid] || {},
+      photo: ((users[userid] || {}).photo || []).map(e => photos[e])
+    }
+  })
+  ,
+  (dispatch, props) => ({
+    getUser: FLICKT_USER(dispatch, props),
   }),
 )

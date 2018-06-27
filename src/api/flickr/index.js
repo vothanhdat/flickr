@@ -137,9 +137,9 @@ export function getPhotoInfo(photo_id) {
   return callMethod({
     method: 'flickr.photos.getInfo',
     photo_id,
-  }).then(({photo}) => {
+  }).then(({ photo }) => {
     return {
-      title : photo.title._content,
+      title: photo.title._content,
       username: photo.owner.username,
       owner: photo.owner.nsid,
       ownername: photo.owner.realname,
@@ -151,6 +151,18 @@ export function getPhotoInfo(photo_id) {
       // pathalias: 
     }
   })
+}
+
+
+export function getPeoplePhotos({ user_id, per_page = 100, page = 1, extras = EXTRASTRING }) {
+  return callMethod({
+    method: 'flickr.people.getPhotos',
+    user_id,
+    per_page,
+    page,
+    extras,
+    get_user_info : 0,
+  }).then(({ photos, user }) => ({ ...photos, user }))
 }
 
 
