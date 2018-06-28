@@ -21,11 +21,11 @@ import withSCSS from 'withsass.macro';
 
 
 const RouteIndex = withTranslate(
-  ({ language: { name: langname }, location }) => {
+  ({ language: { name: langname }, location , history}) => {
     const prefix = langname == 'en' ? '/' : '/' + langname + '/'
-    return <React.Fragment>
-
-      <Route exact path={prefix + ''} component={TestStreams} />
+    return <div className={`router-action-${history.action}`}>
+      
+      {/* <Route exact path={prefix + ''} component={TestStreams} />
       <Route exact path={prefix + 'hot'} component={TestStreams} />
       <Route exact path={prefix + 'live/:uid'} component={Live} />
       <Route exact path={prefix + 'live/:uid/:roomid'} component={Live} />
@@ -38,7 +38,7 @@ const RouteIndex = withTranslate(
       <Route exact path={prefix + 'testform'} component={TestForm} />
       <Route exact path={prefix + 'paralax'} component={Paralax} />
       {/* <Switch location={location}>
-      </Switch> */}
+      </Switch> */} */}
       <TransitionGroup>
         <CSSTransition key={location.key} classNames='fade' timeout={{ enter: 300, exit: 300 }}>
           <Switch location={location}>
@@ -48,7 +48,7 @@ const RouteIndex = withTranslate(
           </Switch>
          </CSSTransition>
       </TransitionGroup>
-    </React.Fragment>
+    </div>
   }
 )
 

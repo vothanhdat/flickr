@@ -203,7 +203,7 @@ const getUserInfo = function* (params) {
       paths: paths,
     }))
 
-    const photoDatas = yield flickrAPIs.getPeoplePhotos({
+    const photoDatas = yield flickrAPIs.peopleGetPhotos({
       user_id: userid,
       page: page + 1,
       per_page,

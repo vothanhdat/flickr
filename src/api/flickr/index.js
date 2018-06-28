@@ -154,7 +154,7 @@ export function getPhotoInfo(photo_id) {
 }
 
 
-export function getPeoplePhotos({ user_id, per_page = 100, page = 1, extras = EXTRASTRING }) {
+export function peopleGetPhotos({ user_id, per_page = 100, page = 1, extras = EXTRASTRING }) {
   return callMethod({
     method: 'flickr.people.getPhotos',
     user_id,
@@ -165,6 +165,17 @@ export function getPeoplePhotos({ user_id, per_page = 100, page = 1, extras = EX
   }).then(({ photos, user }) => ({ ...photos, user }))
 }
 
+
+export function peopleGetInfo(user_id){
+  return callMethod({
+    method: 'flickr.people.getInfo',
+    user_id,
+    extras: `icon_urls_deep,contacts,reverse_contacts,rev_ignored,favorites_count,count_groups_admin,profile_website`,
+    datecreate: 1,
+  })
+}
+
+window.callMethod = callMethod
 
 
 
