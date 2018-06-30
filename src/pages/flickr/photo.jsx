@@ -3,6 +3,7 @@ import React, { CSSProperties } from 'react'
 import withSCSS from 'withsass.macro'
 import { FlickPhoto } from '@/store/connects/flickr'
 import { bind } from 'lodash-decorators';
+import { Spring, interpolate, animated } from 'react-spring'
 
 
 Number.prototype.range = Number.prototype.range || function (a, b) {
@@ -30,15 +31,15 @@ class PhotoView extends React.Component {
     const { deltaY, clientX, clientY } = e
     const winX = clientX / innerWidth
     const winY = clientY / innerHeight
-    this.setState(({ zoomLevel, originX, originY}) => {
+    this.setState(({ zoomLevel, originX, originY }) => {
       const newZoomLevel = (zoomLevel * Math.pow(1.001, deltaY)).range(1, 50);
       const ratio = newZoomLevel / zoomLevel;
-      if(newZoomLevel == 1)
-        return {zoomLevel : 1, originX : 0.5, originY: 0.5};
+      if (newZoomLevel == 1)
+        return { zoomLevel: 1, originX: 0.5, originY: 0.5 };
       const newState = {
         zoomLevel: newZoomLevel,
-        originX: (originX + (winX - originX) / (newZoomLevel - 1) * (ratio - 1)).range(0,1),
-        originY: (originY + (winY - originY) / (newZoomLevel - 1) * (ratio - 1)).range(0,1),
+        originX: (originX + (winX - originX) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
+        originY: (originY + (winY - originY) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
       }
       return newState
     })
@@ -48,29 +49,40 @@ class PhotoView extends React.Component {
     this.props.getPhoto();
   }
 
-  /**
-   * @returns {CSSProperties}
-   */
-  getZoomStyle() {
-    const { originX, originY, zoomLevel } = this.state
-    return {
-      transformOrigin: `${originX * 100}% ${originY * 100}%`,
-      transform: `scale(${zoomLevel})`,
-    }
-  }
+  // /**
+  //  * @returns {CSSProperties}
+  //  */
+  // getZoomStyle(state) {
+  //   const { originX, originY, zoomLevel } = state || this.state
+  //   return {
+  //     transformOrigin: `${originX * 100}% ${originY * 100}%`,
+  //     transform: `scale(${zoomLevel})`,
+  //   }
+  // }
 
   render() {
     const { classes } = this.props
     const { url_h, url_c, } = this.props.photo
+    const { zoomLevel, originY, originX } = this.state
     const bgs = [url_h, url_c]
       .filter(e => e)
       .map(e => e && `url(${e})`)
       .join(',')
     return <div className={classes.photoroot} onWheel={this.onWheel}>
-      <div className={classes.mainimg} style={{
-        backgroundImage: bgs,
-        ...this.getZoomStyle(),
-      }} />
+      <Spring native to={{ zoomLevel, originY, originX }} config={{ duration: 100 }}>
+        {({ zoomLevel }) => <animated.div
+          className={classes.mainimg}
+          style={{
+            backgroundImage: bgs,
+            // transformOrigin: interpolate(
+            //   [originX, originY],
+            //   (originX, originY) => `${originX * 100}% ${originY * 100}%`
+            // ),
+            transformOrigin: `${originX * 100}% ${originY * 100}%`,
+            transform: zoomLevel.interpolate(t => `scale(${t})`),
+          }}
+        />}
+      </Spring>
     </div>
   }
 }
