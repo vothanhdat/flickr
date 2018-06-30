@@ -1,9 +1,11 @@
+
 //@ts-check
 import React, { CSSProperties } from 'react'
 import withSCSS from 'withsass.macro'
 import { FlickPhoto } from '@/store/connects/flickr'
 import { bind } from 'lodash-decorators';
 import { Spring, interpolate, animated } from 'react-spring'
+import { MouseDrag } from "./MouseDrag";
 
 
 Number.prototype.range = Number.prototype.range || function (a, b) {
@@ -20,11 +22,15 @@ const PhotoZoom = function ({ zoomLevel, originY, originX, winX, winY, classes, 
         style={{
           backgroundImage: src.filter(e => e).map(e => e && `url(${e})`).join(','),
           transform: z.interpolate(t => `scale(${t})`),
-          transformOrigin: z.interpolate(z => {
-            x = originX + (winX - originX) / (z - 1) * (z / zoomLevel - 1);
-            y = originY + (winY - originY) / (z - 1) * (z / zoomLevel - 1);
-            return `${x * 100}% ${y * 100}%`
-          }),
+          transformOrigin: interpolate(
+            [x, y, z],
+            (x, y, z) => {
+              let t = 1 / (z - 1) * (z / zoomLevel - 1)
+              x = originX + (winX - originX) * t;
+              y = originY + (winY - originY) * t;
+              return `${x * 100}% ${y * 100}%`
+            }
+          ),
         }}
       />
     }
@@ -54,6 +60,8 @@ const PhotoZoomMinimap = function ({ classes, src, style = {}, zoomLevel, origin
   </div>;
 }
 
+
+
 /**
  * @class
  * @extends React.Component<{photo:FlickrPhotoObj, photoid: string} & ClassesProps>
@@ -67,6 +75,8 @@ class PhotoView extends React.Component {
     originY: 0.5,
     enableMini: false,
   }
+
+  mouseEvent = new MouseDrag();
 
   /**
    * @param {WheelEvent} e 
@@ -94,22 +104,41 @@ class PhotoView extends React.Component {
 
   }
 
+  @bind()
+  onMouseHoldAndMove({ deltaX, deltaY }) {
+    this.setState(({ zoomLevel, originX, originY }) => {
+      if (zoomLevel == 1)
+        return { originX: 0.5, originY: 0.5 };
+      return {
+        originX: (originX - deltaX / innerWidth / (zoomLevel - 1)).range(0, 1),
+        originY: (originY - deltaY / innerHeight / (zoomLevel - 1)).range(0, 1),
+      }
+    })
+  }
+
   showMiniView() {
     clearTimeout(this._miniTimeout);
     this.setState({ enableMini: true })
     this._miniTimeout = setTimeout(() => this.setState({ enableMini: false }), 500);
   }
 
+
+
   componentDidMount() {
     this.props.getPhoto();
+    this.mouseEvent.addListener("onholdanddrag", this.onMouseHoldAndMove)
   }
 
+  componentWillUnmount() {
+    this.mouseEvent.removeListener("onholdanddrag", this.onMouseHoldAndMove)
+  }
 
   render() {
     const { classes } = this.props
     const { url_h, url_c, url_k, url_o } = this.props.photo
     const { photo } = this.props
     const { enableMini, zoomLevel } = this.state
+    const { onMounseDown, onMounseMove, onMounseUp } = this.mouseEvent.props
     const scrs = [url_h, url_c]
 
     if (url_k && (zoomLevel * innerWidth >= photo.width_k * 0.7 || zoomLevel * innerHeight >= photo.height_k * 0.7))
@@ -117,7 +146,13 @@ class PhotoView extends React.Component {
     if (url_o && (zoomLevel * innerWidth >= photo.width_o * 0.7 || zoomLevel * innerHeight >= photo.height_o * 0.7))
       scrs.unshift(url_o);
 
-    return <div className={classes.photoroot} onWheel={this.onWheel}>
+    return <div
+      className={classes.photoroot}
+      onWheel={this.onWheel}
+      onMouseDown={onMounseDown}
+      onMouseMove={onMounseMove}
+      onMouseUp={onMounseUp}
+    >
       <PhotoZoom
         {...this.state}
         {...{ classes, src: scrs }}
