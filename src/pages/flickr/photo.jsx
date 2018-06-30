@@ -21,6 +21,7 @@ class PhotoView extends React.Component {
     zoomLevel: 1,
     originX: 0.5,
     originY: 0.5,
+    enableMini: false,
   }
 
   /**
@@ -43,46 +44,63 @@ class PhotoView extends React.Component {
       }
       return newState
     })
+    this.showMiniView();
+
+  }
+
+  showMiniView() {
+    clearTimeout(this._miniTimeout);
+    this.setState({ enableMini: true })
+    this._miniTimeout = setTimeout(() => this.setState({ enableMini: false }),500);
   }
 
   componentDidMount() {
     this.props.getPhoto();
   }
 
-  // /**
-  //  * @returns {CSSProperties}
-  //  */
-  // getZoomStyle(state) {
-  //   const { originX, originY, zoomLevel } = state || this.state
-  //   return {
-  //     transformOrigin: `${originX * 100}% ${originY * 100}%`,
-  //     transform: `scale(${zoomLevel})`,
-  //   }
-  // }
 
   render() {
     const { classes } = this.props
     const { url_h, url_c, } = this.props.photo
-    const { zoomLevel, originY, originX } = this.state
+    const { zoomLevel, originY, originX, enableMini } = this.state
     const bgs = [url_h, url_c]
       .filter(e => e)
       .map(e => e && `url(${e})`)
       .join(',')
     return <div className={classes.photoroot} onWheel={this.onWheel}>
       <Spring native to={{ zoomLevel, originY, originX }} config={{ duration: 100 }}>
-        {({ zoomLevel }) => <animated.div
+        {({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
           className={classes.mainimg}
           style={{
             backgroundImage: bgs,
-            // transformOrigin: interpolate(
-            //   [originX, originY],
-            //   (originX, originY) => `${originX * 100}% ${originY * 100}%`
-            // ),
-            transformOrigin: `${originX * 100}% ${originY * 100}%`,
-            transform: zoomLevel.interpolate(t => `scale(${t})`),
+            transform: z.interpolate(t => `scale(${t.range(1, 50)})`),
+            transformOrigin: interpolate(
+              [x, y],
+              (x, y) => `${x.range(0, 1) * 100}% ${y.range(0, 1) * 100}%`
+            ),
           }}
         />}
       </Spring>
+      <div
+        className={classes.miniview}
+        style={{ backgroundImage: `url('${url_c}')`, opacity: enableMini ? 1 : 0 }}>
+
+        <Spring native
+          to={{ zoomLevel, originY, originX }}
+          config={{ duration: 100 }}>
+          {
+            ({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
+              className={classes.minirec}
+              style={{
+                width: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
+                height: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
+                left: interpolate([x, z], (x, z) => (100 - (100 / z.range(1, 50))) * x.range(0, 1) + '%'),
+                top: interpolate([y, z], (y, z) => (100 - (100 / z.range(1, 50))) * y.range(0, 1) + '%'),
+              }} />
+          }
+        </Spring>
+      </div>
+
     </div>
   }
 }
