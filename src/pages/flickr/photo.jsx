@@ -10,7 +10,7 @@ Number.prototype.range = Number.prototype.range || function (a, b) {
   return Math.max(a, Math.min(b, this || a));
 }
 
-const PhotoZoom = function ({ zoomLevel, originY, originX, classes, src }) {
+const PhotoZoom = function ({ zoomLevel, originY, originX, winX, winY, classes, src }) {
   return <Spring native
     to={{ zoomLevel, originY, originX }}
     config={{ duration: 100 }}>
@@ -19,11 +19,12 @@ const PhotoZoom = function ({ zoomLevel, originY, originX, classes, src }) {
         className={classes.mainimg}
         style={{
           backgroundImage: src.filter(e => e).map(e => e && `url(${e})`).join(','),
-          transform: z.interpolate(t => `scale(${t.range(1, 50)})`),
-          transformOrigin: interpolate(
-            [x, y],
-            (x, y) => `${x.range(0, 1) * 100}% ${y.range(0, 1) * 100}%`
-          ),
+          transform: z.interpolate(t => `scale(${t})`),
+          transformOrigin: z.interpolate(z => {
+            x = originX + (winX - originX) / (z - 1) * (z / zoomLevel - 1);
+            y = originY + (winY - originY) / (z - 1) * (z / zoomLevel - 1);
+            return `${x * 100}% ${y * 100}%`
+          }),
         }}
       />
     }
@@ -82,6 +83,8 @@ class PhotoView extends React.Component {
         return { zoomLevel: 1, originX: 0.5, originY: 0.5 };
       const newState = {
         zoomLevel: newZoomLevel,
+        winX,
+        winY,
         originX: (originX + (winX - originX) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
         originY: (originY + (winY - originY) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
       }
@@ -104,13 +107,20 @@ class PhotoView extends React.Component {
 
   render() {
     const { classes } = this.props
-    const { url_h, url_c, } = this.props.photo
-    const { enableMini } = this.state
+    const { url_h, url_c, url_k, url_o } = this.props.photo
+    const { photo } = this.props
+    const { enableMini, zoomLevel } = this.state
+    const scrs = [url_h, url_c]
+
+    if (url_k && (zoomLevel * innerWidth >= photo.width_k * 0.7 || zoomLevel * innerHeight >= photo.height_k * 0.7))
+      scrs.unshift(url_k);
+    if (url_o && (zoomLevel * innerWidth >= photo.width_o * 0.7 || zoomLevel * innerHeight >= photo.height_o * 0.7))
+      scrs.unshift(url_o);
 
     return <div className={classes.photoroot} onWheel={this.onWheel}>
       <PhotoZoom
         {...this.state}
-        {...{ classes, src: [url_h, url_c] }}
+        {...{ classes, src: scrs }}
       />
       <PhotoZoomMinimap
         {...this.state}
