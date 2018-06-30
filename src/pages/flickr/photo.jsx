@@ -10,6 +10,49 @@ Number.prototype.range = Number.prototype.range || function (a, b) {
   return Math.max(a, Math.min(b, this || a));
 }
 
+function PhotoZoom({ zoomLevel, originY, originX, classes, src }) {
+  return <Spring native
+    to={{ zoomLevel, originY, originX }}
+    config={{ duration: 100 }}>
+    {
+      ({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
+        className={classes.mainimg}
+        style={{
+          backgroundImage: src.filter(e => e).map(e => e && `url(${e})`).join(','),
+          transform: z.interpolate(t => `scale(${t.range(1, 50)})`),
+          transformOrigin: interpolate(
+            [x, y],
+            (x, y) => `${x.range(0, 1) * 100}% ${y.range(0, 1) * 100}%`
+          ),
+        }}
+      />
+    }
+  </Spring>;
+}
+
+const PhotoZoomMinimap = function ({ classes, src, style = {}, zoomLevel, originY, originX }) {
+  return <div
+    className={classes.miniview}
+    style={{ backgroundImage: `url('${src}')`, ...style }}>
+
+    <Spring native
+      to={{ zoomLevel, originY, originX }}
+      config={{ duration: 100 }}>
+      {
+        ({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
+          className={classes.minirec}
+          style={{
+            width: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
+            height: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
+            left: interpolate([x, z], (x, z) => (100 - (100 / z.range(1, 50))) * x.range(0, 1) + '%'),
+            top: interpolate([y, z], (y, z) => (100 - (100 / z.range(1, 50))) * y.range(0, 1) + '%'),
+          }}
+        />
+      }
+    </Spring>
+  </div>;
+}
+
 /**
  * @class
  * @extends React.Component<{photo:FlickrPhotoObj, photoid: string} & ClassesProps>
@@ -51,7 +94,7 @@ class PhotoView extends React.Component {
   showMiniView() {
     clearTimeout(this._miniTimeout);
     this.setState({ enableMini: true })
-    this._miniTimeout = setTimeout(() => this.setState({ enableMini: false }),500);
+    this._miniTimeout = setTimeout(() => this.setState({ enableMini: false }), 500);
   }
 
   componentDidMount() {
@@ -62,45 +105,17 @@ class PhotoView extends React.Component {
   render() {
     const { classes } = this.props
     const { url_h, url_c, } = this.props.photo
-    const { zoomLevel, originY, originX, enableMini } = this.state
-    const bgs = [url_h, url_c]
-      .filter(e => e)
-      .map(e => e && `url(${e})`)
-      .join(',')
+    const { enableMini } = this.state
+
     return <div className={classes.photoroot} onWheel={this.onWheel}>
-      <Spring native to={{ zoomLevel, originY, originX }} config={{ duration: 100 }}>
-        {({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
-          className={classes.mainimg}
-          style={{
-            backgroundImage: bgs,
-            transform: z.interpolate(t => `scale(${t.range(1, 50)})`),
-            transformOrigin: interpolate(
-              [x, y],
-              (x, y) => `${x.range(0, 1) * 100}% ${y.range(0, 1) * 100}%`
-            ),
-          }}
-        />}
-      </Spring>
-      <div
-        className={classes.miniview}
-        style={{ backgroundImage: `url('${url_c}')`, opacity: enableMini ? 1 : 0 }}>
-
-        <Spring native
-          to={{ zoomLevel, originY, originX }}
-          config={{ duration: 100 }}>
-          {
-            ({ zoomLevel: z, originX: x, originY: y, }) => <animated.div
-              className={classes.minirec}
-              style={{
-                width: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
-                height: z.interpolate(t => (100 / t.range(1, 50)) + '%'),
-                left: interpolate([x, z], (x, z) => (100 - (100 / z.range(1, 50))) * x.range(0, 1) + '%'),
-                top: interpolate([y, z], (y, z) => (100 - (100 / z.range(1, 50))) * y.range(0, 1) + '%'),
-              }} />
-          }
-        </Spring>
-      </div>
-
+      <PhotoZoom
+        {...this.state}
+        {...{ classes, src: [url_h, url_c] }}
+      />
+      <PhotoZoomMinimap
+        {...this.state}
+        {...{ classes, src: url_c, style: { opacity: enableMini ? 1 : 0 } }}
+      />
     </div>
   }
 }
@@ -114,3 +129,5 @@ export default class PhotoContainer extends React.Component {
     </div>
   }
 }
+
+
