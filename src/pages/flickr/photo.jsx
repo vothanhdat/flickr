@@ -10,7 +10,7 @@ Number.prototype.range = Number.prototype.range || function (a, b) {
   return Math.max(a, Math.min(b, this || a));
 }
 
-function PhotoZoom({ zoomLevel, originY, originX, classes, src }) {
+const PhotoZoom = function ({ zoomLevel, originY, originX, classes, src }) {
   return <Spring native
     to={{ zoomLevel, originY, originX }}
     config={{ duration: 100 }}>
