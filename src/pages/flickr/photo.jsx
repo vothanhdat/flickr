@@ -1,7 +1,13 @@
 //@ts-check
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import withSCSS from 'withsass.macro'
 import { FlickPhoto } from '@/store/connects/flickr'
+import { bind } from 'lodash-decorators';
+
+
+Number.prototype.range = Number.prototype.range || function (a, b) {
+  return Math.max(a, Math.min(b, this));
+}
 
 /**
  * @class
@@ -10,8 +16,49 @@ import { FlickPhoto } from '@/store/connects/flickr'
 @FlickPhoto()
 class PhotoView extends React.Component {
 
-  componentDidMount(){
+  state = {
+    zoomLevel: 1,
+    originX: 0.5,
+    originY: 0.5,
+    translateX: 0,
+    translateY: 0,
+  }
+
+  /**
+   * @param {WheelEvent} e 
+   */
+  @bind()
+  onWheel(e) {
+    const { deltaY, clientX, clientY } = e
+    const winX = clientX / innerWidth
+    const winY = clientY / innerHeight
+    this.setState(({ zoomLevel, originX, originY}) => {
+      const newZoomLevel = (zoomLevel * Math.pow(1.001, deltaY)).range(1, 50);
+      const ratio = newZoomLevel / zoomLevel;
+      if(newZoomLevel == 1)
+        return {zoomLevel : 1, originX : 0.5, originY: 0.5};
+      const newState = {
+        zoomLevel: newZoomLevel,
+        originX: (originX + (winX - originX) / (newZoomLevel - 1) * (ratio - 1)).range(0,1),
+        originY: (originY + (winY - originY) / (newZoomLevel - 1) * (ratio - 1)).range(0,1),
+      }
+      return newState
+    })
+  }
+
+  componentDidMount() {
     this.props.getPhoto();
+  }
+
+  /**
+   * @returns {CSSProperties}
+   */
+  getZoomStyle() {
+    const { originX, originY, translateX, translateY, zoomLevel } = this.state
+    return {
+      transformOrigin: `${originX * 100}% ${originY * 100}%`,
+      transform: `translate(${translateX * 100}%,${translateY * 100}%) scale(${zoomLevel})`
+    }
   }
 
   render() {
@@ -21,9 +68,10 @@ class PhotoView extends React.Component {
       .filter(e => e)
       .map(e => e && `url(${e})`)
       .join(',')
-    return <div className={classes.photoroot}>
+    return <div className={classes.photoroot} onWheel={this.onWheel}>
       <div className={classes.mainimg} style={{
-        backgroundImage: bgs
+        backgroundImage: bgs,
+        ...this.getZoomStyle(),
       }} />
     </div>
   }
@@ -34,7 +82,7 @@ export default class PhotoContainer extends React.Component {
   render() {
     const { match: { params: { photoid } }, classes } = this.props
     return <div className={classes.root} data-transition="photo">
-      <PhotoView photoid={photoid} classes={classes}/>
+      <PhotoView photoid={photoid} classes={classes} />
     </div>
   }
 }
