@@ -6,7 +6,7 @@ import { bind } from 'lodash-decorators';
 
 
 Number.prototype.range = Number.prototype.range || function (a, b) {
-  return Math.max(a, Math.min(b, this));
+  return Math.max(a, Math.min(b, this || a));
 }
 
 /**
@@ -20,8 +20,6 @@ class PhotoView extends React.Component {
     zoomLevel: 1,
     originX: 0.5,
     originY: 0.5,
-    translateX: 0,
-    translateY: 0,
   }
 
   /**
@@ -54,10 +52,10 @@ class PhotoView extends React.Component {
    * @returns {CSSProperties}
    */
   getZoomStyle() {
-    const { originX, originY, translateX, translateY, zoomLevel } = this.state
+    const { originX, originY, zoomLevel } = this.state
     return {
       transformOrigin: `${originX * 100}% ${originY * 100}%`,
-      transform: `translate(${translateX * 100}%,${translateY * 100}%) scale(${zoomLevel})`
+      transform: `scale(${zoomLevel})`,
     }
   }
 
