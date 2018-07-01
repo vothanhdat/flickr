@@ -183,6 +183,14 @@ export function peopelGetAlbums(params){
   }).then(e => e.photosets)
 }
 
+export function peopelGetFav(params){
+  return callMethod({
+    method: 'flickr.favorites.getList',
+    ...params,
+    extras : EXTRASTRING, 
+  }).then(e => e.photos)
+}
+
 window.callMethod = callMethod
 
 

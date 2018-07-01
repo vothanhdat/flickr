@@ -300,6 +300,48 @@ const getUserAlbum = function* (params) {
 
 
 
+const getUserFav = function* (params) {
+  const { userid = '' } = { ...params.props || {}, ...params.data || {} }
+  const paths = "flickr.users." + userid + '.fav'
+  const {
+    page = "0", pages, perpage: per_page = "20", end, loading, photo = []
+  } = yield select(state => lodashget(state, paths, {}))
+
+  if (loading || end)
+    return;
+
+  try {
+    yield putLoading(paths, true);
+
+    const photoDatas = yield flickrAPIs.peopelGetFav({
+      user_id: userid,
+      page: page + 1,
+      per_page,
+    });
+
+    yield putPhotoDic(photoDatas.photo);
+
+    yield put(updateStateAction({
+      data: {
+        ...photoDatas,
+        photo: [...photo, ...photoDatas.photo.map(e => e.id)],
+        end: page >= pages,
+      },
+      paths: paths
+    }));
+
+  } catch (error) {
+    console.error(error)
+    yield put(updateStateAction({
+      data: { error: error },
+      paths: paths,
+    }))
+  } finally {
+    yield putLoading(paths, false);
+  }
+}
+
+
 
 
 
@@ -345,5 +387,6 @@ export default function* state() {
   yield takeEvery("FLICKT_USER", getUserPhoto)
   yield takeEvery("FLICKT_USER", getUserInfo)
   yield takeEvery("FLICKT_USER_ALBUM", getUserAlbum)
+  yield takeEvery("FLICKT_USER_FAV", getUserFav)
 }
 

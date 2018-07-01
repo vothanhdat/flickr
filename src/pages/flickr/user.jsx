@@ -28,6 +28,23 @@ class UserStream extends React.Component {
 
 
 @FlickUser()
+class UserFav extends React.Component {
+
+  componentDidMount() {
+    this.props.getFav();
+  }
+
+  render() {
+    return <PhotoListView
+      photos={getpath(this, "props.fav")}
+      classes={this.props.classes}
+      onScrollEnd={this.props.getFav}
+    />
+  }
+}
+
+
+@FlickUser()
 class UserAlbum extends React.Component {
 
   componentDidMount() {
@@ -100,6 +117,7 @@ export default class UserContainer extends React.Component {
       >
         <UserStream userid={userid} classes={classes} />
         <UserAlbum userid={userid} classes={classes} />
+        <UserFav userid={userid} classes={classes} />
       </SwipeableViews>
     </div >
   }
