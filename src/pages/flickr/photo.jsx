@@ -2,11 +2,14 @@
 //@ts-check
 import React, { CSSProperties } from 'react'
 import withSCSS from 'withsass.macro'
-import { FlickPhoto } from '@/store/connects/flickr'
+import { FlickPhoto, FlickPhotoDic } from '@/store/connects/flickr'
 import { bind } from 'lodash-decorators';
 import { Spring, interpolate, animated } from 'react-spring'
 import { MouseDrag } from "./MouseDrag";
-
+import { FlickPhotoUtil } from './PhotoListView'
+import SwipeableViews from 'react-swipeable-views';
+import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
+import { mod } from 'react-swipeable-views-core';
 
 Number.prototype.range = Number.prototype.range || function (a, b) {
   return Math.max(a, Math.min(b, this || a));
@@ -28,7 +31,7 @@ const PhotoZoom = function ({ zoomLevel, originY, originX, winX, winY, classes, 
               let t = (z / zoomLevel - 1) / (z - 1)
               x = originX + (winX - originX) * t;
               y = originY + (winY - originY) * t;
-              return `${x.range(0,1) * 100}% ${y.range(0,1) * 100}%`
+              return `${x.range(0, 1) * 100}% ${y.range(0, 1) * 100}%`
             }
           ),
         }}
@@ -61,6 +64,29 @@ const PhotoZoomMinimap = function ({ classes, src, style = {}, zoomLevel, origin
 }
 
 
+@FlickPhotoDic()
+class PhotoMiniList extends React.Component {
+
+  getRenderList() {
+    return FlickPhotoUtil.lastPhotoSnappsot
+      .slice(0, 10)
+  }
+
+  render() {
+    const { classes, photos, style = {} } = this.props
+    return <div className={classes.minicollection} data-index="5" style={style}>
+      {
+        this.getRenderList()
+          .map(e => photos[e])
+          .map((e, i) => <div
+            className={classes.itemcollection}
+            data-delta={i - 5}
+            style={{ backgroundImage: `url(${e.url_t})` }}
+          />)
+      }
+    </div>
+  }
+}
 
 /**
  * @class
@@ -135,7 +161,7 @@ class PhotoView extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, active } = this.props
     const { url_h, url_c, url_k, url_o, url_l } = this.props.photo
     const { photo } = this.props
     const { enableMini, zoomLevel } = this.state
@@ -162,22 +188,53 @@ class PhotoView extends React.Component {
     >
       <PhotoZoom
         {...this.state}
-        {...{ classes, src: scrs }}
+        {...{ classes, src: active ? scrs : [url_c] }}
       />
-      <PhotoZoomMinimap
-        {...this.state}
-        {...{ classes, src: url_c, style: { opacity: enableMini ? 1 : 0 } }}
-      />
+      {
+        active && <PhotoZoomMinimap
+          {...this.state}
+          {...{ classes, src: url_c, style: { opacity: enableMini ? 1 : 0 } }}
+        />
+      }
+      {/* <PhotoMiniList classes={classes} style={{ opacity: zoomLevel > 1 ? 0 : 1 }} /> */}
     </div>
   }
 }
 
+const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
+
+
 @withSCSS('./photo.scss')
 export default class PhotoContainer extends React.Component {
-  render() {
+  state = { index: 0 }
+
+  @bind()
+  slideRenderer({ index, key }) {
     const { match: { params: { photoid } }, classes } = this.props
+    const photoList = FlickPhotoUtil.lastPhotoSnappsot
+    const lastIndex = photoList.indexOf(photoid)
+    const currentIndex = (lastIndex + index + photoList.length) % photoList.length
+    const currentPhotoId = photoList[currentIndex]
+    return <PhotoView key={key} photoid={currentPhotoId || photoid} classes={classes} active={index == this.state.index} />
+  }
+
+  @bind()
+  handleChangeIndex(index) {
+    this.setState({ index })
+  }
+
+  render() {
+    const { classes } = this.props
+
     return <div className={classes.root} data-transition="photo">
-      <PhotoView photoid={photoid} classes={classes} />
+      <VirtualizeSwipeableViews
+        // overscanSlideBefore={1}
+        // overscanSlideAfter={1}
+        index={this.state.index}
+        onChangeIndex={this.handleChangeIndex}
+        slideRenderer={this.slideRenderer}
+      />
+
     </div>
   }
 }

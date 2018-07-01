@@ -98,3 +98,11 @@ export const FlickAlbum = ({ } = {}) => connect(
     getAlbumPhoto: FLICKT_ALBUM(dispatch, props),
   }),
 )
+
+export const FlickPhotoDic = ({ } = {}) => connect(
+  (
+    { flickr: { photos = {} } = {} },
+  ) => ({
+    photos,
+  })
+)
