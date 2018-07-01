@@ -18,7 +18,7 @@ class UserView extends React.Component {
 
   render() {
     return <PhotoListView
-      photos={getpath(this, "props.user.photo")}
+      photos={getpath(this, "props.stream")}
       classes={this.props.classes}
       onScrollEnd={this.props.getUser}
     />
@@ -41,7 +41,7 @@ class UserCover extends React.Component {
   render() {
     const { classes } = this.props
     /**@type {FlickrUserObj} */
-    const userInfo = getpath(this, "props.user.user", {});
+    const userInfo = getpath(this, "props.info", {});
     const { retina, large, medium, default: ddd } = userInfo.iconurls || {}
     const { h, l, s, t } = userInfo.coverphoto_url || {};
     return <div className={classes.coverroot} style={{ backgroundImage: `url(${h || l || s || t})` }}>
@@ -65,6 +65,7 @@ class UserCover extends React.Component {
 
 @withSCSS('./user.scss')
 export default class UserContainer extends React.Component {
+  
   render() {
     const { match: { params: { userid } }, location: { hash }, classes } = this.props
     const tabValue = ["", "#album", "#fav"].indexOf(hash)

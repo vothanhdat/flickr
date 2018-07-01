@@ -172,7 +172,14 @@ export function peopleGetInfo(user_id){
     user_id,
     extras: `icon_urls_deep,contacts,reverse_contacts,rev_ignored,favorites_count,count_groups_admin,profile_website`,
     datecreate: 1,
-  })
+  }).then(e => e.person)
+}
+
+export function peopelGetAlbums(user_id){
+  return callMethod({
+    method: 'flickr.photosets.getList',
+    user_id,
+  }).then(e => e.photosets)
 }
 
 window.callMethod = callMethod

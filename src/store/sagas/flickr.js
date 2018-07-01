@@ -82,6 +82,16 @@ const putPhotoDic = function* (photos) {
 }
 
 
+const putAlbumDic = function* (albums) {
+  const paths = "flickr.albums"
+  yield put(updateStateAction(...albums.map(e => ({
+    data: e,
+    paths: paths + '.' + e.id,
+  }))))
+}
+
+const putLoading = (paths, loading) => put(updateStateAction({ data: { loading }, paths }))
+
 const getPhotoCollection = function* (params) {
   let { collectionName = '' } = { ...params.props || {}, ...params.data || {} }
 
@@ -187,53 +197,56 @@ const getPhotoInfo = function* (params) {
   }
 }
 
+const getUserInfo = function* (params) {
+  const { get_user_info, userid = '' } = { ...params.props || {}, ...params.data || {} }
+  if (get_user_info) {
+    const paths = "flickr.users." + userid + ".info"
+    const { loading } = yield select(state => lodashget(state, paths, {}))
+    if (loading)
+      return;
+    try {
+      yield putLoading(paths, true);
+      const userData = yield flickrAPIs.peopleGetInfo(userid);
+      yield put(updateStateAction({
+        data: userData,
+        paths: paths,
+      }));
+    } catch (error) {
+      yield putLoading(paths, false);
+    }
+  }
+}
+
 
 const getUserPhoto = function* (params) {
-  const { get_user_info, userid = '' } = { ...params.props || {}, ...params.data || {} }
-  const paths = "flickr.users." + userid
-  const { page = "0", pages, perpage: per_page = "20", end, loading, photo = [], user } = yield select(state => lodashget(state, paths, {}))
+  const { userid = '' } = { ...params.props || {}, ...params.data || {} }
+  const paths = "flickr.users." + userid + '.stream'
+  const {
+    page = "0", pages, perpage: per_page = "20", end, loading, photo = []
+  } = yield select(state => lodashget(state, paths, {}))
 
   if (loading || end)
     return;
 
   try {
+    yield putLoading(paths, true);
+
+    const photoDatas = yield flickrAPIs.peopleGetPhotos({
+      user_id: userid,
+      page: page + 1,
+      per_page,
+    });
+
+    yield putPhotoDic(photoDatas.photo);
 
     yield put(updateStateAction({
-      data: { loading: true },
-      paths: paths,
-    }))
-
-
-    yield all([
-      call(function* () {
-        const { user, ...photoDatas } = yield flickrAPIs.peopleGetPhotos({
-          user_id: userid,
-          page: page + 1,
-          per_page,
-        })
-        yield putPhotoDic(photoDatas.photo);
-        yield put(updateStateAction({
-          data: {
-            ...photoDatas,
-            photo: [...photo, ...photoDatas.photo.map(e => e.id)],
-            end: page >= pages,
-          },
-          paths: paths,
-        }));
-      }),
-
-      get_user_info && call(function* () {
-        const userData = yield flickrAPIs.peopleGetInfo(userid)
-        yield put(updateStateAction({
-          data: {
-            user: userData.person
-          },
-          paths: paths,
-        }));
-      }),
-
-    ])
-
+      data: {
+        ...photoDatas,
+        photo: [...photo, ...photoDatas.photo.map(e => e.id)],
+        end: page >= pages,
+      },
+      paths: paths
+    }));
 
   } catch (error) {
     console.error(error)
@@ -242,14 +255,47 @@ const getUserPhoto = function* (params) {
       paths: paths,
     }))
   } finally {
-
-    yield put(updateStateAction({
-      data: { loading: false },
-      paths: paths,
-    }))
-
+    yield putLoading(paths, false);
   }
 }
+
+
+const getUserAlbum = function* (params) {
+  const { userid } = { ...params.props || {}, ...params.data || {} }
+  const paths = "flickr.users." + albumid
+  const { page = "0", pages, perpage: per_page = "60", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
+
+  if (loading || end)
+    return;
+
+  try {
+
+    yield put(updateStateAction({ data: { loading: true }, paths: paths }))
+
+    const photosets = yield flickrAPIs.peopelGetAlbums({
+      user_id: userid,
+      page: page + 1,
+      per_page,
+    })
+
+    yield put(updateStateAction({
+      data: {
+        ...photosets,
+        photoset: [...photoset, ...photosets.photoset],
+        end: page >= pages,
+      },
+      paths: paths,
+    }));
+
+
+  } catch (error) {
+    console.error(error)
+    yield put(updateStateAction({ data: { error: error }, paths: paths, }))
+  } finally {
+    yield put(updateStateAction({ data: { loading: false }, paths: paths, }))
+  }
+}
+
 
 
 
@@ -282,6 +328,7 @@ const initialState = ({ }) => put(updateStateAction({
     sets: {},
     photos: {},
     users: {},
+    albums: {},
   },
   paths: "flickr",
 }))
@@ -294,5 +341,7 @@ export default function* state() {
   yield takeEvery("FLICKT_COLLECTION", downloadFetch)
   yield takeEvery("FLICKT_PHOTO", getPhotoInfo)
   yield takeEvery("FLICKT_USER", getUserPhoto)
+  yield takeEvery("FLICKT_USER", getUserInfo)
+  yield takeEvery("FLICKT_USER_ALBUM", getUserAlbum)
 }
 
