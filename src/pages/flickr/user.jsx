@@ -3,10 +3,9 @@ import React from 'react'
 import withSCSS from 'withsass.macro'
 import { FlickUser } from '@/store/connects/flickr'
 import PhotoListView from './PhotoListView';
-import { get as getpath } from 'lodash'
+import { get as lodashget } from 'lodash'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import LangLink from '@/components/Link';
 import AlbumListView from './AlbumListView';
 import SwipeableViewsExtends from './SwipeableViews';
 import { bind } from 'lodash-decorators';
@@ -19,15 +18,25 @@ class UserStream extends React.Component {
   }
 
   render() {
+    const { classes, stream = {} } = this.props
     console.log("UserStream")
-    return <PhotoListView
-      photos={getpath(this, "props.stream")}
-      classes={this.props.classes}
-      onScrollEnd={this.props.getUser}
-    />
+    return <React.Fragment>
+      <PhotoListView
+        photos={stream.photo || []}
+        classes={classes}
+        onScrollEnd={this.props.getUser}
+      />
+      {
+        stream.end || <div
+          className={{
+            [classes.loadcontainer]: true,
+            'dot-loading': stream.loading
+          }} />
+      }
+    </React.Fragment>
   }
 }
-
+//<div className={{[classes.loadcontainer]:true,'dot-loading' : }}/>
 
 @FlickUser()
 class UserFav extends React.Component {
@@ -37,12 +46,23 @@ class UserFav extends React.Component {
   }
 
   render() {
+    const { classes, fav = {} } = this.props
     console.log("UserFav")
-    return <PhotoListView
-      photos={getpath(this, "props.fav")}
-      classes={this.props.classes}
-      onScrollEnd={this.props.getFav}
-    />
+    return <React.Fragment>
+      <PhotoListView
+        photos={fav.photo || []}
+        classes={classes}
+        onScrollEnd={this.props.getFav}
+      />
+      {
+        fav.end || <div
+          className={{
+            [classes.loadcontainer]: true,
+            'dot-loading': fav.loading
+          }} />
+      }
+    </React.Fragment>
+
   }
 }
 
@@ -55,12 +75,24 @@ class UserAlbum extends React.Component {
   }
 
   render() {
+    const { classes, albums = {} } = this.props
     console.log("UserAlbum")
-    return <AlbumListView
-      albums={getpath(this, "props.albums", [])}
-      classes={this.props.classes}
-      onScrollEnd={this.props.getAlbum}
-    />
+    return <React.Fragment>
+      <AlbumListView
+        albums={albums.photoset || []}
+        classes={classes}
+        onScrollEnd={this.props.getAlbum}
+      />
+      {
+        albums.end || <div
+          className={{
+            [classes.loadcontainer]: true,
+            'dot-loading': albums.loading
+          }} />
+      }
+    </React.Fragment>
+
+
   }
 }
 
@@ -80,7 +112,7 @@ class UserCover extends React.Component {
   render() {
     const { classes } = this.props
     /**@type {FlickrUserObj} */
-    const userInfo = getpath(this, "props.userinfo", {});
+    const userInfo = lodashget(this, "props.userinfo", {});
     const { retina, large, medium, default: ddd } = userInfo.iconurls || {}
     const { h, l, s, t } = userInfo.coverphoto_url || {};
     return <div className={classes.coverroot} style={{ backgroundImage: `url(${h || l || s || t})` }}>

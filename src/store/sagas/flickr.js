@@ -275,7 +275,7 @@ const getUserAlbum = function* (params) {
 
     const photosets = yield flickrAPIs.peopelGetAlbums({
       user_id: userid,
-      page: page + 1,
+      page: parseInt(page) + 1,
       per_page,
     })
 
@@ -358,7 +358,7 @@ const getAlbumPhoto = function* (params) {
 
     const photoDatas = yield flickrAPIs.albumGetPhoto({
       photoset_id: albumid,
-      page: page + 1,
+      page: parseInt(page) + 1,
       per_page,
     });
 

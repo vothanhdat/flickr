@@ -30,22 +30,26 @@ const getCover = data => `https://farm${data.farm}.staticflickr.com/${data.serve
 class AlbumCover extends React.Component {
 
   cover() {
+    const covers = []
     const { farm, server, primary } = this.props.album || {}
+
     if (farm && server && primary)
-      return getCover(this.props.album);
+      covers.push(getCover(this.props.album));
+
     if (this.props.photos) {
-      var item =this.props.photos[0];// FlickPhotoUtil.getNearestRatio(this.props.photos, 2)
+      var item = this.props.photos[0];// FlickPhotoUtil.getNearestRatio(this.props.photos, 2)
       if (item)
-        return item.url_h || item.url_l || item.url_k || item.urlc;
+        covers.push(item.url_o, item.url_k, item.url_l, item.url_c);
     }
-    return '';
+
+    return covers.filter(e => e);
   }
 
   render() {
     const { classes } = this.props
     return <div
       className={classes.albumcover}
-      style={{ backgroundImage: `url(${this.cover()})` }}>
+      style={{ backgroundImage: this.cover().map(e => `url(${e})`).join(',') }}>
     </div>
   }
 }

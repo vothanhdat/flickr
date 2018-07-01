@@ -7,10 +7,11 @@ import LangLink from '@/components/Link';
 
 
 const getCover = data => `https://farm${data.farm}.staticflickr.com/${data.server}/${data.primary}_${data.secret}.jpg`
+const getCoverT = data => `https://farm${data.farm}.staticflickr.com/${data.server}/${data.primary}_${data.secret}_t.jpg`
 
 const AlbumItem = ({ className, data }) => {
   return <LangLink to={`/flickr/a/${data.id}`} className={className} style={{
-    backgroundImage: `url(${getCover(data)})`
+    backgroundImage: `url(${getCover(data)}),url(${getCoverT(data)})`
   }} />
 }
 
@@ -27,7 +28,7 @@ class AlbumListView extends React.Component {
     </div>
   }
 
-  scrollParentGetter(){
+  scrollParentGetter() {
     return window
   }
 

@@ -3,8 +3,23 @@ import ReactDOM from 'react-dom';
 import RouteIndex from './routes/index';
 import RootComponent from './RootComponent';
 import Device from './utils/device'
+import classnames from 'classnames' 
 
+const ReactCreateElement = React.createElement.bind(React)
 
+React.createElement = function(element,props,...childrens){
+  if(props && typeof props.className == 'object')
+    return ReactCreateElement(
+      element,
+      {...props, className : classnames(props.className)},
+      ...childrens,
+    )
+  return ReactCreateElement(
+    element,
+    props,
+    ...childrens,
+  )
+}
 
 function render() {
 

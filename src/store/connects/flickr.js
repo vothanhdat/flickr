@@ -57,12 +57,21 @@ export const FlickUser = ({ } = {}) => connect(
     { userid }
   ) => ({
     userinfo: lodashget(users, `${userid}.info`, {}),
-    stream: lodashget(users, `${userid}.stream.photo`, [])
-      .map(e => photos[e]),
-    albums: lodashget(users, `${userid}.album.photoset`, [])
-      .map(e => albums[e]),
-    fav: lodashget(users, `${userid}.fav.photo`, [])
-      .map(e => photos[e]),
+    stream: {
+      ...lodashget(users, `${userid}.stream`, {}),
+      photo: lodashget(users, `${userid}.stream.photo`, [])
+        .map(e => photos[e]),
+    },
+    albums: {
+      ...lodashget(users, `${userid}.album`, {}),
+      photoset: lodashget(users, `${userid}.album.photoset`, [])
+        .map(e => albums[e])
+    },
+    fav: {
+      ...lodashget(users, `${userid}.fav`, {}),
+      photo: lodashget(users, `${userid}.fav.photo`, [])
+        .map(e => photos[e]),
+    },
   })
   ,
   (dispatch, props) => ({
@@ -78,8 +87,11 @@ export const FlickAlbum = ({ } = {}) => connect(
     { albumid }
   ) => ({
     album: albums[albumid] || {},
-    photos: lodashget(albums, `${albumid}.photo`,[])
-      .map(e => photos[e]),
+    photos: {
+      ...lodashget(albums, `${albumid}`, {}),
+      photo: lodashget(albums, `${albumid}.photo`, [])
+        .map(e => photos[e])
+    },
   })
   ,
   (dispatch, props) => ({
