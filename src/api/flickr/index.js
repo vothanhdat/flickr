@@ -175,10 +175,11 @@ export function peopleGetInfo(user_id){
   }).then(e => e.person)
 }
 
-export function peopelGetAlbums(user_id){
+export function peopelGetAlbums(params){
   return callMethod({
     method: 'flickr.photosets.getList',
-    user_id,
+    ...params,
+    extras : EXTRASTRING, 
   }).then(e => e.photosets)
 }
 

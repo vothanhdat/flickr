@@ -8,9 +8,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import LangLink from '@/components/Link';
 import SwipeableViews from 'react-swipeable-views';
+import AlbumListView from './AlbumListView';
 
 @FlickUser()
-class UserView extends React.Component {
+class UserStream extends React.Component {
 
   componentDidMount() {
     this.props.getUser();
@@ -21,6 +22,23 @@ class UserView extends React.Component {
       photos={getpath(this, "props.stream")}
       classes={this.props.classes}
       onScrollEnd={this.props.getUser}
+    />
+  }
+}
+
+
+@FlickUser()
+class UserAlbum extends React.Component {
+
+  componentDidMount() {
+    this.props.getAlbum();
+  }
+
+  render() {
+    return <AlbumListView
+      albums={getpath(this, "props.albums",[])}
+      classes={this.props.classes}
+      onScrollEnd={this.props.getAlbum}
     />
   }
 }
@@ -65,7 +83,7 @@ class UserCover extends React.Component {
 
 @withSCSS('./user.scss')
 export default class UserContainer extends React.Component {
-  
+
   render() {
     const { match: { params: { userid } }, location: { hash }, classes } = this.props
     const tabValue = ["", "#album", "#fav"].indexOf(hash)
@@ -80,7 +98,8 @@ export default class UserContainer extends React.Component {
         axis='x'
         index={tabValue}
       >
-        <UserView userid={userid} classes={classes} />
+        <UserStream userid={userid} classes={classes} />
+        <UserAlbum userid={userid} classes={classes} />
       </SwipeableViews>
     </div >
   }

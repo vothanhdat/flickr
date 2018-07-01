@@ -1,155 +1,58 @@
+//@ts-check
 import React from 'react'
-import { ReactList } from '@/components/ReactList'
-import { bind, memoize } from 'lodash-decorators';
-import { PhotoItem } from './PhotoItem';
+import { ReactListLimitRow, ReactList } from '@/components/ReactList'
+import { bind } from 'lodash-decorators';
+import withSCSS from "withsass.macro";
+// import AlbumItem from './AlbumItem'
 
-class FlickPhotoPreload {
+// "https://farm"
+//                 + meta.farm + ".staticflickr.com/"
+//                 + meta.server + "/"
+//                 + meta.primary + "_" + meta.secret + ".jpg"
 
-  static preloadImageCache = {}
-  static preloadImageStack = []
-  static preloadImageRunning = []
+const getCover = data => `https://farm${data.farm}.staticflickr.com/${data.server}/${data.primary}_${data.secret}.jpg`
 
-  static preloadImage(src) {
-    if (this.preloadImageCache[src])
-      return;
-
-    this.preloadImageStack.push(src);
-
-    if (this.waitForNewTask)
-      this.preloadTask();
-  }
-  static waitForNewTask = true;
-  static async preloadTask() {
-
-    this.waitForNewTask = false;
-    while (this.preloadImageStack.length
-      && this.preloadImageRunning.length < 3) {
-      let url = this.preloadImageStack.pop();
-      console.log('LOAD URL: ', url)
-      let img = new Image
-      img.src = url;
-      this.preloadImageCache[url] = img;
-      let task = new Promise((resolve, reject) => {
-        img.onload = resolve
-        img.onerror = reject
-      }).finally(() => {
-        this.preloadImageRunning = this.preloadImageRunning.filter(e => e != task)
-      })
-      this.preloadImageRunning.push(task);
-
-      if (this.preloadImageRunning.length >= 3)
-        await Promise.race(this.preloadImageRunning);
-    }
-    this.waitForNewTask = true;
-  }
+const AlbumItem = ({ className, data }) => {
+  return <div className={className} style={{
+    backgroundImage: `url(${getCover(data)})`
+  }} />
 }
 
-class FlickPhotoUtil {
-
-  /**
-   * 
-   * @param {FlickrPhotoObj} img 
-   */
-  static getImageRatio(img) {
-    const width = parseInt(img.width_o || img.width_z || img.width_n || img.width_t)
-    const height = parseInt(img.height_o || img.height_z || img.height_n || img.height_t)
-    return width / height
-  }
-
-  @memoize()
-  static getRows(datas, currentRow = []) {
-    let lastRow = []
-    let ratio = 0
-    const max_ratio = 4;
-
-    currentRow.push(lastRow);
-
-    for (let e of datas) {
-
-      ratio += this.getImageRatio(e);
-
-      lastRow.push(e);
-
-      FlickPhotoPreload.preloadImage(e.url_t);
-
-      if (ratio >= max_ratio) {
-        lastRow.ratio = ratio;
-        lastRow = [];
-        currentRow.push(lastRow);
-        ratio = 0;
-      }
-    }
-
-    return currentRow
-  }
-};
-
-
-
-class PhotoListView extends React.Component {
-
-  static defaultProps = {
-    classes: {},
-    photos: [],
-  };
-
-  static getDerivedStateFromProps({ photos = [] }) {
-    return {
-      rows: FlickPhotoUtil.getRows(photos),
-    }
-  }
+@withSCSS('./AlbumListView.scss')
+class AlbumListView extends React.Component {
 
 
   @bind()
-  renderRows(index, key) {
-
-    const { classes } = this.props
-    const { rows } = this.state;
-    const currentRow = rows[index];
-    const ratio = currentRow.ratio;
-    const height = 100 / ratio;
-
-    return <div key={key} style={{ fontSize: 0, whiteSpace: "nowrap" }} data-ratio={ratio}>
-      {
-        currentRow.map((e) => <PhotoItem
-          data={e}
-          className={classes.imageitem}
-          style={{
-            height: `${height}vw`,
-            width: `${FlickPhotoUtil.getImageRatio(e) / ratio * 100}vw`,
-          }}
-        />)
-      }
+  itemRender(index, key) {
+    const { _, albums, classes } = this.props
+    const item = albums[index]
+    return <div className={classes.itemcontainer} key={key} >
+      <AlbumItem _={_} data={item} className={classes.item} />
     </div>
-  }
-
-  @bind()
-  renderRowSize(index) {
-    return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
   }
 
   scrollParentGetter(){
     return window
   }
 
-
   render() {
-    const { classes } = this.props
-    const { rows } = this.state;
+    const { albums, limitrow, classes } = this.props
+    const Component = limitrow ? ReactListLimitRow : ReactList;
 
-    return <div className={classes.list}>
-      <ReactList
-        onScrollEnd={this.props.onScrollEnd}
-        length={rows.length}
-        itemRenderer={this.renderRows}
-        itemSizeGetter={this.renderRowSize}
-        scrollParentGetter={this.scrollParentGetter}
-        type='variable'
-        threshold={200}
-        useTranslate3d
-      />
+    return <div className={classes.listcontainer}>
+      <div className={classes.list}>
+        <Component
+          limitrow={limitrow}
+          onScrollEnd={this.props.onScrollEnd}
+          length={albums.length}
+          itemRenderer={this.itemRender}
+          scrollParentGetter={this.scrollParentGetter}
+          type='uniform'
+          useTranslate3d
+        />
+      </div>
     </div>
   }
 }
 
-export default PhotoListView
+export default AlbumListView

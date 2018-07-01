@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { FLICKR_LOGIN, FLICKT_COLLECTION, FLICKT_PHOTO, FLICKT_USER } from '../actions'
+import { FLICKR_LOGIN, FLICKT_COLLECTION, FLICKT_PHOTO, FLICKT_USER, FLICKT_USER_ALBUM } from '../actions'
 import { get as lodashget } from 'lodash'
 
 
@@ -53,17 +53,18 @@ export const FlickPhoto = ({ } = {}) => connect(
 
 export const FlickUser = ({ } = {}) => connect(
   (
-    { flickr: { users = {}, photos = {}, albums: { } } = {} },
+    { flickr: { users = {}, photos = {}, albums = {}} = {} },
     { userid }
   ) => ({
     info: lodashget(users, `${userid}.info`, {}),
     stream: lodashget(users, `${userid}.stream.photo`, [])
       .map(e => photos[e]),
-    album: lodashget(users, `${userid}.album.photosets`, [])
+    albums: lodashget(users, `${userid}.album.photoset`, [])
       .map(e => albums[e]),
   })
   ,
   (dispatch, props) => ({
     getUser: FLICKT_USER(dispatch, props),
+    getAlbum: FLICKT_USER_ALBUM(dispatch, props),
   }),
 )

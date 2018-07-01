@@ -1,0 +1,49 @@
+
+.listcontainer{
+  overflow: hidden;
+}
+.list{
+  --padding : 5px;
+  @media (max-width : 500px){
+    --item-size : 50%;
+  }
+  @media (min-width : 500px) and (max-width : 750px){
+    --item-size : 50%;
+  }
+  @media(min-width : 750px) and (max-width : 1024px){
+    --item-size : 33.333%;
+  }
+  @media(min-width : 1024px) and (max-width : 1300px){
+    --item-size : 25%;
+  }
+  @media(min-width : 1300px){
+    --item-size : 20%;
+  }
+
+  overflow: hidden;
+  text-align: left;
+  line-height: 0;
+  width : calc(100% + var(--padding) * 2);
+  margin-left: calc(-var(--padding));
+  margin-right: calc(-var(--padding));
+  &:after{
+    content : '';
+    clear: both;
+  }
+}
+.itemcontainer{
+  display: inline-block;
+  width: var(--item-size);
+  padding-top: var(--item-size);;
+  position: relative;
+}
+.item {
+  position: absolute;
+  top: var(--padding);
+  left: var(--padding);
+  bottom: var(--padding);
+  right: var(--padding);
+  width: auto;
+  height: auto;
+  background-size: cover;
+}

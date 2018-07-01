@@ -91,6 +91,7 @@ const putAlbumDic = function* (albums) {
 }
 
 const putLoading = (paths, loading) => put(updateStateAction({ data: { loading }, paths }))
+const putError = (paths, error) => put(updateStateAction({ data: { error }, paths }))
 
 const getPhotoCollection = function* (params) {
   let { collectionName = '' } = { ...params.props || {}, ...params.data || {} }
@@ -262,15 +263,15 @@ const getUserPhoto = function* (params) {
 
 const getUserAlbum = function* (params) {
   const { userid } = { ...params.props || {}, ...params.data || {} }
-  const paths = "flickr.users." + albumid
-  const { page = "0", pages, perpage: per_page = "60", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
+  const paths = "flickr.users." + userid + '.album'
+  const { page = "0", pages, perpage: per_page = "60", end, loading, photoset = [] } = yield select(state => lodashget(state, paths, {}))
 
   if (loading || end)
     return;
 
   try {
 
-    yield put(updateStateAction({ data: { loading: true }, paths: paths }))
+    yield putLoading(paths, true);
 
     const photosets = yield flickrAPIs.peopelGetAlbums({
       user_id: userid,
@@ -278,21 +279,22 @@ const getUserAlbum = function* (params) {
       per_page,
     })
 
+    yield putAlbumDic(photosets.photoset);
+
     yield put(updateStateAction({
       data: {
         ...photosets,
-        photoset: [...photoset, ...photosets.photoset],
+        photoset: [...photoset, ...photosets.photoset.map(e => e.id)],
         end: page >= pages,
       },
       paths: paths,
     }));
 
-
   } catch (error) {
     console.error(error)
-    yield put(updateStateAction({ data: { error: error }, paths: paths, }))
+    yield putError(paths, error);
   } finally {
-    yield put(updateStateAction({ data: { loading: false }, paths: paths, }))
+    yield putLoading(paths, false);
   }
 }
 
