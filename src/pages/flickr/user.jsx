@@ -7,8 +7,8 @@ import { get as getpath } from 'lodash'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import LangLink from '@/components/Link';
-import SwipeableViews from 'react-swipeable-views';
 import AlbumListView from './AlbumListView';
+import SwipeableViewsExtends from './SwipeableViews';
 
 @FlickUser()
 class UserStream extends React.Component {
@@ -18,6 +18,7 @@ class UserStream extends React.Component {
   }
 
   render() {
+    console.log("UserStream")
     return <PhotoListView
       photos={getpath(this, "props.stream")}
       classes={this.props.classes}
@@ -35,6 +36,7 @@ class UserFav extends React.Component {
   }
 
   render() {
+    console.log("UserFav")
     return <PhotoListView
       photos={getpath(this, "props.fav")}
       classes={this.props.classes}
@@ -52,8 +54,9 @@ class UserAlbum extends React.Component {
   }
 
   render() {
+    console.log("UserAlbum")
     return <AlbumListView
-      albums={getpath(this, "props.albums",[])}
+      albums={getpath(this, "props.albums", [])}
       classes={this.props.classes}
       onScrollEnd={this.props.getAlbum}
     />
@@ -111,15 +114,14 @@ export default class UserContainer extends React.Component {
         <Tab label="Albums" component={LangLink} to={`/flickr/u/${userid}#album`} />
         <Tab label="Faves" component={LangLink} to={`/flickr/u/${userid}#fav`} />
       </Tabs>
-      <SwipeableViews
+      <SwipeableViewsExtends
         axis='x'
         index={tabValue}
-        animateHeight
       >
         <UserStream userid={userid} classes={classes} />
         <UserAlbum userid={userid} classes={classes} />
         <UserFav userid={userid} classes={classes} />
-      </SwipeableViews>
+      </SwipeableViewsExtends>
     </div >
   }
 }

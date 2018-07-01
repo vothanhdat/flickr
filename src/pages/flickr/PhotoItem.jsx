@@ -1,7 +1,8 @@
 import React from 'react'
 import withSCSS from 'withsass.macro'
 import ImageLazyLoad from '@/components/LazyImage';
-import Link from '@/components/Link';
+// import Link from '@/components/Link';
+import { Link } from 'react-router-dom';
 import { bind } from 'lodash-decorators';
 
 
@@ -14,7 +15,7 @@ import { bind } from 'lodash-decorators';
  */
 @withSCSS('./PhotoItem.scss')
 export class PhotoItem extends React.Component {
- 
+
   render() {
     const { data, classes, style = {} } = this.props
     return <Link
