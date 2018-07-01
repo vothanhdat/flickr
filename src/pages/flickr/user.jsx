@@ -9,6 +9,7 @@ import Tab from '@material-ui/core/Tab';
 import LangLink from '@/components/Link';
 import AlbumListView from './AlbumListView';
 import SwipeableViewsExtends from './SwipeableViews';
+import { bind } from 'lodash-decorators';
 
 @FlickUser()
 class UserStream extends React.Component {
@@ -104,15 +105,23 @@ class UserCover extends React.Component {
 @withSCSS('./user.scss')
 export default class UserContainer extends React.Component {
 
+  /**
+   * @param {MouseEvent} e
+   */
+  @bind()
+  onTabClick(e) {
+    this.props.history.replace(e.currentTarget.dataset.to);
+  }
+
   render() {
     const { match: { params: { userid } }, location: { hash }, classes } = this.props
     const tabValue = ["", "#album", "#fav"].indexOf(hash)
     return <div className={classes.root}>
       <UserCover userid={userid} classes={classes} />
       <Tabs className={classes.nav} value={tabValue > -1 ? tabValue : 0}>
-        <Tab label="Photo Stream" component={LangLink} to={`/flickr/u/${userid}`} />
-        <Tab label="Albums" component={LangLink} to={`/flickr/u/${userid}#album`} />
-        <Tab label="Faves" component={LangLink} to={`/flickr/u/${userid}#fav`} />
+        <Tab label="Photo Stream" onClick={this.onTabClick} data-to={`/flickr/u/${userid}`} />
+        <Tab label="Albums" onClick={this.onTabClick} data-to={`/flickr/u/${userid}#album`} />
+        <Tab label="Faves" onClick={this.onTabClick} data-to={`/flickr/u/${userid}#fav`} />
       </Tabs>
       <SwipeableViewsExtends
         axis='x'

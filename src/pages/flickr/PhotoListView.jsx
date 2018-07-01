@@ -44,7 +44,7 @@ class FlickPhotoPreload {
   }
 }
 
-class FlickPhotoUtil {
+export class FlickPhotoUtil {
 
   /**
    * 
@@ -56,11 +56,9 @@ class FlickPhotoUtil {
     return width / height
   }
 
-  @memoize()
-  static getRows(datas, currentRow = []) {
+  static getRows(datas, max_ratio = 4, currentRow = []) {
     let lastRow = []
     let ratio = 0
-    const max_ratio = 4;
 
     currentRow.push(lastRow);
 
@@ -69,18 +67,37 @@ class FlickPhotoUtil {
       ratio += this.getImageRatio(e);
 
       lastRow.push(e);
+      lastRow.ratio = ratio;
 
       FlickPhotoPreload.preloadImage(e.url_t);
 
       if (ratio >= max_ratio) {
-        lastRow.ratio = ratio;
         lastRow = [];
         currentRow.push(lastRow);
         ratio = 0;
       }
     }
-
+    if (!lastRow.ratio || lastRow.ratio < max_ratio)
+      lastRow.ratio = max_ratio;
     return currentRow
+  }
+
+  /**
+   * 
+   * @param {FlickrPhotoObj[]} datas 
+   * @param {number} ratio 
+   */
+  static getNearestRatio(datas, ratio = 2.5) {
+    var currentImg = undefined
+    var currentRatio = 100000
+    for (var e of datas) {
+      var r = this.getImageRatio(e);
+      if (Math.abs(r - ratio) < Math.abs(currentRatio - ratio)) {
+        currentRatio = r;
+        currentImg = e;
+      }
+    }
+    return currentImg
   }
 };
 
@@ -128,7 +145,7 @@ class PhotoListView extends React.Component {
     return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
   }
 
-  scrollParentGetter(){
+  scrollParentGetter() {
     return window
   }
 
