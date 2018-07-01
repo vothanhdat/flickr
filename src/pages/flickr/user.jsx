@@ -70,7 +70,7 @@ class UserCover extends React.Component {
             <span className={classes.name}>{(userInfo.realname || {})._content}</span>
           </div>
           <div className={classes.line2}>
-            <span className={classes.des}>{(userInfo.description || {})._content}</span>
+            {/* <span className={classes.des}>{(userInfo.description || {})._content}</span> */}
           </div>
         </div>
       </div>
