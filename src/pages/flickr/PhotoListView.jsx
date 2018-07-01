@@ -128,6 +128,10 @@ class PhotoListView extends React.Component {
     return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
   }
 
+  scrollParentGetter(){
+    return window
+  }
+
 
   render() {
     const { classes } = this.props
@@ -139,6 +143,7 @@ class PhotoListView extends React.Component {
         length={rows.length}
         itemRenderer={this.renderRows}
         itemSizeGetter={this.renderRowSize}
+        scrollParentGetter={this.scrollParentGetter}
         type='variable'
         threshold={200}
         useTranslate3d

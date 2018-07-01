@@ -1,6 +1,7 @@
 import CryptoJs from 'crypto-js'
 import CallAPI from '../fetch'
 import resources from './resource'
+import uuidv4 from 'uuid/v4'
 
 
 export default function (resource, params, oauth_token_secret = '') {
@@ -17,7 +18,7 @@ const api_key_secrect = "4af8759c9c2070bf";
 
 function FlickrAPI(path, params, oauth_token_secret = '') {
   var calcParams = {
-    oauth_nonce: Math.random() * 1000000000 | 0,
+    oauth_nonce: uuidv4(),
     oauth_timestamp: Date.now() / 1000 | 0,
     oauth_consumer_key: api_key,
     oauth_signature_method: 'HMAC-SHA1',
@@ -38,7 +39,11 @@ function FlickrAPI(path, params, oauth_token_secret = '') {
         oauth_signature: sign,
       }
     },
-
+    {
+      headers: {
+        'Authorization' : `OAuth oauth_consumer_key="2d1671b7b18c24a34b4e4c3edecf9431", oauth_nonce="ED04E3E6-1AB4-4F9B-A53B-EF43EBBDA61E", oauth_signature="7s1G5Tr1oCCr5Gve%2BztBP%2FJcgFU%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1530408785", oauth_token="72157664145081269-82d53087be933ec9", oauth_version="1.0"`,
+      }
+    }
   ).catch(e => {
     var msg = e.toString();
     console.error(msg)

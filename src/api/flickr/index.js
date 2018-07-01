@@ -154,14 +154,14 @@ export function getPhotoInfo(photo_id) {
 }
 
 
-export function peopleGetPhotos({ user_id, per_page = 100, page = 1, extras = EXTRASTRING }) {
+export function peopleGetPhotos({ user_id, per_page = 100, page = 1, extras = EXTRASTRING, get_user_info = 0 }) {
   return callMethod({
     method: 'flickr.people.getPhotos',
     user_id,
     per_page,
     page,
     extras,
-    get_user_info : 0,
+    get_user_info,
   }).then(({ photos, user }) => ({ ...photos, user }))
 }
 

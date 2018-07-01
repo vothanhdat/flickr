@@ -188,10 +188,10 @@ const getPhotoInfo = function* (params) {
 }
 
 
-const getUserInfo = function* (params) {
-  const { userid = '' } = { ...params.props || {}, ...params.data || {} }
+const getUserPhoto = function* (params) {
+  const { get_user_info, userid = '' } = { ...params.props || {}, ...params.data || {} }
   const paths = "flickr.users." + userid
-  const { page = "0", pages, perpage : per_page = "20", end, loading, photo = [] } = yield select(state => lodashget(state, paths, {}))
+  const { page = "0", pages, perpage: per_page = "20", end, loading, photo = [], user } = yield select(state => lodashget(state, paths, {}))
 
   if (loading || end)
     return;
@@ -203,23 +203,37 @@ const getUserInfo = function* (params) {
       paths: paths,
     }))
 
-    const photoDatas = yield flickrAPIs.peopleGetPhotos({
-      user_id: userid,
-      page: page + 1,
-      per_page,
-    })
 
-    yield putPhotoDic(photoDatas.photo);
+    yield all([
+      call(function* () {
+        const { user, ...photoDatas } = yield flickrAPIs.peopleGetPhotos({
+          user_id: userid,
+          page: page + 1,
+          per_page,
+        })
+        yield putPhotoDic(photoDatas.photo);
+        yield put(updateStateAction({
+          data: {
+            ...photoDatas,
+            photo: [...photo, ...photoDatas.photo.map(e => e.id)],
+            end: page >= pages,
+          },
+          paths: paths,
+        }));
+      }),
 
-    yield put(updateStateAction({
-      data: {
-        ...photoDatas,
-        photo: [...photo, ...photoDatas.photo.map(e => e.id)],
-        end: page >= pages,
-        loading: false,
-      },
-      paths: paths,
-    }));
+      get_user_info && call(function* () {
+        const userData = yield flickrAPIs.peopleGetInfo(userid)
+        yield put(updateStateAction({
+          data: {
+            user: userData.person
+          },
+          paths: paths,
+        }));
+      }),
+
+    ])
+
 
   } catch (error) {
     console.error(error)
@@ -238,17 +252,6 @@ const getUserInfo = function* (params) {
 }
 
 
-const downloadUserInfo = function* (params) {
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-  yield getUserInfo(params)
-}
 
 
 
@@ -290,6 +293,6 @@ export default function* state() {
   yield takeEvery("FLICKR_LOGIN", login)
   yield takeEvery("FLICKT_COLLECTION", downloadFetch)
   yield takeEvery("FLICKT_PHOTO", getPhotoInfo)
-  yield takeEvery("FLICKT_USER", getUserInfo)
+  yield takeEvery("FLICKT_USER", getUserPhoto)
 }
 

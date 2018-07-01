@@ -100,3 +100,130 @@ declare interface FlickrPhotoObj {
 }
 
 
+
+interface CoverphotoUrl {
+  h: string;
+  l: string;
+  s: string;
+  t: string;
+}
+
+interface Used {
+  _content: string;
+}
+
+interface Total {
+  _content: number;
+}
+
+interface Storage {
+  used: Used;
+  total: Total;
+}
+
+interface Username {
+  _content: string;
+}
+
+interface Realname {
+  _content: string;
+}
+
+interface Email {
+  _content: string;
+}
+
+interface MboxSha1sum {
+  _content: string;
+}
+
+interface Location {
+  _content: string;
+}
+
+interface Timezone {
+  label: string;
+  offset: string;
+  timezone_id: string;
+}
+
+interface Datecreate {
+  _content: string;
+}
+
+
+interface Photosurl {
+  _content: string;
+}
+
+interface Profileurl {
+  _content: string;
+}
+
+interface Mobileurl {
+  _content: string;
+}
+
+interface Firstdatetaken {
+  _content: string;
+}
+
+interface Firstdate {
+  _content: string;
+}
+
+interface Count {
+  _content: number;
+}
+
+interface Views {
+  _content: string;
+}
+
+interface Photos {
+  firstdatetaken: Firstdatetaken;
+  firstdate: Firstdate;
+  count: Count;
+  views: Views;
+}
+
+interface ProfileWebsite {
+  url: string;
+}
+
+declare interface FlickrUserObj {
+  id: string;
+  nsid: string;
+  ispro: number;
+  can_buy_pro: number;
+  iconserver: string;
+  iconfarm: number;
+  path_alias: string;
+  has_stats: string;
+  coverphoto_server: string;
+  coverphoto_farm: number;
+  is_ad_free: number;
+  iconurls: Iconurls;
+  coverphoto_url: CoverphotoUrl;
+  storage: Storage;
+  username: Username;
+  realname: Realname;
+  email: Email;
+  mbox_sha1sum: MboxSha1sum;
+  location: Location;
+  timezone: Timezone;
+  datecreate: Datecreate;
+  description: Description;
+  photosurl: Photosurl;
+  profileurl: Profileurl;
+  mobileurl: Mobileurl;
+  photos: Photos;
+  rev_ignored: number;
+  contacts: string;
+  reverse_contacts: string;
+  profile_website: ProfileWebsite;
+  count_groups_admin: string;
+  favorites_count: string;
+}
+
+
