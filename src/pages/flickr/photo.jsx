@@ -25,10 +25,10 @@ const PhotoZoom = function ({ zoomLevel, originY, originX, winX, winY, classes, 
           transformOrigin: interpolate(
             [x, y, z],
             (x, y, z) => {
-              let t = 1 / (z - 1) * (z / zoomLevel - 1)
+              let t = (z / zoomLevel - 1) / (z - 1)
               x = originX + (winX - originX) * t;
               y = originY + (winY - originY) * t;
-              return `${x * 100}% ${y * 100}%`
+              return `${x.range(0,1) * 100}% ${y.range(0,1) * 100}%`
             }
           ),
         }}
@@ -89,14 +89,17 @@ class PhotoView extends React.Component {
     this.setState(({ zoomLevel, originX, originY }) => {
       const newZoomLevel = (zoomLevel * Math.pow(1.001, deltaY)).range(1, 50);
       const ratio = newZoomLevel / zoomLevel;
+      const multipli = (ratio - 1) / (newZoomLevel - 1);
+
       if (newZoomLevel == 1)
         return { zoomLevel: 1, originX: 0.5, originY: 0.5 };
+
       const newState = {
         zoomLevel: newZoomLevel,
         winX,
         winY,
-        originX: (originX + (winX - originX) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
-        originY: (originY + (winY - originY) / (newZoomLevel - 1) * (ratio - 1)).range(0, 1),
+        originX: (originX + (winX - originX) * multipli).range(0, 1),
+        originY: (originY + (winY - originY) * multipli).range(0, 1),
       }
       return newState
     })
@@ -121,8 +124,6 @@ class PhotoView extends React.Component {
     this.setState({ enableMini: true })
     this._miniTimeout = setTimeout(() => this.setState({ enableMini: false }), 500);
   }
-
-
 
   componentDidMount() {
     this.props.getPhoto();

@@ -55,7 +55,11 @@ export class FlickPhotoUtil {
     return width / height
   }
 
+  static lastPhotoSnappsot = []
+
   static getRows(datas, max_ratio = 4, currentRow = []) {
+    this.lastPhotoSnappsot = datas.map(e => e.id);
+
     let lastRow = []
     let ratio = 0
 
@@ -78,6 +82,8 @@ export class FlickPhotoUtil {
     }
     if (!lastRow.ratio || lastRow.ratio < max_ratio)
       lastRow.ratio = max_ratio;
+
+
     return currentRow.filter(e => e.length > 0)
   }
 
@@ -98,6 +104,7 @@ export class FlickPhotoUtil {
     }
     return currentImg
   }
+
 };
 
 
@@ -114,7 +121,6 @@ class PhotoListView extends React.Component {
       rows: FlickPhotoUtil.getRows(photos),
     }
   }
-
 
   @bind()
   renderRows(index, key) {
