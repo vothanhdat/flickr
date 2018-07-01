@@ -8,8 +8,8 @@ import { Spring, interpolate, animated } from 'react-spring'
 import { MouseDrag } from "./MouseDrag";
 import { FlickPhotoUtil } from './PhotoListView'
 import SwipeableViews from 'react-swipeable-views';
+import withDebounceProps from 'react-collections/withDebounceProps';
 import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
-import { mod } from 'react-swipeable-views-core';
 
 Number.prototype.range = Number.prototype.range || function (a, b) {
   return Math.max(a, Math.min(b, this || a));
@@ -92,6 +92,7 @@ class PhotoMiniList extends React.Component {
  * @class
  * @extends React.Component<{photo:FlickrPhotoObj, photoid: string} & ClassesProps>
  */
+@withDebounceProps(2000, ({ active }) => ({ active }))
 @FlickPhoto()
 class PhotoView extends React.Component {
 
@@ -228,8 +229,6 @@ export default class PhotoContainer extends React.Component {
 
     return <div className={classes.root} data-transition="photo">
       <VirtualizeSwipeableViews
-        // overscanSlideBefore={1}
-        // overscanSlideAfter={1}
         index={this.state.index}
         onChangeIndex={this.handleChangeIndex}
         slideRenderer={this.slideRenderer}
