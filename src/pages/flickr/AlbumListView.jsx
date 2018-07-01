@@ -3,12 +3,7 @@ import React from 'react'
 import { ReactListLimitRow, ReactList } from '@/components/ReactList'
 import { bind } from 'lodash-decorators';
 import withSCSS from "withsass.macro";
-// import AlbumItem from './AlbumItem'
 
-// "https://farm"
-//                 + meta.farm + ".staticflickr.com/"
-//                 + meta.server + "/"
-//                 + meta.primary + "_" + meta.secret + ".jpg"
 
 const getCover = data => `https://farm${data.farm}.staticflickr.com/${data.server}/${data.primary}_${data.secret}.jpg`
 

@@ -29,8 +29,10 @@ const RouteIndex = withTranslate(
       <Route exact path={prefix + 'hot'} component={TestStreams} />
       <Route exact path={prefix + 'live/:uid'} component={Live} />
       <Route exact path={prefix + 'live/:uid/:roomid'} component={Live} />
-      <Route exact path={prefix + 'hot/:tags'} component={TestStreamsTags} />
+      <Route exact path={prefix + 'hot/:tags'} component={TestStreamsTags} /> */}
 
+      
+{/* 
       <Route exact path={prefix + "termsofuse/"} component={TermsPage} />
       <Route exact path={prefix + "privacypolicy/"} component={PrivacyPage} />
       <Route exact path={prefix + "blog/"} component={BlogPage} />

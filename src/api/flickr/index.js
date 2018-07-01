@@ -191,6 +191,14 @@ export function peopelGetFav(params){
   }).then(e => e.photos)
 }
 
+export function albumGetPhoto(params){
+  return callMethod({
+    method: 'flickr.photosets.getPhotos',
+    ...params,
+    extras : EXTRASTRING, 
+  }).then(e => e.photos)
+}
+
 window.callMethod = callMethod
 
 

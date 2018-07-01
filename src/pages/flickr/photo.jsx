@@ -135,15 +135,21 @@ class PhotoView extends React.Component {
 
   render() {
     const { classes } = this.props
-    const { url_h, url_c, url_k, url_o } = this.props.photo
+    const { url_h, url_c, url_k, url_o, url_l } = this.props.photo
     const { photo } = this.props
     const { enableMini, zoomLevel } = this.state
     const { onMounseDown, onMounseMove, onMounseUp } = this.mouseEvent.props
-    const scrs = [url_h, url_c]
+    const scrs = [url_h, url_c].filter(e => e)
+    const virWidth = zoomLevel * innerWidth
+    const virHeight = zoomLevel * innerHeight
 
-    if (url_k && (zoomLevel * innerWidth >= photo.width_k * 0.7 || zoomLevel * innerHeight >= photo.height_k * 0.7))
-      scrs.unshift(url_k);
-    if (url_o && (zoomLevel * innerWidth >= photo.width_o * 0.7 || zoomLevel * innerHeight >= photo.height_o * 0.7))
+    if (url_k && (virWidth >= photo.width_k * 0.7 || virHeight >= photo.height_k * 0.7)) {
+      scrs.unshift(url_k)
+    } else if (url_l && (virWidth >= photo.width_l * 0.7 || virHeight >= photo.height_l * 0.7)) {
+      scrs.unshift(url_l)
+    }
+
+    if (url_o && (virWidth >= photo.width_o * 0.7 || virHeight >= photo.height_o * 0.7))
       scrs.unshift(url_o);
 
     return <div
