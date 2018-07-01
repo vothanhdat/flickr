@@ -14,11 +14,23 @@ class Album extends React.Component {
   }
 
   render() {
-    return <PhotoListView
-      photos={getpath(this, "props.photos")}
-      classes={this.props.classes}
-      onScrollEnd={this.props.getAlbumPhoto}
-    />
+    const { photos = {}, classes } = this.props
+
+    return <React.Fragment>
+      <PhotoListView
+        photos={photos.photo || []}
+        classes={this.props.classes}
+        onScrollEnd={this.props.getAlbumPhoto}
+      />
+      {
+        photos.end || <div
+          className={{
+            [classes.loadcontainer]: true,
+            'dot-loading': photos.loading
+          }} />
+      }
+    </React.Fragment>
+
   }
 }
 
@@ -32,12 +44,13 @@ class AlbumCover extends React.Component {
   cover() {
     const covers = []
     const { farm, server, primary } = this.props.album || {}
+    const { photos } = this.props
 
     if (farm && server && primary)
       covers.push(getCover(this.props.album));
 
-    if (this.props.photos) {
-      var item = this.props.photos[0];// FlickPhotoUtil.getNearestRatio(this.props.photos, 2)
+    if (photos.photo) {
+      var item = photos.photo[0];// FlickPhotoUtil.getNearestRatio(this.props.photos, 2)
       if (item)
         covers.push(item.url_o, item.url_k, item.url_l, item.url_c);
     }
