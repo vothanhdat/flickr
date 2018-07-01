@@ -25,7 +25,6 @@ class FlickPhotoPreload {
     while (this.preloadImageStack.length
       && this.preloadImageRunning.length < 3) {
       let url = this.preloadImageStack.pop();
-      console.log('LOAD URL: ', url)
       let img = new Image
       img.src = url;
       this.preloadImageCache[url] = img;
@@ -79,7 +78,7 @@ export class FlickPhotoUtil {
     }
     if (!lastRow.ratio || lastRow.ratio < max_ratio)
       lastRow.ratio = max_ratio;
-    return currentRow
+    return currentRow.filter(e => e.length > 0)
   }
 
   /**
@@ -142,7 +141,8 @@ class PhotoListView extends React.Component {
 
   @bind()
   renderRowSize(index) {
-    return (innerWidth / (this.state.rows[index].ratio || 1.3)) || 0;
+    var row = this.state.rows[index];
+    return ((innerWidth / (row.ratio || 1.3)) || 0)
   }
 
   scrollParentGetter() {
