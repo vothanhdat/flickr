@@ -79,7 +79,7 @@ class UserCover extends React.Component {
   render() {
     const { classes } = this.props
     /**@type {FlickrUserObj} */
-    const userInfo = getpath(this, "props.info", {});
+    const userInfo = getpath(this, "props.userinfo", {});
     const { retina, large, medium, default: ddd } = userInfo.iconurls || {}
     const { h, l, s, t } = userInfo.coverphoto_url || {};
     return <div className={classes.coverroot} style={{ backgroundImage: `url(${h || l || s || t})` }}>

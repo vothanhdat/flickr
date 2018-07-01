@@ -10,26 +10,25 @@ import { get as getpath } from 'lodash'
 class Album extends React.Component {
 
   componentDidMount() {
-    this.props.getUser();
+    this.props.getAlbumPhoto();
   }
 
   render() {
     return <PhotoListView
       photos={getpath(this, "props.photos")}
       classes={this.props.classes}
-      onScrollEnd={this.props.getUser}
+      onScrollEnd={this.props.getAlbumPhoto}
     />
   }
 }
 
 
-@withSCSS('./user.scss')
-export default class UserContainer extends React.Component {
+@withSCSS('./album.scss')
+export default class AlbumContainer extends React.Component {
   render() {
-    const { match: { params: { userid } }, location: { hash }, classes } = this.props
-    const tabValue = ["", "#album", "#fav"].indexOf(hash)
+    const { match: { params: { albumid } }, classes } = this.props
     return <div className={classes.root}>
-      <Album userid={userid} classes={classes} />
+      <Album albumid={albumid} classes={classes} />
     </div >
   }
 }

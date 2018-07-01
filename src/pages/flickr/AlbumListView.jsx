@@ -3,12 +3,13 @@ import React from 'react'
 import { ReactListLimitRow, ReactList } from '@/components/ReactList'
 import { bind } from 'lodash-decorators';
 import withSCSS from "withsass.macro";
+import LangLink from '@/components/Link';
 
 
 const getCover = data => `https://farm${data.farm}.staticflickr.com/${data.server}/${data.primary}_${data.secret}.jpg`
 
 const AlbumItem = ({ className, data }) => {
-  return <div className={className} style={{
+  return <LangLink to={`/flickr/a/${data.id}`} className={className} style={{
     backgroundImage: `url(${getCover(data)})`
   }} />
 }

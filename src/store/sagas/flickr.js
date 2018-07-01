@@ -345,7 +345,7 @@ const getUserFav = function* (params) {
 
 const getAlbumPhoto = function* (params) {
   const { albumid = '' } = { ...params.props || {}, ...params.data || {} }
-  const paths = "flickr.sets.album_" + albumid
+  const paths = "flickr.albums." + albumid
   const {
     page = "0", pages, perpage: per_page = "20", end, loading, photo = []
   } = yield select(state => lodashget(state, paths, {}))
@@ -357,7 +357,7 @@ const getAlbumPhoto = function* (params) {
     yield putLoading(paths, true);
 
     const photoDatas = yield flickrAPIs.albumGetPhoto({
-      album_id: albumid,
+      photoset_id: albumid,
       page: page + 1,
       per_page,
     });
@@ -430,6 +430,6 @@ export default function* state() {
   yield takeEvery("FLICKT_USER", getUserInfo)
   yield takeEvery("FLICKT_USER_ALBUM", getUserAlbum)
   yield takeEvery("FLICKT_USER_FAV", getUserFav)
-  yield takeEvery("FLICKT_ALBUM", getUserFav)
+  yield takeEvery("FLICKT_ALBUM", getAlbumPhoto)
 }
 

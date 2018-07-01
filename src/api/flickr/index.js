@@ -196,7 +196,7 @@ export function albumGetPhoto(params){
     method: 'flickr.photosets.getPhotos',
     ...params,
     extras : EXTRASTRING, 
-  }).then(e => e.photos)
+  }).then(e => e.photoset)
 }
 
 window.callMethod = callMethod

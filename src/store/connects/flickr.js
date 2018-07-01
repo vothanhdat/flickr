@@ -56,7 +56,7 @@ export const FlickUser = ({ } = {}) => connect(
     { flickr: { users = {}, photos = {}, albums = {} } = {} },
     { userid }
   ) => ({
-    info: lodashget(users, `${userid}.info`, {}),
+    userinfo: lodashget(users, `${userid}.info`, {}),
     stream: lodashget(users, `${userid}.stream.photo`, [])
       .map(e => photos[e]),
     albums: lodashget(users, `${userid}.album.photoset`, [])
@@ -75,14 +75,10 @@ export const FlickUser = ({ } = {}) => connect(
 export const FlickAlbum = ({ } = {}) => connect(
   (
     { flickr: { photos = {}, albums = {} } = {} },
-    { userid }
+    { albumid }
   ) => ({
-    info: lodashget(users, `${userid}.info`, {}),
-    stream: lodashget(users, `${userid}.stream.photo`, [])
-      .map(e => photos[e]),
-    albums: lodashget(users, `${userid}.album.photoset`, [])
-      .map(e => albums[e]),
-    fav: lodashget(users, `${userid}.fav.photo`, [])
+    album: albums[albumid] || {},
+    photos: lodashget(albums, `${albumid}.photo`,[])
       .map(e => photos[e]),
   })
   ,

@@ -16,6 +16,7 @@ import Live from '../pages/uplive/live'
 import { withTranslate } from '../components/Language';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import withSCSS from 'withsass.macro';
+import AlbumContainer from '../pages/flickr/album';
 
 
 
@@ -47,6 +48,7 @@ const RouteIndex = withTranslate(
             <Route exact path={prefix + 'flickr'} component={Flickr} />
             <Route exact path={prefix + 'flickr/p/:photoid'} component={FlickrPhoto} />
             <Route path={prefix + 'flickr/u/:userid'} component={FlickrUser} />
+            <Route path={prefix + 'flickr/a/:albumid'} component={AlbumContainer} />
           </Switch>
          </CSSTransition>
       </TransitionGroup>
