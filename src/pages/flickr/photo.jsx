@@ -68,20 +68,42 @@ const PhotoZoomMinimap = function ({ classes, src, style = {}, zoomLevel, origin
 class PhotoMiniList extends React.Component {
 
   getRenderList() {
-    return FlickPhotoUtil.lastPhotoSnappsot
-      .slice(0, 10)
+    const { currentIndex } = this.props
+    const length = FlickPhotoUtil.lastPhotoSnappsot.length
+    return {
+      list: FlickPhotoUtil.lastPhotoSnappsot
+        .slice(
+          (currentIndex - 10).range(0, length - 1),
+          (currentIndex + 11).range(0, length - 1)
+        ),
+      start: (currentIndex - 10).range(0, length - 1)
+    }
+  }
+
+  /**
+   * @param {MouseEvent} e
+   */
+  @bind()
+  onClick(e) {
+    var delta = e.currentTarget.dataset.delta;
+    this.props.onChangeIndex(parseInt(this.props.index) + parseInt(delta));
   }
 
   render() {
-    const { classes, photos, style = {} } = this.props
+    const { classes, photos, style = {}, currentIndex } = this.props
+    const { start, list } = this.getRenderList()
     return <div className={classes.minicollection} data-index="5" style={style}>
       {
-        this.getRenderList()
+        list
           .map(e => photos[e])
           .map((e, i) => <div
+            onClick={this.onClick}
             className={classes.itemcollection}
-            data-delta={i - 5}
-            style={{ backgroundImage: `url(${e.url_t})` }}
+            key={e.id}
+            data-delta={(i + start) - currentIndex}
+            style={{
+              backgroundImage: `url(${e.url_m})`,
+            }}
           />)
       }
     </div>
@@ -199,7 +221,6 @@ class PhotoView extends React.Component {
           {...{ classes, src: url_c, style: { opacity: enableMini ? 1 : 0 } }}
         />
       }
-      {/* <PhotoMiniList classes={classes} style={{ opacity: zoomLevel > 1 ? 0 : 1 }} /> */}
     </div>
   }
 }
@@ -228,14 +249,26 @@ export default class PhotoContainer extends React.Component {
 
   render() {
     const { classes } = this.props
+    const { index } = this.state
+    const { match: { params: { photoid } } } = this.props
+    const photoList = FlickPhotoUtil.lastPhotoSnappsot
+    const lastIndex = photoList.indexOf(photoid)
+    const currentIndex = (lastIndex + index + photoList.length) % photoList.length
 
     return <div className={classes.root} data-transition="photo">
       <VirtualizeSwipeableViews
+        overscanSlideAfter={6}
+        overscanSlideBefore={7}
         index={this.state.index}
         onChangeIndex={this.handleChangeIndex}
         slideRenderer={this.slideRenderer}
       />
-
+      <PhotoMiniList
+        classes={classes}
+        index={index}
+        currentIndex={currentIndex}
+        onChangeIndex={this.handleChangeIndex}
+      />
     </div>
   }
 }
