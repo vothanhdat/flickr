@@ -131,7 +131,9 @@ class PhotoView extends React.Component {
       return newState
     })
     this.showMiniView();
-
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
   }
 
   @bind()
