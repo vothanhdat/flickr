@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "custom-react-script": "^1.0.26",
+    "custom-react-script": "^1.0.28",
     "webpack-hot-middleware": "^2.22.2",
     "withsass.macro": "0.0.3"
   },
@@ -46,12 +46,14 @@
     "react-router-page-transition": "^3.1.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-spring": "^4.1.2",
+    "react-swipeable-views": "^0.12.14",
     "react-text-mask": "^5.4.2",
     "react-transition-group": "^2.3.1",
     "react-virtualized": "^9.19.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-saga": "^0.16.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "uuid": "^3.3.2"
   }
 }
