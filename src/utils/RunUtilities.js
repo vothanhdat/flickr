@@ -203,7 +203,7 @@ const PrepareAsyncWindowOpen = (function () {
 
 const RunDeepLink = (function(){
 
-  var Device = require('./Device').default
+  var Device = require('./device').default
 
   return function(path,params,force = false){
     if(!force && !Device.isInAppUplive)

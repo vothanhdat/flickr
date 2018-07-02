@@ -1,4 +1,4 @@
-import Device from '../utils/utils/Device'
+import Device from '../utils/utils/device'
 import CountryConfig from './CountryConfig'
 
 
